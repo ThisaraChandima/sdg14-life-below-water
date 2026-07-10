@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Ocean Passport | TIDES</title>
+
+
+<style>
+  .passport-cover{
+    background:var(--abyss); color:#fff; border-radius:16px; padding:1.6rem 1.8rem;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin:1.2rem 0;
+  }
+  
+  .passport-cover h2{ 
+    color:#fff; 
+    margin-bottom:.2rem; 
+  }
+  
+  .passport-cover p{ 
+    color:#cfe6ea;
+    margin:0; 
+  }
+
+  .journey-meter{ 
+    background:var(--mist); 
+    border:1px solid var(--line); 
+    border-radius:999px; 
+    height:14px; 
+    overflow:hidden; 
+    margin-top:1.4rem; 
+  }
+  
+  .journey-fill{ 
+    background:var(--coral); 
+    height:100%; 
+    width:0%; 
+    transition:width .4s ease; 
+  }
+  
+  #journeyLabel{ 
+    font-size:.9rem; 
+    color:var(--current); 
+    margin-top:.4rem; 
+  }
+
+  .stage-row, .reopen-row{ 
+    display:flex; 
+    gap:.8rem; 
+    flex-wrap:wrap; 
+    margin:1.2rem 0; 
+  }
+  
+  .stage-stamp{
+    background:var(--mist); 
+    border:2px dashed var(--line); 
+    border-radius:12px; 
+    padding:.7rem 1.1rem;
+    font-weight:600; 
+    cursor:default; 
+    display:flex; 
+    align-items:center; 
+    gap:.5rem; 
+    font-size:.9rem;
+  }
+  
+  .stage-stamp.stamped{ 
+    border-style:solid; 
+    border-color:var(--current); 
+    background:#e4f1f2; 
+    color:var(--current); 
+  }
+  
+  .stamp-icon{ 
+    font-size:1.1rem; 
+  }
+
+  .passport-page{ 
+    background:var(--mist); 
+    border-radius:14px; 
+    padding:1.4rem 1.6rem; 
+    margin-top:1rem; 
+  }
+  
+  .passport-entry{ 
+    border-bottom:1px solid var(--line); 
+    padding-bottom:.9rem; 
+    margin-bottom:.9rem; 
+  }
+  
+  
+  .passport-entry dl{ 
+    display:grid; 
+    grid-template-columns:auto 1fr; 
+    gap:.3rem 1rem; 
+    margin:.4rem 0 0; 
+  }
+  
+  .passport-entry dt{ 
+    font-weight:700; 
+    color:var(--abyss); 
+  }
+
+  #fullyStampedBox{ 
+    background:#e7f6ec; 
+    border:1px solid #b6e3c3; 
+    border-radius:12px; padding:1rem; 
+    margin-top:1rem; 
+    color:#1a7a4c; 
+    font-weight:600; 
+    }
+</style>
+
+</head>
+<body>
+
+
+
+<main>
+  <h1>Stamp Your Ocean Passport</h1>
+  <p>Answer a few quick questions as you go. Think of each stage as a stamp in your passport. Skip anything you're not ready for and come back later.</p>
+
+  <!-- Passport "cover" -->
+  <section class="passport-cover">
+    <div class="passport-cover-text">
+      <h2>TIDES Ocean Passport</h2>
+      <p id="holderLine">No traveller details yet.</p>
+    </div>
+    <button class="btn" id="stampBtn">Get Your Next Stamp</button>
+    <button class="btn btn-outline" id="voidBtn">Void Passport (Reset)</button>
+  </section>
+
+  <!--Progress Bar-->
+  <div class="journey-meter" aria-label="Passport completion">
+     <div class="journey-fill" id="journeyFill"></div>
+  </div>
+  
+  <p id="journeyLabel">0 of 9 stamps collected — 0% of the way there</p>
+
+  <!-- Three stamps stages -->
+  <div class="stage-row">
+    <!-- JS: toggle a "stamped" class on each once every question in that stage has been attempted -->
+    <button class="stage-stamp" id="stampBasics">
+      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+      Departure Details
+    </button>
+    <button class="stage-stamp" id="stampInterests">
+      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+      Points of Interest
+    </button>
+    <button class="stage-stamp" id="stampCommitments">
+      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+      Pledge Stamp
+    </button>
+  </div>
+
+  <!-- Buttons to go back and fill in a stage that was skipped -->
+  <div class="reopen-row">
+    <button class="btn btn-outline" id="reopenBasics">Reopen: Departure Details</button>
+    <button class="btn btn-outline" id="reopenInterests">Reopen: Points of Interest</button>
+    <button class="btn btn-outline" id="reopenCommitments">Reopen: Pledge Stamp</button>
+  </div>
+
+  
+  <p id="logLine" role="status">gotta input something after every action, a confirmation msg</p>
+
+  
+  <section aria-labelledby="passport-heading">
+    <h2 id="passport-heading">Your Passport Page</h2>
+
+    <div class="passport-page" id="passportPage">
+
+      <article class="passport-entry" id="entry-basics" hidden>
+        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Departure Details</h3>
+      <!--note here for js-->
+        <dl id="entryList-basics"></dl>
+      </article>
+
+      <article class="passport-entry" id="entry-interests" hidden>
+        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Points of Interest</h3>
+        <dl id="entryList-interests"></dl>
+      </article>
+
+      
+      <article class="passport-entry" id="entry-commitments" hidden>
+        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Pledge Stamp</h3>
+        <dl id="entryList-commitments"></dl>
+      </article>
+
+      
+      <p id="blankPageMsg">Your passport page is blank, collect your first stamp above.</p>
+    </div>
+
+    
+    <div id="fullyStampedBox" hidden>
+      <p>&#9875; Passport fully stamped! Thanks for mapping out your ocean action journey.</p>
+    </div>
+  </section>
+</main>
+
+
+
+
+
+
+</body>
+</html>
