@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Your Page Name] | Ocean Watch — SDG 14</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+        /* ==========================================
+           1. THE TEAM GRID WRAPPER
+           ========================================== */
+        .team-grid {
+            display: flex;                  /* Forces the card containers side-by-side */
+            flex-direction: row;            /* Aligns items in a horizontal line */
+            justify-content: center;        /* Centers your cards horizontally on the viewport screen */
+            gap: 30px;                      /* Adds a clean pixel gap spacing balance between the cards */
+            flex-wrap: wrap;                /* Automatically wraps cards to the next line on mobile layouts */
+            max-width: 1200px;              /* Keeps your grid from spreading too wide on large displays */
+            margin: 40px auto;              /* Centers the container canvas box on your screen */
+        }
+
+        /* ==========================================
+           2. THE CARD FRAME (The 3D Canvas)
+           ========================================== */
+        .pokemon-card {
+            width: 280px;                  
+            height: 400px;                 
+            perspective: 1000px;           /* Gives the card 3D depth */
+            outline: none;                 
+            margin: 0;                      /* Set to 0 because the .team-grid wrapper handles position layout margins */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Holds both faces and handles the rotation flip transition */
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+            transform-style: preserve-3d;  /* Tells the browser it's a 3D element */
+        }
+
+        /* ==========================================
+           3. THE HOVER & FOCUS FLIP TRIGGER
+           ========================================== */
+        .pokemon-card:hover .card-inner,
+        .pokemon-card:focus .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* ==========================================
+           4. CARD FACE LAYOUTS (Front & Back)
+           ========================================== */
+        .card-front, .card-back {
+            position: absolute;            
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;   /* Hides the reverse side when flipped */
+            border-radius: 14px;
+            padding: 18px;
+            box-sizing: border-box;        
+            border: 3px solid #004080;     /* Corporate theme navy frame */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Front Side Configurations */
+        .card-front {
+            background-color: #ffffff;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 240px;                 
+            object-fit: cover;             /* Scales images without stretching or distortion distorting */
+            border-radius: 8px;
+        }
+
+        .display-name {
+            font-size: 1.4rem;
+            color: #002040;
+            margin: 10px 0 2px 0;
+        }
+
+        /* Pokémon-style Type Badge */
+        .element-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+            background-color: #4dadf7;    /* Interactive Teal Accent */
+        }
+        
+        /* Custom colors for individual badge types to look distinct */
+        .leader { background-color: #4dadf7; }
+        .designer { background-color: #008080; }
+
+        /* Back Side Configurations */
+        .card-back {
+            background-color: #f4f9f9;     
+            transform: rotateY(180deg);    /* Pre-flips the back side upright */
+            text-align: left;
+            justify-content: flex-start;   
+        }
+
+        .card-back h3 {
+            margin: 0 0 10px 0;
+            color: #004080;
+            border-bottom: 2px solid #008080;
+            padding-bottom: 4px;
+        }
+
+        .role-text, .contrib-pages {
+            font-size: 0.85rem;
+            margin: 5px 0;
+            color: #333333;
+        }
+
+        .summary {
+            font-size: 0.8rem;
+            color: #555555;
+            line-height: 1.4;
+            margin: 12px 0;
+        }
+
+        /* ==========================================
+           5. HEALTH BAR PROGRESSION METRICS
+           ========================================== */
+        .skills-container {
+            margin-top: auto;              
+            width: 100%;
+        }
+
+        .skill-row {
+            margin-bottom: 10px;
+        }
+
+        .skill-name {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #002040;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* Container track for the gauge */
+        .health-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;     
+            border-radius: 5px;
+            overflow: hidden;              
+            border: 1px solid #cccccc;
+        }
+
+        /* Animated HP Fill Settings */
+        .hp-fill {
+            height: 100%;
+        }
+
+        .hp-fill.full {
+            width: 90%;                    
+            background-color: #2ecc71;     /* Pokémon Green Bar */
+        }
+
+        .hp-fill.high {
+            width: 70%;
+            background-color: #3498db;     /* Mana Blue Bar */
+        }
+
+        /* Accessibility Focus Ring */
+        .pokemon-card:focus {
+            box-shadow: 0 0 0 4px #008080;  
+            border-radius: 14px;
+        }
+    </style>
+</head>
+
+<body>
+  <!--
+    ========================================================================
+    HOW TO USE THIS TEMPLATE (Team SOS)
+    ========================================================================
+    1. Copy this file and rename it for your page (e.g., team.html).
+    2. Change the <title> tag above to reflect your page name.
+    3. In the <nav> below, move the class="active" and aria-current="page"
+       attributes from the Home link to YOUR specific page link.
+    4. Replace everything between PAGE CONTENT START and PAGE CONTENT END
+       with your own HTML.
+    5. In the <footer> (Column 3), replace the placeholders with your name,
+       student ID, and links to your editor and validation files.
+
+    DO NOT CHANGE:
+    - The structural elements of the <header> and <nav> hrefs.
+    - The link to style.css.
+    - Footer columns 1, 2, and 4.
+    ========================================================================
+  -->
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header: sticky, DO NOT MODIFY -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo linking to home -->
+        <a href="index.html" class="site-logo" aria-label="Ocean Watch Home">
+          <!-- Option A (Image - Commented out for now) -->
+          <!--
+          <img src="images/logo.png" alt="Ocean Watch logo — blue wave representing SDG 14 Life Below Water" width="44" height="44">
+          -->
+          <!-- Option B (Text/Emoji - Active) -->
+          <div class="logo-mark" aria-hidden="true">🌊</div>
+          <span class="logo-name">Ocean Watch</span>
+          <span class="logo-sub">SDG 14 · Life Below Water</span>
+        </a>
+
+        <!-- Main site navigation -->
+        <nav aria-label="Main site navigation">
+          <!-- Student 1 updates this link if it's their page -->
+          <a href="index.html" >Home</a>
+
+          <!-- Student 2 updates this link if it's their page -->
+          <a href="gallery.html">Gallery</a>
+
+          <!-- Student 3 updates this link if it's their page -->
+          <a href="ais.html">Simulator</a>
+
+          <!-- Student 4 updates this link if it's their page -->
+          <a href="profile.html">Profile</a>
+
+          <!-- Student 1 updates this link if it's their page -->
+          <a href="feedback.html">Feedback</a>
+
+          <!-- Student 2 updates this link if it's their page -->
+          <a href="team.html" class="active" aria-current="page">Team</a>
+
+          <!-- Student 3/4 updates this link if it's their page -->
+          <a href="sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="team-grid">
+
+        <section class="pokemon-card" tabindex="0">
+            <div class="card-inner">
+                
+                <div class="card-front">
+                    <img src="/asset/Sreshta.jpg" alt="Sreshta Alwis - Team Interaction Developer Portrait" class="avatar">
+                    <h2 class="display-name">Sreshta Alwis</h2>
+                    <span class="element-badge leader">Leader</span>
+                </div>
+                
+                <div class="card-back">
+                    <h3>Sreshta Alwis</h3>
+                    <p class="role-text"><strong>Role:</strong> Interaction Developer</p>
+                    <p class="contrib-pages"><strong>Contributed Pages:</strong> feedback.html, team.html</p>
+                    <p class="summary">
+                        Engineered user interactive review mechanics, custom form validation scripts, and responsive 3D card layout modules.
+                    </p>
+                    
+                    <div class="skills-container">
+                        <div class="skill-row">
+                            <span class="skill-name">Communication and Leadership</span>
+                            <div class="health-bar">
+                                <div class="hp-fill full"></div>
+                            </div>
+                        </div>
+                        <div class="skill-row">
+                            <span class="skill-name">Problem Solving</span>
+                            <div class="health-bar">
+                                <div class="hp-fill high"></div>
+                            </div>
+                        </div>
+                    </div> 
+
+                </div> 
+            </div>
+        </section>
+
+        <section class="pokemon-card" tabindex="0">
+            <div class="card-inner">
+                
+                <div class="card-front">
+                    <img src="/asset/Thisara.jpeg" alt="Thisara Chandima - Group Template Lead Portrait" class="avatar">
+                    <h2 class="display-name">Thisara Chandima</h2>
+                    <span class="element-badge designer">Tech Savy</span>
+                </div>
+                
+                <div class="card-back">
+                    <h3>Thisara Chandima</h3>
+                    <p class="role-text"><strong>Role:</strong> Template & Home Page Lead</p>
+                    <p class="contrib-pages"><strong>Contributed Pages:</strong> home.html, gallery.html</p>
+                    <p class="summary">
+                        Established our global web template architecture, navigation bar frameworks, unified color schemas, and visual element consistency.
+                    </p>
+                    
+                    <div class="skills-container">
+                        <div class="skill-row">
+                            <span class="skill-name">UI Typography Layout</span>
+                            <div class="health-bar">
+                                <div class="hp-fill full"></div>
+                            </div>
+                        </div>
+                        <div class="skill-row">
+                            <span class="skill-name">CSS Architecture</span>
+                            <div class="health-bar">
+                                <div class="hp-fill high"></div>
+                            </div>
+                        </div>
+                    </div> 
+
+                </div> 
+            </div>
+        </section>
+
+        <section class="pokemon-card" tabindex="0">
+            <div class="card-inner">
+                
+                <div class="card-front">
+                    <img src="/asset/Thayyib.jpeg" alt="Thayyib Rumy - Group Template Lead Portrait" class="avatar">
+                    <h2 class="display-name">Thayyib Rumy</h2>
+                    <span class="element-badge designer">Brain</span>
+                </div>
+                
+                <div class="card-back">
+                    <h3>Thayyib Rumy</h3>
+                    <p class="role-text"><strong>Role:</strong> Template & Home Page Lead</p>
+                    <p class="contrib-pages"><strong>Contributed Pages:</strong> home.html, gallery.html</p>
+                    <p class="summary">
+                        Established our global web template architecture, navigation bar frameworks, unified color schemas, and visual element consistency.
+                    </p>
+                    
+                    <div class="skills-container">
+                        <div class="skill-row">
+                            <span class="skill-name">UI Typography Layout</span>
+                            <div class="health-bar">
+                                <div class="hp-fill full"></div>
+                            </div>
+                        </div>
+                        <div class="skill-row">
+                            <span class="skill-name">CSS Architecture</span>
+                            <div class="health-bar">
+                                <div class="hp-fill high"></div>
+                            </div>
+                        </div>
+                    </div> 
+
+                </div> 
+            </div>
+        </section>
+
+        <section class="pokemon-card" tabindex="0">
+            <div class="card-inner">
+                
+                <div class="card-front">
+                    <img src="/asset/Gimasha.jpeg" alt="Gimasha Rathnayake - Group Template Lead Portrait" class="avatar">
+                    <h2 class="display-name">Gimasha Rathnayake</h2>
+                    <span class="element-badge designer">Life Saver</span>
+                </div>
+                
+                <div class="card-back">
+                    <h3>Gimasha Rathnayake</h3>
+                    <p class="role-text"><strong>Role:</strong> Template & Home Page Lead</p>
+                    <p class="contrib-pages"><strong>Contributed Pages:</strong> home.html, gallery.html</p>
+                    <p class="summary">
+                        Established our global web template architecture, navigation bar frameworks, unified color schemas, and visual element consistency.
+                    </p>
+                    
+                    <div class="skills-container">
+                        <div class="skill-row">
+                            <span class="skill-name">UI Typography Layout</span>
+                            <div class="health-bar">
+                                <div class="hp-fill full"></div>
+                            </div>
+                        </div>
+                        <div class="skill-row">
+                            <span class="skill-name">CSS Architecture</span>
+                            <div class="health-bar">
+                                <div class="hp-fill high"></div>
+                            </div>
+                        </div>
+                    </div> 
+
+                </div> 
+            </div>
+        </section>
+
+    </div> </main>
+
+
+  <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
+  <div class="footer-cliff-wrap" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
+      preserveAspectRatio="xMinYMax slice">
+      <defs>
+        <!-- Beacon hard glow -->
+        <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="5" result="b1" />
+          <feGaussianBlur stdDeviation="12" result="b2" />
+          <feMerge>
+            <feMergeNode in="b2" />
+            <feMergeNode in="b1" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <!-- Sky ambient glow behind lighthouse -->
+        <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
+        </radialGradient>
+        <!-- Light beam gradient (left beam) -->
+        <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+        <!-- Light beam gradient (right beam) -->
+        <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+
+      <!-- ── Sky ambient glow & Beams ── -->
+      <g transform="translate(0, 112)">
+        <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
+        <!-- Animated light beams (narrow rays) -->
+        <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
+        <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
+      </g>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!--              ROCKY CLIFF SILHOUETTE            -->
+      <!-- ══════════════════════════════════════════════ -->
+      <g transform="translate(0, 150) scale(1, 0.5)">
+        <path fill="#04192E" d="
+          M 0 300 L 0 264
+          C 10 258,22 252,38 256  C 52 259,60 246,74 238
+          C 86 231,96 226,110 220 C 118 216,124 228,132 234
+          C 140 240,148 226,162 214 C 176 202,188 190,205 178
+          C 222 166,240 152,258 138 C 276 124,294 110,312 94
+          C 320 87,326 81,331 77
+          C 332 76,333 76,334 76
+          C 336 77,341 86,348 96
+          C 358 108,372 122,390 136
+          C 408 150,426 161,446 170
+          C 464 178,482 184,500 189
+          C 518 193,534 195,550 197
+          C 566 198,582 194,598 191
+          C 614 188,630 192,648 189
+          C 666 186,685 182,706 185
+          C 726 188,748 183,770 180
+          C 790 177,814 182,838 180
+          C 860 178,880 174,904 177
+          C 926 180,946 185,968 182
+          C 988 179,1010 174,1032 177
+          C 1054 180,1076 184,1098 181
+          C 1118 178,1140 173,1162 176
+          C 1182 179,1204 183,1226 180
+          C 1246 177,1270 171,1292 174
+          C 1314 177,1336 181,1358 178
+          C 1378 175,1400 170,1424 173
+          L 1440 175 L 1440 300 Z
+        " />
+      </g>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!--              REALISTIC LIGHTHOUSE              -->
+      <!-- ══════════════════════════════════════════════ -->
+      <g transform="translate(0, 112)">
+        <!-- Foundation block -->
+        <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
+        <!-- Tower body — tapered polygon -->
+        <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
+        <!-- Stripe bands alternating -->
+        <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <!-- Arched door at base -->
+        <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
+        <!-- Round tower window -->
+        <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
+        <!-- Gallery bracket arms -->
+        <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <!-- Gallery balcony slab -->
+        <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
+        <!-- Railing 5 posts + top bar -->
+        <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
+        <!-- Lantern room outer frame -->
+        <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
+        <!-- Glass pane dividers -->
+        <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
+        <!-- Glass panes lit (warm amber + white centre) -->
+        <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
+        <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
+        <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <!-- Bright glow overlay -->
+        <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
+          filter="url(#beacon-glow)" />
+        <!-- Cap cornice -->
+        <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
+        <!-- Conical roof -->
+        <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
+        <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <!-- Finial -->
+        <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
+      </g>
+
+      <circle cx="3" cy="-0.4" r="1" fill="#061830" opacity="0.7" />
+      </g>
+
+      </g>
+
+    </svg>
+  </div>
+  <!-- ======= End SVG Divider ======= -->
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Col 1 — About (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>About</h4>
+          <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable Development
+            Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
+        </div>
+
+        <!-- Col 2 — Explore (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="ais.html">Simulator</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 — This Page (EACH STUDENT UPDATES THIS) -->
+        <div class="footer-col">
+          <h4>This Page</h4>
+          <ul>
+            <li class="text-muted">Editor: [Your Full Name]</li>
+            <li class="text-muted">ID: [W########]</li>
+            <li><a href="pageEditor_STX.html">📝 Page Editor</a></li>
+            <li><a href="validation_STX.html">✅ Validation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 — Compliance (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Compliance</h4>
+          <ul>
+            <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
+                rel="noopener noreferrer">Accessibility Guidelines</a></li>
+            <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
+                rel="noopener noreferrer">JANET Acceptable Use</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
+        <div>HTML &middot; CSS &middot; JS</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Add any page-specific <script> tags right before the closing </body> tag below -->
+</body>
+
+</html>
