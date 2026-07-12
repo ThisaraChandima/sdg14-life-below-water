@@ -4,286 +4,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Page Name] | Ocean Watch — SDG 14</title>
+    <!--
+      Automatic Redirect: sends the user to the Home Page after 4 seconds,
+      as required by the coursework spec (4.4, Functionality Requirements).
+      The redirect target file name (home.html) follows the agreed folder
+      structure in section 4.14 — update this if your team's home page
+      uses a different file name.
+    -->
+    <meta http-equiv="refresh" content="4;url=home.html">
+    <title>Ocean Watch | Splash Screen</title>
+
+    <!-- Reuses the site's global colour/type variables for a seamless
+         transition into the Home Page, but the splash does not use the
+         shared header/nav/footer template (per spec 4.4, this page is
+         exempt from the shared template). -->
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ====================================================================
+           Splash Screen — page-specific embedded CSS
+           Scope: only used on splash.html, does not touch/override Global CSS.
+           Signature element: a sonar ping pulsing behind the "Ocean Watch"
+           wordmark (echoing the AIS Simulator theme), with a waterline bar
+           at the base acting as the CSS loader — it rises like a tide
+           gauge, timed to finish right as the redirect fires.
+           ==================================================================== */
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: block;
+            /* overrides the flex-column default set for the rest of the site,
+               since this page has its own single full-screen layout */
+        }
+
+        .splash-screen {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #FFFFFF;
+            /* Full-screen background scene, built from the site palette so no
+               external asset is required. To use a real licensed photo instead:
+               background-image: url('images/your-photo.jpg');
+               background-size: cover; background-position: center; */
+            background: radial-gradient(ellipse at 50% 45%, var(--bg-ocean) 0%, var(--bg-deep) 72%);
+        }
+
+        /* Sonar ping rings, centred behind the wordmark */
+        .splash-sonar {
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+        }
+
+        .splash-sonar .ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            margin: -20px 0 0 -20px;
+            border: 1.5px solid var(--teal);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sonarPing 3.2s ease-out infinite;
+        }
+
+        .splash-sonar .r2 {
+            animation-delay: 1.05s;
+        }
+
+        .splash-sonar .r3 {
+            animation-delay: 2.1s;
+        }
+
+        @keyframes sonarPing {
+            0% {
+                transform: scale(1);
+                opacity: 0.55;
+            }
+
+            100% {
+                transform: scale(9);
+                opacity: 0;
+            }
+        }
+
+        .splash-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 24px;
+            max-width: 640px;
+        }
+
+        .splash-eyebrow {
+            margin: 0 0 6px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--teal);
+        }
+
+        .splash-title {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: clamp(2.8rem, 10vw, 5.5rem);
+            letter-spacing: 0.08em;
+            line-height: 1;
+        }
+
+        .splash-title span {
+            display: inline-block;
+            margin-right: 0.18em;
+        }
+
+        .splash-title span:last-child {
+            margin-right: 0;
+        }
+
+        .splash-tagline {
+            margin: 14px 0 0;
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 1.05rem;
+            letter-spacing: 0.04em;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .splash-mission {
+            margin: 14px auto 0;
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 480px;
+        }
+
+        .splash-team {
+            list-style: none;
+            margin: 20px 0 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .splash-team li::before {
+            content: "🌊";
+            margin-right: 6px;
+            font-size: 0.75em;
+        }
+
+        .splash-countdown {
+            margin: 22px 0 0;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            color: var(--teal);
+        }
+
+        .btn-skip {
+            margin-top: 14px;
+            padding: 10px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius);
+            background: transparent;
+            color: #FFFFFF;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background var(--ease), border-color var(--ease);
+        }
+
+        .btn-skip:hover,
+        .btn-skip:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--teal);
+        }
+
+        /* Waterline CSS loader — rises across the base of the screen like a
+           tide gauge, timed to finish filling right as the redirect fires. */
+        .splash-waterline {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .splash-waterline-fill {
+            display: block;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--teal));
+            animation: tideRise 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes tideRise {
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.7s ease-out forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .splash-sonar .ring {
+                animation: none;
+                opacity: 0;
+            }
+
+            .splash-waterline-fill {
+                animation: none;
+                width: 100%;
+            }
+
+            .fade-in {
+                animation: fadeIn 0.4s ease-out forwards;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!--
-    ========================================================================
-    HOW TO USE THIS TEMPLATE (Team SOS)
-    ========================================================================
-    1. Copy this file and rename it for your page (e.g., team.html).
-    2. Change the <title> tag above to reflect your page name.
-    3. In the <nav> below, move the class="active" and aria-current="page"
-       attributes from the Home link to YOUR specific page link.
-    4. Replace everything between PAGE CONTENT START and PAGE CONTENT END
-       with your own HTML.
-    5. In the <footer> (Column 3), replace the placeholders with your name,
-       student ID, and links to your editor and validation files.
+    <main class="splash-screen">
 
-    DO NOT CHANGE:
-    - The structural elements of the <header> and <nav> hrefs.
-    - The link to style.css.
-    - Footer columns 1, 2, and 4.
-    ========================================================================
-  -->
-
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <!-- Header: sticky, DO NOT MODIFY -->
-    <header>
-        <div class="container">
-            <div class="header-inner">
-                <!-- Logo linking to home -->
-                <a href="index.html" class="site-logo" aria-label="Ocean Watch Home">
-                    <!-- Option A (Image - Commented out for now) -->
-                    <!--
-          <img src="images/logo.png" alt="Ocean Watch logo — blue wave representing SDG 14 Life Below Water" width="44" height="44">
-          -->
-                    <!-- Option B (Text/Emoji - Active) -->
-                    <div class="logo-mark" aria-hidden="true">🌊</div>
-                    <span class="logo-name">Ocean Watch</span>
-                    <span class="logo-sub">SDG 14 · Life Below Water</span>
-                </a>
-
-                <!-- Main site navigation -->
-                <nav aria-label="Main site navigation">
-                    <!-- Student 1 updates this link if it's their page -->
-                    <a href="index.html" class="active" aria-current="page">Home</a>
-
-                    <!-- Student 2 updates this link if it's their page -->
-                    <a href="gallery.html">Gallery</a>
-
-                    <!-- Student 3 updates this link if it's their page -->
-                    <a href="ais.html">Simulator</a>
-
-                    <!-- Student 4 updates this link if it's their page -->
-                    <a href="profile.html">Profile</a>
-
-                    <!-- Student 1 updates this link if it's their page -->
-                    <a href="feedback.html">Feedback</a>
-
-                    <!-- Student 2 updates this link if it's their page -->
-                    <a href="team.html">Team</a>
-
-                    <!-- Student 3/4 updates this link if it's their page -->
-                    <a href="sitemap.html">Sitemap</a>
-                </nav>
-            </div>
+        <div class="splash-sonar" aria-hidden="true">
+            <span class="ring r1"></span>
+            <span class="ring r2"></span>
+            <span class="ring r3"></span>
         </div>
-    </header>
 
-    <main id="main-content">
-        <!-- ==================== PAGE CONTENT START ==================== -->
-        <section class="container text-center">
-            <h1 class="section-title">Your Page Title Here</h1>
-            <p class="text-muted mb-2">Replace this section with your own content.</p>
-            <a href="index.html" class="btn btn-ghost-teal">Back to Home</a>
-        </section>
-        <!-- ==================== PAGE CONTENT END ==================== -->
+        <div class="splash-content">
+            <p class="splash-eyebrow fade-in" style="animation-delay:.1s">SDG 14 · Life Below Water</p>
+
+            <h1 class="splash-title">
+                <span class="fade-in" style="animation-delay:.22s">Ocean</span><span class="fade-in"
+                    style="animation-delay:.40s">Watch</span>
+            </h1>
+
+            <p class="splash-tagline fade-in" style="animation-delay:.65s">Charting the tide for our oceans</p>
+
+            <p class="splash-mission fade-in" style="animation-delay:.85s">
+                We track the health of our seas and turn everyday choices into ocean action —
+                because protecting life below water starts with watching it closely.
+            </p>
+
+            <ul class="splash-team fade-in" style="animation-delay:1.05s" aria-label="Project team members">
+                <li>Thisara Chandima</li>
+                <li>Gimasha Rathnayake</li>
+                <li>Sreshta Alwis</li>
+                <li>Thayyib Rumy</li>
+            </ul>
+
+            <p class="splash-countdown" id="countdown" aria-live="polite">Entering site in 4…</p>
+
+            <button type="button" class="btn-skip" id="skipBtn">Skip Intro</button>
+        </div>
+
+        <div class="splash-waterline" aria-hidden="true">
+            <span class="splash-waterline-fill"></span>
+        </div>
+
     </main>
 
-    <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
-    <div class="footer-cliff-wrap" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
-            preserveAspectRatio="xMinYMax slice">
-            <defs>
-                <!-- Beacon hard glow -->
-                <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
-                    <feGaussianBlur stdDeviation="5" result="b1" />
-                    <feGaussianBlur stdDeviation="12" result="b2" />
-                    <feMerge>
-                        <feMergeNode in="b2" />
-                        <feMergeNode in="b1" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-                <!-- Sky ambient glow behind lighthouse -->
-                <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
-                    <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
-                    <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
-                </radialGradient>
-                <!-- Light beam gradient (left beam) -->
-                <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
-                    <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
-                </linearGradient>
-                <!-- Light beam gradient (right beam) -->
-                <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
-                    <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-
-            <!-- ── Sky ambient glow & Beams ── -->
-            <g transform="translate(0, 112)">
-                <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
-                <!-- Animated light beams (narrow rays) -->
-                <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
-                <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
-            </g>
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--              ROCKY CLIFF SILHOUETTE            -->
-            <!-- ══════════════════════════════════════════════ -->
-            <g transform="translate(0, 150) scale(1, 0.5)">
-                <path fill="#04192E" d="
-          M 0 300 L 0 264
-          C 10 258,22 252,38 256  C 52 259,60 246,74 238
-          C 86 231,96 226,110 220 C 118 216,124 228,132 234
-          C 140 240,148 226,162 214 C 176 202,188 190,205 178
-          C 222 166,240 152,258 138 C 276 124,294 110,312 94
-          C 320 87,326 81,331 77
-          C 332 76,333 76,334 76
-          C 336 77,341 86,348 96
-          C 358 108,372 122,390 136
-          C 408 150,426 161,446 170
-          C 464 178,482 184,500 189
-          C 518 193,534 195,550 197
-          C 566 198,582 194,598 191
-          C 614 188,630 192,648 189
-          C 666 186,685 182,706 185
-          C 726 188,748 183,770 180
-          C 790 177,814 182,838 180
-          C 860 178,880 174,904 177
-          C 926 180,946 185,968 182
-          C 988 179,1010 174,1032 177
-          C 1054 180,1076 184,1098 181
-          C 1118 178,1140 173,1162 176
-          C 1182 179,1204 183,1226 180
-          C 1246 177,1270 171,1292 174
-          C 1314 177,1336 181,1358 178
-          C 1378 175,1400 170,1424 173
-          L 1440 175 L 1440 300 Z
-        " />
-            </g>
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--              REALISTIC LIGHTHOUSE              -->
-            <!-- ══════════════════════════════════════════════ -->
-            <g transform="translate(0, 112)">
-                <!-- Foundation block -->
-                <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
-                <!-- Tower body — tapered polygon -->
-                <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
-                <!-- Stripe bands alternating -->
-                <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
-                <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
-                <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
-                <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
-                <!-- Arched door at base -->
-                <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
-                <!-- Round tower window -->
-                <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
-                <!-- Gallery bracket arms -->
-                <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
-                <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
-                <!-- Gallery balcony slab -->
-                <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
-                <!-- Railing 5 posts + top bar -->
-                <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
-                <!-- Lantern room outer frame -->
-                <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
-                <!-- Glass pane dividers -->
-                <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
-                <!-- Glass panes lit (warm amber + white centre) -->
-                <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
-                <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
-                <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
-                <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
-                <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
-                <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
-                <!-- Bright glow overlay -->
-                <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
-                    filter="url(#beacon-glow)" />
-                <!-- Cap cornice -->
-                <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
-                <!-- Conical roof -->
-                <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
-                <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
-                <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
-                <!-- Finial -->
-                <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
-                <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
-            </g>
-
-            <circle cx="3" cy="-0.4" r="1" fill="#061830" opacity="0.7" />
-            </g>
-
-            </g>
-
-        </svg>
-    </div>
-    <!-- ======= End SVG Divider ======= -->
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-
-                <!-- Col 1 — About (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>About</h4>
-                    <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable
-                        Development Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
-                </div>
-
-                <!-- Col 2 — Explore (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="ais.html">Simulator</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="feedback.html">Feedback</a></li>
-                        <li><a href="team.html">Team</a></li>
-                        <li><a href="sitemap.html">Sitemap</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 3 — This Page (EACH STUDENT UPDATES THIS) -->
-                <div class="footer-col">
-                    <h4>This Page</h4>
-                    <ul>
-                        <li class="text-muted">Editor: [Your Full Name]</li>
-                        <li class="text-muted">ID: [W########]</li>
-                        <li><a href="pageEditor_STX.html">📝 Page Editor</a></li>
-                        <li><a href="validation_STX.html">✅ Validation</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 4 — Compliance (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>Compliance</h4>
-                    <ul>
-                        <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
-                                rel="noopener noreferrer">Accessibility Guidelines</a></li>
-                        <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
-                                rel="noopener noreferrer">JANET Acceptable Use</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <hr class="footer-divider">
-
-            <div class="footer-bottom">
-                <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
-                <div>HTML &middot; CSS &middot; JS</div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Add any page-specific <script> tags right before the closing </body> tag below -->
+    <script src="splash.js"></script>
 </body>
 
 </html>

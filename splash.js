@@ -6,7 +6,7 @@
    ============================================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const HOME_PAGE = "index.html"; // keep in sync with the <meta refresh> target
+  const HOME_PAGE = "home.html"; // keep in sync with the <meta refresh> target
   const countdownEl = document.getElementById("countdown");
   const skipBtn = document.getElementById("skipBtn");
 
