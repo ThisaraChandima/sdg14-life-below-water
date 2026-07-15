@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback | Ocean Watch — SDG 14</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Page-specific styles for the Feedback page (from Deep Dive) -->
+  <style>
+    /*header section with title and introductory paragraph*/
+#header-paragraph {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  max-width: 1100px;
+  margin: 20px auto;
+}
+/*heading*/
+#header-paragraph h1 {
+  font-size: 36px;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+/*paragraph*/
+#header-paragraph p {
+  font-size: 16px;
+  color: #e0e6ed;
+  line-height: 1.5;
+  margin: 0;
+}
+/*Marine Preservation Programs text*/
+#header-paragraph p strong {
+  color: #0db3d8;
+}
+
+/*programs section*/
+.programs-section {  
+  background-color: var(--bg-ocean);
+  padding: 40px 20px;
+  border-radius: 16px;
+  max-width: 1140px;
+  margin: 0 auto 40px auto;
+}
+
+/*programs header with title and dropdown filter*/
+.programs-header {
+  max-width: 1100px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.programs-header h2 {
+  font-size: 24px;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Styled filter dropdown */
+.filter-dropdown {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 2px solid var(--bg-surface);
+  border-radius: 6px;
+  background-color: #50a8e6;
+  color: #01162a;
+  cursor: pointer;
+}
+
+/*programs grid layout*/
+.programs-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 15px 10px;
+  scroll-behavior: smooth;
+}
+
+/* Customizing the scrollbar track */
+.programs-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.programs-grid::-webkit-scrollbar-thumb {
+  background-color: #0db3d8;
+  border-radius: 4px;
+}
+
+/* Individual Program Card Styling */
+.program-card {
+  flex: 0 0 280px;
+  background-color: var(--bg-surface);
+  border: 1px solid #e0e6ed;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.program-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 40, 80, 0.15);
+  border-color: #0db3d8;
+}
+
+/*images*/
+.program-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+/* Card Heading */
+.program-card h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+/* Card Paragraph Text */
+.program-card p {
+  font-size: 14px;
+  color: #fffefe;
+  line-height: 1.4;
+  margin: 0 0 15px 0;
+}
+
+/* Action Button Styling */
+.action-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #002850;
+  color: #fcfcfc;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: #05b8e0;
+  color: #01162a;
+  transform: scale(1.02);
+}
+/*-----------------------------------------------------------------------------------------------------------------*/
+/* Outer section wrapper */
+.reviews-section {
+  max-width: 1140px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Overall Rating Summary Banner */
+.rating-banner {
+  background-color: #002850;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  /* Added transition for smooth hover response */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Banner Hover Effect */
+.rating-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 40, 80, 0.2);
+}
+
+.rating-score-box {
+  background-color: #0db3d8;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 90px;
+}
+
+.numeric-score {
+  font-size: 22px;
+  font-weight: bold;
+  color: #002850;
+  display: block;
+}
+
+.rating-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #002850;
+}
+
+.summary-text {
+  font-size: 16px;
+  color: #e0e6ed;
+  margin: 0;
+}
+
+/* Review Cards Grid Layout */
+.reviews-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Individual Review Card */
+.review-card {
+  flex: 1 1 300px;
+  background-color: var(--bg-ocean);
+  border: 1px solid #e0e6ed;
+  border-radius: 10px;
+  padding: 20px;
+  /* Added transitions for seamless hover animations */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Card Hover Effect */
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 40, 80, 0.1);
+  border-color: #0db3d8;
+}
+
+/* Header inside a review card */
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.review-card-header h4 {
+  font-size: 16px;
+  color: #deebf7;
+  margin: 0;
+}
+
+.user-rating {
+  font-weight: bold;
+  color: #0db3d8;
+}
+
+/* Review text body */
+.review-body {
+  font-size: 14px;
+  color: #deebf7;
+  line-height: 1.5;
+}
+
+/* Hides extra text by default */
+.full-text {
+  display: none;
+}
+
+.see-more-link {
+  color: #0db3d8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.see-more-link:hover {
+  color: #0db3d8;
+  text-decoration: underline;
+}
+
+/* CLICK ACTION: Reveals full text and hides link when clicked */
+.review-card:target .full-text {
+  display: inline;
+}
+
+.review-card:target .see-more-link {
+  display: none;
+}
+
+/* Card footer */
+.review-footer {
+  border-top: 1px solid #f0f4f8;
+  padding-top: 12px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #888888;
+}
+
+.reviewer-name {
+  color: #deebf7;
+}
+
+/*----------------------------------------------------------------------------------------------------------------*/
+
+.feedback-section {
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: var(--bg-ocean);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 40, 80, 0.05);
+}
+
+.feedback-section h2 {
+  font-size: 24px;
+  color: #eaecef;
+  margin-top: 0;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Fieldset and Legend Customization */
+.feedback-section fieldset {
+  border: 2px solid #e0e6ed;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.feedback-section legend {
+  font-weight: bold;
+  color: #d3d8de;
+  padding: 0 10px;
+  font-size: 16px;
+}
+
+/* Form Group Layout Blocks (Handles natural vertical spacing) */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #d4dae0;
+  margin-bottom: 8px;
+}
+
+/* Base styling for all form field types */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group input[type="datetime-local"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #e0e6ed;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #1676d5;
+  color: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Focus state interactive glow */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0db3d8;
+  background-color: #ffffff;
+  color: #01162a;
+}
+
+/* Live Character Counter Formatting */
+.char-counter-box {
+  text-align: right;
+  font-size: 12px;
+  color: #000000;
+  margin-top: 5px;
+}
+
+/* Error Text Hooks (Populated via JavaScript) */
+.error-message {
+  color: #d9534f;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+  min-height: 16px;
+}
+
+/* Dynamic Error Highlighting State (Triggered via JS) */
+.form-group input.invalid,
+.form-group select.invalid,
+.form-group textarea.invalid {
+  border-color: #d9534f;
+  background-color: #fff5f5;
+  color: #01162a;
+}
+
+/* Submit Action Button styling */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #002850;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0db3d8;
+  color: #000000;
+  transform: scale(1.01);
+}
+
+/* JavaScript Success Banner Confirmation Wrapper */
+.success-banner {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  display: none;
+}
+
+.success-banner.visible {
+  display: block;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header: sticky, DO NOT MODIFY -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo linking to home -->
+        <a href="index.html" class="site-logo" aria-label="Ocean Watch Home">
+          <!-- Option A (Image - Commented out for now) -->
+          <!--
+          <img src="images/logo.png" alt="Ocean Watch logo — blue wave representing SDG 14 Life Below Water" width="44" height="44">
+          -->
+          <!-- Option B (Text/Emoji - Active) -->
+          <div class="logo-mark" aria-hidden="true">🌊</div>
+          <span class="logo-name">Ocean Watch</span>
+          <span class="logo-sub">SDG 14 · Life Below Water</span>
+        </a>
+
+        <!-- Main site navigation -->
+        <nav aria-label="Main site navigation">
+          <!-- Student 1 updates this link if it's their page -->
+          <a href="index.html">Home</a>
+
+          <!-- Student 2 updates this link if it's their page -->
+          <a href="gallery.html">Gallery</a>
+
+          <!-- Student 3 updates this link if it's their page -->
+          <a href="ais.html">Simulator</a>
+
+          <!-- Student 4 updates this link if it's their page -->
+          <a href="profile.html">Profile</a>
+
+          <!-- Student 1 updates this link if it's their page -->
+          <a href="feedback.html" class="active" aria-current="page">Feedback</a>
+
+          <!-- Student 2 updates this link if it's their page -->
+          <a href="team.html">Team</a>
+
+          <!-- Student 3/4 updates this link if it's their page -->
+          <a href="sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ==================== PAGE CONTENT START ==================== -->
+
+    <!-- header section with title and introductory paragraph -->
+    <div id="header-paragraph">
+      <h1>Deep Dive: Initiatives & Impact</h1>
+      <p>
+        Dive deep! Explore our active
+        <strong>Marine Preservation Programs</strong> and share your valuable
+        feedback to help us protect our oceans.
+      </p>
+    </div>
+
+    <!-- Programs -->
+    <section class="programs-section">
+      <div class="programs-header">
+        <h2>Active Conservation Programs</h2>
+
+        <select class="filter-dropdown">
+          <option value="popular">Most Popular</option>
+          <option value="nearest">Nearest to Me</option>
+          <option value="student">Student-Friendly</option>
+        </select>
+      </div>
+
+      <div class="programs-grid">
+        <div class="program-card">
+          <h3>Coral Reef Rescue</h3>
+          <img
+            src="asset/Coral Saving.jpg"
+            alt="Volunteers attaching coral fragments to underwater nurseries"
+          />
+          <p>
+            Restore damaged reefs by planting heat-resistant coral fragments
+            onto coastal beds.
+          </p>
+          <button class="action-btn">Get Involved</button>
+        </div>
+
+        <div class="program-card">
+          <h3>Turtle Protection</h3>
+          <img
+            src="asset/Baby turtle.jpg"
+            alt="Baby sea turtles marching safely toward the ocean shoreline"
+          />
+          <p>
+            Monitor nesting beaches, safeguard vulnerable eggs, and assist
+            hatchling releases.
+          </p>
+          <button class="action-btn">Join Project</button>
+        </div>
+
+        <div class="program-card">
+          <h3>Shoreline Cleanup</h3>
+          <img
+            src="asset/Beach clean .jpg"
+            alt="Team of young volunteers collecting plastic waste from a sandy beach"
+          />
+          <p>
+            Remove hazardous macro-plastics and consumer debris from fragile
+            marine habitats.
+          </p>
+          <button class="action-btn">Volunteer</button>
+        </div>
+
+        <div class="program-card">
+          <h3>Whale Tracking</h3>
+          <img
+            src="asset/Whale watching.jpg"
+            alt="Researchers photographing whale tails from a research vessel"
+          />
+          <p>
+            Assist field biologists in cataloging cetacean movements and
+            migratory data patterns.
+          </p>
+          <button class="action-btn">Learn More</button>
+        </div>
+
+        <div class="program-card">
+          <h3>Mangrove Guard</h3>
+          <img
+            src="asset/Mangrove.jpg"
+            alt="Volunteers mud-planting green mangrove saplings along a tidal estuary shoreline"
+          />
+          <p>
+            Plant vital coastal wetland trees to trap carbon deposits and create
+            secure fish nurseries.
+          </p>
+          <button class="action-btn">Join Team</button>
+        </div>
+
+        <div class="program-card">
+          <h3>Marine Deep Dive</h3>
+          <img
+            src="asset/Diving 1.jpg"
+            alt="Participants diving in bioluminescent waters"
+          />
+          <p>
+            Experience the wonders of the ocean while contributing to vital
+            marine research.
+          </p>
+          <button class="action-btn">Explore</button>
+        </div>
+      </div>
+    </section>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+
+    <!-- Ratings & Reviews Summary Section -->
+    <section class="reviews-section">
+      <!-- Overall Rating Banner -->
+      <div class="rating-banner">
+        <div class="rating-score-box">
+          <span class="numeric-score">9.7/10</span>
+          <span class="rating-label">Excellent</span>
+        </div>
+        <p class="summary-text">
+          Based on <strong>500+ verified volunteer reviews</strong> across all
+          marine conservation tracks.
+        </p>
+      </div>
+
+      <!-- Individual Reviews Grid -->
+      <div class="reviews-grid">
+        <!-- Review 1 -->
+        <div class="review-card" id="rev-1">
+          <div class="review-card-header">
+            <h4>Incredible Turtle Release!</h4>
+            <span class="user-rating">9/10</span>
+          </div>
+          <p class="review-body">
+            Guiding the baby sea turtles to the shore was an unforgettable
+            experience. The team was highly knowledgeable and organized,
+            ensuring every hatchling reached the surf safely.
+            <span class="full-text"
+              >The nesting data tracking we performed at midnight gave our group
+              clear insights into survival ratios and beach temperature
+              trends.</span
+            >
+            <a href="#rev-1" class="see-more-link">See more</a>
+          </p>
+          <div class="review-footer">
+            <span class="reviewer-name">Asha de Vos (Marine Biologist)</span>
+            <span class="review-date">June 14, 2026</span>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card" id="rev-2">
+          <div class="review-card-header">
+            <h4>Impactful Beach Cleanup</h4>
+            <span class="user-rating">8/10</span>
+          </div>
+          <p class="review-body">
+            It is shocking how much micro-plastic washes up. It felt great doing
+            tangible work to restore the coastline habitats with a driven team.
+            <span class="full-text"
+              >We cleared away broken nets and small consumer debris that
+              directly choke nesting birds and crabs. The educational workshop
+              afterwards made the entire day highly memorable.</span
+            >
+            <a href="#rev-2" class="see-more-link">See more</a>
+          </p>
+          <div class="review-footer">
+            <span class="reviewer-name"
+              >John Doe (Environmental Scientist)</span
+            >
+            <span class="review-date">May 28, 2026</span>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="review-card" id="rev-3">
+          <div class="review-card-header">
+            <h4>Amazing Reef Restoration</h4>
+            <span class="user-rating">9/10</span>
+          </div>
+          <p class="review-body">
+            Working directly on the underwater coral nurseries was mind-blowing.
+            Learnt so much about marine biology systems and resilient strain
+            grafting.
+            <span class="full-text"
+              >Watching the ocean community actively flourish around the newly
+              secured concrete structures was deeply motivating. This is an
+              absolutely essential program for ecosystem survival.</span
+            >
+            <a href="#rev-3" class="see-more-link">See more</a>
+          </p>
+          <div class="review-footer">
+            <span class="reviewer-name">Michael Torres (Aquarist)</span>
+            <span class="review-date">April 12, 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- Feedback Section -->
+
+    <section class="feedback-section">
+      <h2>Share with Us</h2>
+
+      <form id="feedback-form" novalidate>
+        <fieldset>
+          <legend>Personal Details</legend>
+
+          <div class="form-group">
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" required placeholder="John Doe" />
+            <span class="error-message" id="nameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="john@example.com"
+            />
+            <span class="error-message" id="emailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Telephone Number:</label>
+            <input
+              type="tel"
+              id="phone"
+              required
+              placeholder="+94 77 123 4567"
+            />
+            <span class="error-message" id="phoneError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea
+              id="address"
+              rows="3"
+              required
+              placeholder="Your physical address..."
+            ></textarea>
+            <span class="error-message" id="addressError"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Feedback Details</legend>
+
+          <div class="form-group">
+            <label for="programSelect">Select Program:</label>
+            <select id="programSelect" required>
+              <option value="">-- Choose an Event --</option>
+              <option value="coral">Coral Reef Rescue</option>
+              <option value="turtle">Turtle Protection</option>
+              <option value="cleanup">Shoreline Cleanup</option>
+              <option value="whale">Whale Tracking</option>
+              <option value="mangrove">Mangrove Guard</option>
+              <option value="eco-dive">Eco-Dive Adventure</option>
+            </select>
+            <span class="error-message" id="programError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="feedbackDate">Date Joined Event:</label>
+            <input type="date" id="feedbackDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="feedbackDateTime"
+              >Feedback Submission Date & Time:</label
+            >
+            <input type="datetime-local" id="feedbackDateTime" required />
+            <span class="error-message" id="dateError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Comments:</label>
+            <textarea
+              id="comments"
+              maxlength="250"
+              rows="4"
+              required
+              placeholder="Tell us about your experience..."
+            ></textarea>
+
+            <div class="char-counter-box">
+              Characters remaining: <span id="charCounter">250</span>
+            </div>
+            <span class="error-message" id="commentError"></span>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+        <div id="formSuccessMessage" class="success-banner"></div>
+      </form>
+    </section>
+
+    <!-- ==================== PAGE CONTENT END ==================== -->
+  </main>
+
+  <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
+  <div class="footer-cliff-wrap" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
+      preserveAspectRatio="xMinYMax slice">
+      <defs>
+        <!-- Beacon hard glow -->
+        <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="5" result="b1" />
+          <feGaussianBlur stdDeviation="12" result="b2" />
+          <feMerge>
+            <feMergeNode in="b2" />
+            <feMergeNode in="b1" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <!-- Sky ambient glow behind lighthouse -->
+        <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
+        </radialGradient>
+        <!-- Light beam gradient (left beam) -->
+        <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+        <!-- Light beam gradient (right beam) -->
+        <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+
+      <!-- ── Sky ambient glow & Beams ── -->
+      <g transform="translate(0, 112)">
+        <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
+        <!-- Animated light beams (narrow rays) -->
+        <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
+        <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
+      </g>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!--              ROCKY CLIFF SILHOUETTE            -->
+      <!-- ══════════════════════════════════════════════ -->
+      <g transform="translate(0, 150) scale(1, 0.5)">
+        <path fill="#04192E" d="
+          M 0 300 L 0 264
+          C 10 258,22 252,38 256  C 52 259,60 246,74 238
+          C 86 231,96 226,110 220 C 118 216,124 228,132 234
+          C 140 240,148 226,162 214 C 176 202,188 190,205 178
+          C 222 166,240 152,258 138 C 276 124,294 110,312 94
+          C 320 87,326 81,331 77
+          C 332 76,333 76,334 76
+          C 336 77,341 86,348 96
+          C 358 108,372 122,390 136
+          C 408 150,426 161,446 170
+          C 464 178,482 184,500 189
+          C 518 193,534 195,550 197
+          C 566 198,582 194,598 191
+          C 614 188,630 192,648 189
+          C 666 186,685 182,706 185
+          C 726 188,748 183,770 180
+          C 790 177,814 182,838 180
+          C 860 178,880 174,904 177
+          C 926 180,946 185,968 182
+          C 988 179,1010 174,1032 177
+          C 1054 180,1076 184,1098 181
+          C 1118 178,1140 173,1162 176
+          C 1182 179,1204 183,1226 180
+          C 1246 177,1270 171,1292 174
+          C 1314 177,1336 181,1358 178
+          C 1378 175,1400 170,1424 173
+          L 1440 175 L 1440 300 Z
+        " />
+      </g>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!--              REALISTIC LIGHTHOUSE              -->
+      <!-- ══════════════════════════════════════════════ -->
+      <g transform="translate(0, 112)">
+        <!-- Foundation block -->
+        <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
+        <!-- Tower body — tapered polygon -->
+        <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
+        <!-- Stripe bands alternating -->
+        <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <!-- Arched door at base -->
+        <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
+        <!-- Round tower window -->
+        <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
+        <!-- Gallery bracket arms -->
+        <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <!-- Gallery balcony slab -->
+        <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
+        <!-- Railing 5 posts + top bar -->
+        <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
+        <!-- Lantern room outer frame -->
+        <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
+        <!-- Glass pane dividers -->
+        <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
+        <!-- Glass panes lit (warm amber + white centre) -->
+        <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
+        <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
+        <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <!-- Bright glow overlay -->
+        <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
+          filter="url(#beacon-glow)" />
+        <!-- Cap cornice -->
+        <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
+        <!-- Conical roof -->
+        <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
+        <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <!-- Finial -->
+        <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
+      </g>
+
+      <circle cx="3" cy="-0.4" r="1" fill="#061830" opacity="0.7" />
+      </g>
+
+      </g>
+
+    </svg>
+  </div>
+  <!-- ======= End SVG Divider ======= -->
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Col 1 — About (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>About</h4>
+          <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable Development
+            Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
+        </div>
+
+        <!-- Col 2 — Explore (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="ais.html">Simulator</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 — This Page (EACH STUDENT UPDATES THIS) -->
+        <div class="footer-col">
+          <h4>This Page</h4>
+          <ul>
+            <li class="text-muted">Editor: K.T.Sresbta Alwis</li>
+            <li class="text-muted">ID: w2212849</li>
+            <li><a href="pageEditor_STX.html">📝 Page Editor</a></li>
+            <li><a href="validation_STX.html">✅ Validation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 — Compliance (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Compliance</h4>
+          <ul>
+            <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
+                rel="noopener noreferrer">Accessibility Guidelines</a></li>
+            <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
+                rel="noopener noreferrer">JANET Acceptable Use</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
+        <div>HTML &middot; CSS &middot; JS</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Feedback form: live character counter + submit validation -->
+  <script>
+    // Wait until the browser fully loads the HTML structure before running our code
+    document.addEventListener("DOMContentLoaded", function () {
+      // 1. SELECT FORM ELEMENTS
+      // Grab all the HTML items we need to control or read from
+      const form = document.getElementById("feedback-form");
+      const commentsInput = document.getElementById("comments");
+      const charCounter = document.getElementById("charCounter");
+      const successBanner = document.getElementById("formSuccessMessage");
+
+      // 2. LIVE CHARACTER COUNTER
+      // Updates the characters remaining text message automatically as the user types
+      commentsInput.addEventListener("input", function () {
+        let lettersLeft = 250 - commentsInput.value.length;
+        charCounter.textContent = lettersLeft;
+      });
+
+      // 3. FORM VALIDATION ON SUBMIT
+      // Runs a complete validation checklist whenever the submit button is clicked
+      form.addEventListener("submit", function (event) {
+        // Prevent the webpage from refreshing automatically on submit click
+        event.preventDefault();
+
+        // Start by assuming the entire form is valid and perfect
+        let isValid = true;
+
+        // Reset previous feedback states: hide the green success banner and clear text
+        successBanner.classList.remove("visible");
+        successBanner.textContent = "";
+
+        // Wipe out any lingering error text inside all message boxes
+        document
+          .querySelectorAll(".error-message")
+          .forEach((el) => (el.textContent = ""));
+
+        // Strip the red error styling (.invalid) off all inputs to start fresh
+        document
+          .querySelectorAll(
+            ".form-group input, .form-group select, .form-group textarea",
+          )
+          .forEach((el) => el.classList.remove("invalid"));
+
+        // --- CHECK 1: Full Name Field ---
+        const nameInput = document.getElementById("Name");
+        if (nameInput.value.trim() === "") {
+          document.getElementById("nameError").textContent =
+            "Name cannot be left empty.";
+          nameInput.classList.add("invalid"); // Highlight input box red
+          isValid = false; // Form validation failed
+        }
+
+        // --- CHECK 2: Email Address Pattern ---
+        const emailInput = document.getElementById("email");
+        if (
+          !emailInput.value.includes("@") ||
+          emailInput.value.trim() === ""
+        ) {
+          document.getElementById("emailError").textContent =
+            "Please enter a valid email address.";
+          emailInput.classList.add("invalid"); // Highlight input box red
+          isValid = false;
+        }
+
+        // --- CHECK 3: Telephone Number ---
+        const phoneInput = document.getElementById("phone");
+        if (phoneInput.value.trim() === "") {
+          document.getElementById("phoneError").textContent =
+            "Telephone number is required.";
+          phoneInput.classList.add("invalid"); // Highlight input box red
+          isValid = false;
+        }
+
+        // --- CHECK 4: Postal Address Field ---
+        const addressInput = document.getElementById("address");
+        if (addressInput.value.trim() === "") {
+          document.getElementById("addressError").textContent =
+            "Address field cannot be left blank.";
+          addressInput.classList.add("invalid"); // Highlight input box red
+          isValid = false;
+        }
+
+        // --- CHECK 5: Program Select Dropdown ---
+        const programSelect = document.getElementById("programSelect");
+        if (programSelect.value === "") {
+          document.getElementById("programError").textContent =
+            "Please select an event option.";
+          programSelect.classList.add("invalid"); // Highlight input box red
+          isValid = false;
+        }
+
+        // --- CHECK 6: Dates Validation ---
+        const dateInput = document.getElementById("feedbackDate");
+        const dateTimeInput = document.getElementById("feedbackDateTime");
+        if (dateInput.value === "" || dateTimeInput.value === "") {
+          document.getElementById("dateError").textContent =
+            "Please complete both date fields.";
+          if (dateInput.value === "") dateInput.classList.add("invalid");
+          if (dateTimeInput.value === "")
+            dateTimeInput.classList.add("invalid");
+          isValid = false;
+        }
+
+        // --- CHECK 7: User Feedback Comments ---
+        if (commentsInput.value.trim() === "") {
+          document.getElementById("commentError").textContent =
+            "Please enter your message feedback.";
+          commentsInput.classList.add("invalid"); // Highlight input box red
+          isValid = false;
+        }
+
+        // 4. DISPLAY SUCCESS BANNER
+        // If all line-by-line checks passed successfully without marking isValid as false
+        if (isValid) {
+          successBanner.textContent =
+            "Thank you for your feedback! Your submission was validated successfully.";
+          successBanner.classList.add("visible"); // Reveal green alert banner box
+
+          form.reset(); // Wipe all input boxes clean across the screen
+          charCounter.textContent = "250"; // Reset the visual countdown number text
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
