@@ -8,13 +8,7 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* ====================================================================
-       Sitemap Page — page-specific embedded CSS
-       Scope: only used on sitemap.html. Uses the SAME design tokens as
-       the Global CSS (--teal, --primary, --coral, --radius, --ease) so
-       nothing here can conflict with or override the global rules.
-       ==================================================================== */
-
+    
     /* Wrapper just controls spacing/width — the SVG scales itself */
     .sitemap-wrap {
       margin-top: 24px;
@@ -108,7 +102,7 @@
     </div>
   </header>
 
-  <main id="main-content">
+<main id="main-content">
     <!-- ==================== PAGE CONTENT START ==================== -->
     <section class="container">
       <span class="section-label">Sitemap · Student 4</span>
@@ -117,120 +111,166 @@
         Every page on Ocean Watch, mapped out below. Click a node to jump straight
         to that page, or tab through them with your keyboard.
       </p>
+      
 
       <div class="sitemap-wrap">
-        <svg id="siteSvg" viewBox="0 0 1100 190" role="img" aria-labelledby="svgTitle"
-          preserveAspectRatio="xMidYMid meet">
-          <title id="svgTitle">Ocean Watch website structure diagram</title>
+    <svg id="siteSvg"
+         viewBox="0 0 1100 280"
+         role="img"
+         aria-labelledby="svgTitle"
+         preserveAspectRatio="xMidYMid meet">
 
-          <!-- ============ CONNECTOR LINES (drawn first, so nodes sit on top) ============ -->
-          <g class="branch-line">
-            <!-- trunk: Home down to the horizontal bus -->
-            <line x1="550" y1="69" x2="550" y2="95" />
-            <!-- horizontal bus, spanning the row of child nodes -->
-            <line x1="55" y1="95" x2="1045" y2="95" />
-            <!-- one drop line per child node, bus down to its top edge -->
-            <line x1="55" y1="95" x2="55" y2="110" />
-            <line x1="165" y1="95" x2="165" y2="110" />
-            <line x1="275" y1="95" x2="275" y2="110" />
-            <line x1="385" y1="95" x2="385" y2="110" />
-            <line x1="495" y1="95" x2="495" y2="110" />
-            <line x1="605" y1="95" x2="605" y2="110" />
-            <line x1="715" y1="95" x2="715" y2="110" />
-            <line x1="825" y1="95" x2="825" y2="110" />
-            <line x1="935" y1="95" x2="935" y2="110" />
-            <line x1="1045" y1="95" x2="1045" y2="110" />
-          </g>
+        <title id="svgTitle">Ocean Watch website structure diagram</title>
 
-          <!-- ============ HOME NODE (root) ============ -->
-          <a href="home.html" tabindex="0">
+        <!-- ================= CONNECTOR LINES ================= -->
+
+        <g class="branch-line">
+
+            <!-- Splash -> Home -->
+            <line x1="550" y1="65" x2="550" y2="75"/>
+
+            <!-- Home -> Bus -->
+            <line x1="550" y1="129" x2="550" y2="155"/>
+
+            <!-- Horizontal bus -->
+            <line x1="55" y1="155" x2="1045" y2="155"/>
+
+            <!-- Child connectors -->
+            <line x1="55" y1="155" x2="55" y2="170"/>
+            <line x1="165" y1="155" x2="165" y2="170"/>
+            <line x1="275" y1="155" x2="275" y2="170"/>
+            <line x1="385" y1="155" x2="385" y2="170"/>
+            <line x1="495" y1="155" x2="495" y2="170"/>
+            <line x1="605" y1="155" x2="605" y2="170"/>
+            <line x1="715" y1="155" x2="715" y2="170"/>
+            <line x1="825" y1="155" x2="825" y2="170"/>
+            <line x1="935" y1="155" x2="935" y2="170"/>
+            <line x1="1045" y1="155" x2="1045" y2="170"/>
+
+        </g>
+
+        <!-- ================= SPLASH ================= -->
+
+        <a href="splash.html" tabindex="0">
+            <title>Go to Splash Screen</title>
+            <g class="node">
+                <rect x="470" y="15" width="160" height="50" rx="25"/>
+                <text x="550" y="41">Splash</text>
+            </g>
+        </a>
+
+        <!-- ================= HOME ================= -->
+
+        <a href="home.html" tabindex="0">
             <title>Go to Home Page</title>
             <g class="node home">
-              <rect x="470" y="15" width="160" height="54" rx="27" />
-              <text x="550" y="42">Home</text>
+                <rect x="470" y="75" width="160" height="54" rx="27"/>
+                <text x="550" y="102">Home</text>
             </g>
-          </a>
+        </a>
 
-          <!-- ============ CHILD NODES (one row, all linked to Home) ============ -->
-          <a href="content_ST1.html" tabindex="0">
-            <title>Go to Content Page — Student 1</title>
+        <!-- ================= CONTENT 1 ================= -->
+
+        <a href="content_ST1.html" tabindex="0">
+            <title>Go to Content Page - Student 1</title>
             <g class="node">
-              <rect x="8" y="110" width="95" height="48" rx="24" />
-              <text x="55" y="134">Content 1</text>
+                <rect x="8" y="170" width="95" height="48" rx="24"/>
+                <text x="55" y="194">Content 1</text>
             </g>
-          </a>
+        </a>
 
-          <a href="content_ST2.html" tabindex="0">
-            <title>Go to Content Page — Student 2</title>
+        <!-- ================= CONTENT 2 ================= -->
+
+        <a href="content_ST2.html" tabindex="0">
+            <title>Go to Content Page - Student 2</title>
             <g class="node">
-              <rect x="118" y="110" width="95" height="48" rx="24" />
-              <text x="165" y="134">Content 2</text>
+                <rect x="118" y="170" width="95" height="48" rx="24"/>
+                <text x="165" y="194">Content 2</text>
             </g>
-          </a>
+        </a>
 
-          <a href="content_ST3.html" tabindex="0">
-            <title>Go to Content Page — Student 3</title>
+        <!-- ================= CONTENT 3 ================= -->
+
+        <a href="content_ST3.html" tabindex="0">
+            <title>Go to Content Page - Student 3</title>
             <g class="node">
-              <rect x="228" y="110" width="95" height="48" rx="24" />
-              <text x="275" y="134">Content 3</text>
+                <rect x="228" y="170" width="95" height="48" rx="24"/>
+                <text x="275" y="194">Content 3</text>
             </g>
-          </a>
+        </a>
 
-          <a href="content_ST4.html" tabindex="0">
-            <title>Go to Content Page — Student 4</title>
+        <!-- ================= CONTENT 4 ================= -->
+
+        <a href="content_ST4.html" tabindex="0">
+            <title>Go to Content Page - Student 4</title>
             <g class="node">
-              <rect x="338" y="110" width="95" height="48" rx="24" />
-              <text x="385" y="134">Content 4</text>
+                <rect x="338" y="170" width="95" height="48" rx="24"/>
+                <text x="385" y="194">Content 4</text>
             </g>
-          </a>
+        </a>
 
-          <a href="gallery.html" tabindex="0">
+        <!-- ================= GALLERY ================= -->
+
+        <a href="gallery.html" tabindex="0">
             <title>Go to Gallery Page</title>
             <g class="node">
-              <rect x="448" y="110" width="95" height="48" rx="24" />
-              <text x="495" y="134">Gallery</text>
+                <rect x="448" y="170" width="95" height="48" rx="24"/>
+                <text x="495" y="194">Gallery</text>
             </g>
-          </a>
+        </a>
 
-          <a href="ais.html" tabindex="0">
+        <!-- ================= AIS ================= -->
+
+        <a href="ais.html" tabindex="0">
             <title>Go to Action Impact Simulator</title>
             <g class="node">
-              <rect x="558" y="110" width="95" height="48" rx="24" />
-              <text x="605" y="134">Simulator</text>
+                <rect x="558" y="170" width="95" height="48" rx="24"/>
+                <text x="605" y="194">Simulator</text>
             </g>
-          </a>
+        </a>
 
-          <a href="feedback.html" tabindex="0">
+        <!-- ================= FEEDBACK ================= -->
+
+        <a href="feedback.html" tabindex="0">
             <title>Go to Feedback Page</title>
             <g class="node">
-              <rect x="668" y="110" width="95" height="48" rx="24" />
-              <text x="715" y="134">Feedback</text>
+                <rect x="668" y="170" width="95" height="48" rx="24"/>
+                <text x="715" y="194">Feedback</text>
             </g>
-          </a>
+        </a>
 
-          <a href="team.html" tabindex="0">
+        <!-- ================= TEAM ================= -->
+
+        <a href="team.html" tabindex="0">
             <title>Go to Team Page</title>
             <g class="node">
-              <rect x="778" y="110" width="95" height="48" rx="24" />
-              <text x="825" y="134">Team</text>
+                <rect x="778" y="170" width="95" height="48" rx="24"/>
+                <text x="825" y="194">Team</text>
             </g>
-          </a>
+        </a>
 
-          <a href="profile.html" tabindex="0">
+        <!-- ================= PROFILE ================= -->
+
+        <a href="profile.html" tabindex="0">
             <title>Go to User Profile</title>
             <g class="node">
-              <rect x="888" y="110" width="95" height="48" rx="24" />
-              <text x="935" y="134">Profile</text>
+                <rect x="888" y="170" width="95" height="48" rx="24"/>
+                <text x="935" y="194">Profile</text>
             </g>
-          </a>
+        </a>
 
-          <a href="sitemap.html" tabindex="0" aria-current="page">
-            <title>Sitemap — you are here</title>
+        <!-- ================= SITEMAP ================= -->
+
+        <a href="sitemap.html" tabindex="0" aria-current="page">
+            <title>Sitemap - you are here</title>
             <g class="node current">
-              <rect x="998" y="110" width="95" height="48" rx="24" />
-              <text x="1045" y="134">Sitemap</text>
+                <rect x="998" y="170" width="95" height="48" rx="24"/>
+                <text x="1045" y="194">Sitemap</text>
             </g>
-          </a>
+        </a>
+
+    </svg>
+</div>
 
         </svg>
       </div>
@@ -372,8 +412,8 @@
         <div class="footer-col">
           <h4>This Page</h4>
           <ul>
-            <li class="text-muted">Editor: [Your Full Name]</li>
-            <li class="text-muted">ID: [W########]</li>
+            <li class="text-muted">Editor: Thayyib Rumy</li>
+            <li class="text-muted">ID: W2212880</li>
             <li><a href="pageEditor_ST4.html">📝 Page Editor</a></li>
             <li><a href="validation_ST4.html">✅ Validation</a></li>
           </ul>
