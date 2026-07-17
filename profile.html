@@ -1,207 +1,620 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Ocean Passport | TIDES</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Ocean Watch — SDG 14</title>
+  <link rel="stylesheet" href="style.css">
 
-
-<style>
-  .passport-cover{
-    background:var(--abyss); color:#fff; border-radius:16px; padding:1.6rem 1.8rem;
-    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin:1.2rem 0;
-  }
-  
-  .passport-cover h2{ 
-    color:#fff; 
-    margin-bottom:.2rem; 
-  }
-  
-  .passport-cover p{ 
-    color:#cfe6ea;
-    margin:0; 
-  }
-
-  .journey-meter{ 
-    background:var(--mist); 
-    border:1px solid var(--line); 
-    border-radius:999px; 
-    height:14px; 
-    overflow:hidden; 
-    margin-top:1.4rem; 
-  }
-  
-  .journey-fill{ 
-    background:var(--coral); 
-    height:100%; 
-    width:0%; 
-    transition:width .4s ease; 
-  }
-  
-  #journeyLabel{ 
-    font-size:.9rem; 
-    color:var(--current); 
-    margin-top:.4rem; 
-  }
-
-  .stage-row, .reopen-row{ 
-    display:flex; 
-    gap:.8rem; 
-    flex-wrap:wrap; 
-    margin:1.2rem 0; 
-  }
-  
-  .stage-stamp{
-    background:var(--mist); 
-    border:2px dashed var(--line); 
-    border-radius:12px; 
-    padding:.7rem 1.1rem;
-    font-weight:600; 
-    cursor:default; 
-    display:flex; 
-    align-items:center; 
-    gap:.5rem; 
-    font-size:.9rem;
-  }
-  
-  .stage-stamp.stamped{ 
-    border-style:solid; 
-    border-color:var(--current); 
-    background:#e4f1f2; 
-    color:var(--current); 
-  }
-  
-  .stamp-icon{ 
-    font-size:1.1rem; 
-  }
-
-  .passport-page{ 
-    background:var(--mist); 
-    border-radius:14px; 
-    padding:1.4rem 1.6rem; 
-    margin-top:1rem; 
-  }
-  
-  .passport-entry{ 
-    border-bottom:1px solid var(--line); 
-    padding-bottom:.9rem; 
-    margin-bottom:.9rem; 
-  }
-  
-  
-  .passport-entry dl{ 
-    display:grid; 
-    grid-template-columns:auto 1fr; 
-    gap:.3rem 1rem; 
-    margin:.4rem 0 0; 
-  }
-  
-  .passport-entry dt{ 
-    font-weight:700; 
-    color:var(--abyss); 
-  }
-
-  #fullyStampedBox{ 
-    background:#e7f6ec; 
-    border:1px solid #b6e3c3; 
-    border-radius:12px; padding:1rem; 
-    margin-top:1rem; 
-    color:#1a7a4c; 
-    font-weight:600; 
+  <style>
+    /* 1. Passport cover banner — reuses the dark glass .card look already
+          established globally, just laid out as a horizontal banner */
+    .passport-cover {
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      padding: 28px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 30px 0;
     }
-</style>
 
+    .passport-cover h2 {
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+
+    .passport-cover p {
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0;
+    }
+
+    /* 2. Journey meter (Progress Bar) */
+    .journey-meter {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      height: 14px;
+      overflow: hidden;
+      margin-top: 24px;
+    }
+
+    .journey-fill {
+      background: var(--teal);
+      height: 100%;
+      width: 0%;
+      transition: width var(--ease);
+    }
+
+    #journeyLabel {
+      font-size: 0.9rem;
+      color: var(--teal);
+      margin-top: 8px;
+    }
+
+    /* 3. Stage stamps row */
+    .stage-row,
+    .reopen-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+
+    .stage-stamp {
+      background: rgba(4, 25, 46, 0.6);
+      border: 2px dashed rgba(255, 255, 255, 0.25);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: border-color var(--ease), background var(--ease);
+    }
+
+    /* After a stamp has been skipped/ finished */
+    .stage-stamp.stamped {
+      border-style: solid;
+      border-color: var(--teal);
+      background: rgba(78, 205, 196, 0.12);
+      color: #FFFFFF;
+    }
+
+    .stamp-icon {
+      font-size: 1.1rem;
+    }
+
+    /* 4. Passport page — where collected answers are displayed */
+    .passport-page {
+      background: rgba(4, 25, 46, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius);
+      padding: 28px 30px;
+      margin-top: 20px;
+    }
+
+    .passport-entry {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+    }
+
+    .passport-entry:last-of-type {
+      border-bottom: none;
+    }
+
+    .passport-entry dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 16px;
+      margin-top: 8px;
+    }
+
+    .passport-entry dt {
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .passport-entry dd {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* 5. Completion confirmation box */
+    #fullyStampedBox {
+      background: rgba(78, 205, 196, 0.12);
+      border: 1px solid rgba(78, 205, 196, 0.35);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-top: 20px;
+      color: var(--teal);
+      font-weight: 600;
+    }
+  </style>
 </head>
+
 <body>
-
-
-
-<main>
-  <h1>Stamp Your Ocean Passport</h1>
-  <p>Answer a few quick questions as you go. Think of each stage as a stamp in your passport. Skip anything you're not ready for and come back later.</p>
-
-  <!-- Passport "cover" -->
-  <section class="passport-cover">
-    <div class="passport-cover-text">
-      <h2>TIDES Ocean Passport</h2>
-      <p id="holderLine">No traveller details yet.</p>
-    </div>
-    <button class="btn" id="stampBtn">Get Your Next Stamp</button>
-    <button class="btn btn-outline" id="voidBtn">Void Passport (Reset)</button>
-  </section>
-
-  <!--Progress Bar-->
-  <div class="journey-meter" aria-label="Passport completion">
-     <div class="journey-fill" id="journeyFill"></div>
-  </div>
-  
-  <p id="journeyLabel">0 of 9 stamps collected — 0% of the way there</p>
-
-  <!-- Three stamps stages -->
-  <div class="stage-row">
-    <!-- JS: toggle a "stamped" class on each once every question in that stage has been attempted -->
-    <button class="stage-stamp" id="stampBasics">
-      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
-      Departure Details
-    </button>
-    <button class="stage-stamp" id="stampInterests">
-      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
-      Points of Interest
-    </button>
-    <button class="stage-stamp" id="stampCommitments">
-      <span class="stamp-icon" aria-hidden="true">&#9875;</span>
-      Pledge Stamp
-    </button>
-  </div>
-
-  <!-- Buttons to go back and fill in a stage that was skipped -->
-  <div class="reopen-row">
-    <button class="btn btn-outline" id="reopenBasics">Reopen: Departure Details</button>
-    <button class="btn btn-outline" id="reopenInterests">Reopen: Points of Interest</button>
-    <button class="btn btn-outline" id="reopenCommitments">Reopen: Pledge Stamp</button>
-  </div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   
-  <p id="logLine" role="status">gotta input something after every action, a confirmation msg</p>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="site-logo" aria-label="Ocean Watch Home">
+          <div class="logo-mark" aria-hidden="true">🌊</div>
+          <span class="logo-name">Ocean Watch</span>
+          <span class="logo-sub">SDG 14 · Life Below Water</span>
+        </a>
 
-  
-  <section aria-labelledby="passport-heading">
-    <h2 id="passport-heading">Your Passport Page</h2>
-
-    <div class="passport-page" id="passportPage">
-
-      <article class="passport-entry" id="entry-basics" hidden>
-        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Departure Details</h3>
-      <!--note here for js-->
-        <dl id="entryList-basics"></dl>
-      </article>
-
-      <article class="passport-entry" id="entry-interests" hidden>
-        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Points of Interest</h3>
-        <dl id="entryList-interests"></dl>
-      </article>
-
-      
-      <article class="passport-entry" id="entry-commitments" hidden>
-        <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Pledge Stamp</h3>
-        <dl id="entryList-commitments"></dl>
-      </article>
-
-      
-      <p id="blankPageMsg">Your passport page is blank, collect your first stamp above.</p>
+        <nav aria-label="Main site navigation">
+          <a href="home.html">Home</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="ais.html">Simulator</a>
+          <a href="profile.html" class="active" aria-current="page">Profile</a>
+          <a href="feedback.html">Feedback</a>
+          <a href="team.html">Team</a>
+          <a href="sitemap.html">Sitemap</a>
+        </nav>
+      </div>
     </div>
+  </header>
 
-    
-    <div id="fullyStampedBox" hidden>
-      <p>&#9875; Passport fully stamped! Thanks for mapping out your ocean action journey.</p>
+  <main id="main-content">
+    <!-- ==================== PAGE CONTENT START ==================== -->
+    <section class="container">
+      <span class="section-label">User Profile · Student 4</span>
+      <h1 class="section-title">Ocean Passport</h1>
+      <p class="text-muted mb-2">
+        Stamp your ocean passport over here! Skip anything you're not ready for and come back to it later.
+      </p>
+
+      <!-- Passport Cover -->
+      <div class="passport-cover">
+        <div class="passport-cover-text">
+          <h2>Ocean Watch Passport</h2>
+          <p id="holderLine">No traveller details yet.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="stampBtn">Get Your Next Stamp</button>
+          <button class="btn btn-outline" id="voidBtn">Void Passport (Reset)</button>
+        </div>
+      </div>
+
+      <!-- Journey meter (Progress Bar) -->
+      <div class="journey-meter" aria-label="Passport completion">
+        <div class="journey-fill" id="journeyFill"></div>
+      </div>
+      <p id="journeyLabel">0 of 9 stamps collected — 0% of the way there</p>
+
+      <!-- Three "stamp" stage markers -->
+      <div class="stage-row">
+        <button class="stage-stamp" id="stampBasics">
+          <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+          Departure Details
+        </button>
+        <button class="stage-stamp" id="stampInterests">
+          <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+          Points of Interest
+        </button>
+        <button class="stage-stamp" id="stampCommitments">
+          <span class="stamp-icon" aria-hidden="true">&#9875;</span>
+          Pledge Stamp
+        </button>
+      </div>
+
+      <!-- Buttons to go back and fill in a stage that was skipped -->
+      <div class="reopen-row">
+        <button class="btn btn-outline" id="reopenBasics">Reopen: Departure Details</button>
+        <button class="btn btn-outline" id="reopenInterests">Reopen: Points of Interest</button>
+        <button class="btn btn-outline" id="reopenCommitments">Reopen: Pledge Stamp</button>
+      </div>
+
+      <p id="logLine" class="text-muted" role="status"></p>
+
+      <!-- The "passport page" — this whole block is revealed/updated
+           progressively by JS. No page reloads. -->
+      <h2 class="mt-2">Your Passport Page</h2>
+      <div class="passport-page" id="passportPage">
+
+        <article class="passport-entry" id="entry-basics" hidden>
+          <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Departure Details</h3>
+          <dl id="entryList-basics"></dl>
+        </article>
+
+        <article class="passport-entry" id="entry-interests" hidden>
+          <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Points of Interest</h3>
+          <dl id="entryList-interests"></dl>
+        </article>
+
+        <article class="passport-entry" id="entry-commitments" hidden>
+          <h3><span class="stamp-icon" aria-hidden="true">&#9875;</span> Pledge Stamp</h3>
+          <dl id="entryList-commitments"></dl>
+        </article>
+
+        <p id="blankPageMsg" class="text-muted">
+          Your passport page is blank. Collect your first stamp above.
+        </p>
+      </div>
+
+      <div id="fullyStampedBox" hidden>
+        <p>&#9875; Passport fully stamped! Thanks for mapping out your ocean action journey.</p>
+      </div>
+    </section>
+    <!-- ==================== PAGE CONTENT END ==================== -->
+  </main>
+
+  <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
+  <div class="footer-cliff-wrap" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
+      preserveAspectRatio="xMinYMax slice">
+      <defs>
+        <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="5" result="b1" />
+          <feGaussianBlur stdDeviation="12" result="b2" />
+          <feMerge>
+            <feMergeNode in="b2" />
+            <feMergeNode in="b1" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <g transform="translate(0, 112)">
+        <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
+        <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
+        <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
+      </g>
+      <g transform="translate(0, 150) scale(1, 0.5)">
+        <path fill="#04192E" d="
+          M 0 300 L 0 264
+          C 10 258,22 252,38 256  C 52 259,60 246,74 238
+          C 86 231,96 226,110 220 C 118 216,124 228,132 234
+          C 140 240,148 226,162 214 C 176 202,188 190,205 178
+          C 222 166,240 152,258 138 C 276 124,294 110,312 94
+          C 320 87,326 81,331 77
+          C 332 76,333 76,334 76
+          C 336 77,341 86,348 96
+          C 358 108,372 122,390 136
+          C 408 150,426 161,446 170
+          C 464 178,482 184,500 189
+          C 518 193,534 195,550 197
+          C 566 198,582 194,598 191
+          C 614 188,630 192,648 189
+          C 666 186,685 182,706 185
+          C 726 188,748 183,770 180
+          C 790 177,814 182,838 180
+          C 860 178,880 174,904 177
+          C 926 180,946 185,968 182
+          C 988 179,1010 174,1032 177
+          C 1054 180,1076 184,1098 181
+          C 1118 178,1140 173,1162 176
+          C 1182 179,1204 183,1226 180
+          C 1246 177,1270 171,1292 174
+          C 1314 177,1336 181,1358 178
+          C 1378 175,1400 170,1424 173
+          L 1440 175 L 1440 300 Z
+        " />
+      </g>
+      <g transform="translate(0, 112)">
+        <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
+        <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
+        <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
+        <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
+        <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
+        <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
+        <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
+        <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
+        <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
+        <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
+        <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
+          filter="url(#beacon-glow)" />
+        <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
+        <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
+        <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
+      </g>
+    </svg>
+  </div>
+  <!-- ======= End SVG Divider ======= -->
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Col 1 — About (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>About</h4>
+          <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable
+            Development Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
+        </div>
+
+        <!-- Col 2 — Explore (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="ais.html">Simulator</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 — This Page (UPDATE with your real name/ID) -->
+        <div class="footer-col">
+          <h4>This Page</h4>
+          <ul>
+            <li class="text-muted">Editor: [Your Full Name]</li>
+            <li class="text-muted">ID: [W########]</li>
+            <li><a href="pageEditor_ST4.html">📝 Page Editor</a></li>
+            <li><a href="validation_ST4.html">✅ Validation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 — Compliance (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Compliance</h4>
+          <ul>
+            <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
+                rel="noopener noreferrer">Accessibility Guidelines</a></li>
+            <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
+                rel="noopener noreferrer">JANET Acceptable Use</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
+        <div>HTML &middot; CSS &middot; JS</div>
+      </div>
     </div>
-  </section>
-</main>
+  </footer>
 
+  <!--JavaScript -->
+  <script>
+    // -------------------------------------------------------------------
+    // 1. STORAGE: one object holding all the answers, grouped by stage.
+    //    Every value starts as null, meaning "not answered yet / skipped".
+    // -------------------------------------------------------------------
+    var passport = {
+      basics: { name: null, homeArea: null, transport: null },
+      interests: { topic: null, activity: null, visitFreq: null },
+      commitments: { pledge: null, frequency: null, shareUpdates: null }
+    };
 
+    // -------------------------------------------------------------------
+    // 2. QUESTIONS: one object per stage, listing its prompts and the
+    //    HTML element IDs it needs to update.
+    // -------------------------------------------------------------------
+    var stageDefs = [
+      {
+        key: "basics",
+        sectionId: "entry-basics",
+        listId: "entryList-basics",
+        stampId: "stampBasics",
+        prompts: [
+          { field: "name", label: "Name", question: "Step 1/3 — What's your name? (leave blank to skip)" },
+          { field: "homeArea", label: "Home area", question: "Step 1/3 — Which coastal area or city are you closest to? (leave blank to skip)" },
+          { field: "transport", label: "Usual transport", question: "Step 1/3 — How do you usually travel to the coast? e.g. car, bus, walk, cycle (leave blank to skip)" }
+        ]
+      },
+      {
+        key: "interests",
+        sectionId: "entry-interests",
+        listId: "entryList-interests",
+        stampId: "stampInterests",
+        prompts: [
+          { field: "topic", label: "Ocean topic", question: "Step 2/3 — Which ocean topic interests you most? e.g. plastics, turtles, coral reefs (leave blank to skip)" },
+          { field: "activity", label: "Preferred content", question: "Step 2/3 — What kind of ocean content do you prefer? e.g. videos, articles, events (leave blank to skip)" },
+          { field: "visitFreq", label: "Coast visits", question: "Step 2/3 — How often do you visit the coast or beach? e.g. weekly, monthly, rarely (leave blank to skip)" }
+        ]
+      },
+      {
+        key: "commitments",
+        sectionId: "entry-commitments",
+        listId: "entryList-commitments",
+        stampId: "stampCommitments",
+        prompts: [
+          { field: "pledge", label: "My pledge", question: "Step 3/3 — What's one ocean-friendly action you pledge to take this month? (leave blank to skip)" },
+          { field: "frequency", label: "How often", question: "Step 3/3 — How often will you do it? e.g. once, weekly, monthly (leave blank to skip)" },
+          { field: "shareUpdates", label: "Share publicly?", question: "Step 3/3 — Share your pledge publicly on this site? yes/no (leave blank to skip)" }
+        ]
+      }
+    ];
 
+    // Total number of questions across all stages (3 stages x 3 prompts = 9)
+    var TOTAL_PROMPTS = 9;
 
+    // -------------------------------------------------------------------
+    // 3. runStage(): asks every question in one stage using prompt().
+    //    If the user leaves it blank or clicks Cancel, that field just
+    //    stays as it was (null the first time = counted as skipped).
+    // -------------------------------------------------------------------
+    function runStage(stage) {
+      stage.prompts.forEach(function (item) {
+        var answer = prompt(item.question);
 
+        // Only save the answer if the user actually typed something.
+        if (answer !== null && answer.trim() !== "") {
+          passport[stage.key][item.field] = answer.trim();
+        }
+      });
+
+      renderStage(stage);
+      updateJourneyMeter();
+    }
+
+    // -------------------------------------------------------------------
+    // 4. renderStage(): rebuilds the <dl> list for one stage using DOM
+    //    manipulation, and shows/hides that stage's section.
+    // -------------------------------------------------------------------
+    function renderStage(stage) {
+      var list = document.getElementById(stage.listId);
+      list.innerHTML = ""; // clear old content before rebuilding
+
+      var hasAnyAnswer = false;
+      var allAnswered = true;
+
+      stage.prompts.forEach(function (item) {
+        var value = passport[stage.key][item.field];
+
+        if (value !== null) {
+          hasAnyAnswer = true;
+
+          var dt = document.createElement("dt");
+          dt.textContent = item.label;
+
+          var dd = document.createElement("dd");
+          dd.textContent = value;
+
+          list.appendChild(dt);
+          list.appendChild(dd);
+        } else {
+          allAnswered = false;
+        }
+      });
+
+      var section = document.getElementById(stage.sectionId);
+      section.hidden = !hasAnyAnswer;
+
+      // Mark the stage "stamped" only once ALL 3 of its questions are answered
+      var stampButton = document.getElementById(stage.stampId);
+      if (allAnswered) {
+        stampButton.classList.add("stamped");
+      } else {
+        stampButton.classList.remove("stamped");
+      }
+
+      // Show/hide the "blank page" message
+      var blankMsg = document.getElementById("blankPageMsg");
+      var anySectionVisible =
+        !document.getElementById("entry-basics").hidden ||
+        !document.getElementById("entry-interests").hidden ||
+        !document.getElementById("entry-commitments").hidden;
+      blankMsg.hidden = anySectionVisible;
+
+      // If a name has been given, show it on the passport cover
+      if (passport.basics.name !== null) {
+        document.getElementById("holderLine").textContent = "Traveller: " + passport.basics.name;
+      }
+    }
+
+    // -------------------------------------------------------------------
+    // 5. updateJourneyMeter(): counts how many of the 9 questions are
+    //    answered and updates the progress bar, label, and message.
+    // -------------------------------------------------------------------
+    function updateJourneyMeter() {
+      var completed = 0;
+
+      stageDefs.forEach(function (stage) {
+        stage.prompts.forEach(function (item) {
+          if (passport[stage.key][item.field] !== null) {
+            completed = completed + 1;
+          }
+        });
+      });
+
+      var percent = Math.round((completed / TOTAL_PROMPTS) * 100);
+
+      document.getElementById("journeyFill").style.width = percent + "%";
+      document.getElementById("journeyLabel").textContent =
+        completed + " of " + TOTAL_PROMPTS + " stamps collected — " + percent + "% of the way there";
+
+      document.getElementById("logLine").textContent =
+        "Saved. You may continue or revisit any stage.";
+
+      var confirmationBox = document.getElementById("fullyStampedBox");
+      confirmationBox.hidden = percent < 100;
+    }
+
+    // -------------------------------------------------------------------
+    // 6. resetPassport(): clears everything back to blank (Void button)
+    // -------------------------------------------------------------------
+    function resetPassport() {
+      stageDefs.forEach(function (stage) {
+        stage.prompts.forEach(function (item) {
+          passport[stage.key][item.field] = null;
+        });
+
+        document.getElementById(stage.listId).innerHTML = "";
+        document.getElementById(stage.sectionId).hidden = true;
+        document.getElementById(stage.stampId).classList.remove("stamped");
+      });
+
+      document.getElementById("blankPageMsg").hidden = false;
+      document.getElementById("holderLine").textContent = "No traveller details yet.";
+      document.getElementById("logLine").textContent = "Passport has been reset.";
+      document.getElementById("fullyStampedBox").hidden = true;
+
+      updateJourneyMeter();
+    }
+
+    // -------------------------------------------------------------------
+    // 7. EVENT LISTENERS — connect the buttons to the functions above
+    // -------------------------------------------------------------------
+    document.getElementById("stampBtn").addEventListener("click", function () {
+      stageDefs.forEach(function (stage) {
+        runStage(stage);
+      });
+    });
+
+    document.getElementById("voidBtn").addEventListener("click", resetPassport);
+
+    document.getElementById("reopenBasics").addEventListener("click", function () {
+      runStage(stageDefs[0]);
+    });
+    document.getElementById("reopenInterests").addEventListener("click", function () {
+      runStage(stageDefs[1]);
+    });
+    document.getElementById("reopenCommitments").addEventListener("click", function () {
+      runStage(stageDefs[2]);
+    });
+  </script>
 
 </body>
+
 </html>
+
+
