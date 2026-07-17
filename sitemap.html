@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap | Ocean Watch — SDG 14</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ====================================================================
+       Sitemap Page — page-specific embedded CSS
+       Scope: only used on sitemap.html. Uses the SAME design tokens as
+       the Global CSS (--teal, --primary, --coral, --radius, --ease) so
+       nothing here can conflict with or override the global rules.
+       ==================================================================== */
+
+    /* Wrapper just controls spacing/width — the SVG scales itself */
+    .sitemap-wrap {
+      margin-top: 24px;
+    }
+
+    #siteSvg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Connector lines between nodes */
+    .branch-line {
+      stroke: rgba(255, 255, 255, 0.35);
+      stroke-width: 2;
+    }
+
+    /* Every node (Home + all pages) shares this base look */
+    .node rect {
+      fill: rgba(4, 25, 46, 0.6);
+      stroke: var(--teal);
+      stroke-width: 1.5;
+      transition: fill var(--ease), stroke var(--ease);
+    }
+
+    .node text {
+      fill: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+      /* clicks pass through to the <a>, not the text */
+    }
+
+    /* Home node stands out as the root of the tree */
+    .node.home rect {
+      fill: var(--primary);
+      stroke: var(--primary);
+    }
+
+    /* Hover feedback — required by the spec */
+    .node:hover rect,
+    .node:focus rect {
+      fill: var(--teal);
+    }
+
+    .node:hover text,
+    .node:focus text {
+      fill: var(--bg-deep);
+    }
+
+    /* Visible focus state for keyboard users tabbing through the links */
+    a:focus-visible .node rect {
+      outline: 3px solid var(--coral);
+      outline-offset: 2px;
+    }
+
+    /* Marks the current page (Sitemap itself) so it's easy to spot */
+    .node.current rect {
+      stroke: var(--coral);
+      stroke-width: 2.5;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header: sticky, DO NOT MODIFY -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="home.html" class="site-logo" aria-label="Ocean Watch Home">
+          <div class="logo-mark" aria-hidden="true">🌊</div>
+          <span class="logo-name">Ocean Watch</span>
+          <span class="logo-sub">SDG 14 · Life Below Water</span>
+        </a>
+
+        <nav aria-label="Main site navigation">
+          <a href="home.html">Home</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="ais.html">Simulator</a>
+          <a href="profile.html">Profile</a>
+          <a href="feedback.html">Feedback</a>
+          <a href="team.html">Team</a>
+          <a href="sitemap.html" class="active" aria-current="page">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ==================== PAGE CONTENT START ==================== -->
+    <section class="container">
+      <span class="section-label">Sitemap · Student 4</span>
+      <h1 class="section-title">Find Your Way Around</h1>
+      <p class="text-muted mb-2">
+        Every page on Ocean Watch, mapped out below. Click a node to jump straight
+        to that page, or tab through them with your keyboard.
+      </p>
+
+      <div class="sitemap-wrap">
+        <svg id="siteSvg" viewBox="0 0 1100 190" role="img" aria-labelledby="svgTitle"
+          preserveAspectRatio="xMidYMid meet">
+          <title id="svgTitle">Ocean Watch website structure diagram</title>
+
+          <!-- ============ CONNECTOR LINES (drawn first, so nodes sit on top) ============ -->
+          <g class="branch-line">
+            <!-- trunk: Home down to the horizontal bus -->
+            <line x1="550" y1="69" x2="550" y2="95" />
+            <!-- horizontal bus, spanning the row of child nodes -->
+            <line x1="55" y1="95" x2="1045" y2="95" />
+            <!-- one drop line per child node, bus down to its top edge -->
+            <line x1="55" y1="95" x2="55" y2="110" />
+            <line x1="165" y1="95" x2="165" y2="110" />
+            <line x1="275" y1="95" x2="275" y2="110" />
+            <line x1="385" y1="95" x2="385" y2="110" />
+            <line x1="495" y1="95" x2="495" y2="110" />
+            <line x1="605" y1="95" x2="605" y2="110" />
+            <line x1="715" y1="95" x2="715" y2="110" />
+            <line x1="825" y1="95" x2="825" y2="110" />
+            <line x1="935" y1="95" x2="935" y2="110" />
+            <line x1="1045" y1="95" x2="1045" y2="110" />
+          </g>
+
+          <!-- ============ HOME NODE (root) ============ -->
+          <a href="home.html" tabindex="0">
+            <title>Go to Home Page</title>
+            <g class="node home">
+              <rect x="470" y="15" width="160" height="54" rx="27" />
+              <text x="550" y="42">Home</text>
+            </g>
+          </a>
+
+          <!-- ============ CHILD NODES (one row, all linked to Home) ============ -->
+          <a href="content_ST1.html" tabindex="0">
+            <title>Go to Content Page — Student 1</title>
+            <g class="node">
+              <rect x="8" y="110" width="95" height="48" rx="24" />
+              <text x="55" y="134">Content 1</text>
+            </g>
+          </a>
+
+          <a href="content_ST2.html" tabindex="0">
+            <title>Go to Content Page — Student 2</title>
+            <g class="node">
+              <rect x="118" y="110" width="95" height="48" rx="24" />
+              <text x="165" y="134">Content 2</text>
+            </g>
+          </a>
+
+          <a href="content_ST3.html" tabindex="0">
+            <title>Go to Content Page — Student 3</title>
+            <g class="node">
+              <rect x="228" y="110" width="95" height="48" rx="24" />
+              <text x="275" y="134">Content 3</text>
+            </g>
+          </a>
+
+          <a href="content_ST4.html" tabindex="0">
+            <title>Go to Content Page — Student 4</title>
+            <g class="node">
+              <rect x="338" y="110" width="95" height="48" rx="24" />
+              <text x="385" y="134">Content 4</text>
+            </g>
+          </a>
+
+          <a href="gallery.html" tabindex="0">
+            <title>Go to Gallery Page</title>
+            <g class="node">
+              <rect x="448" y="110" width="95" height="48" rx="24" />
+              <text x="495" y="134">Gallery</text>
+            </g>
+          </a>
+
+          <a href="ais.html" tabindex="0">
+            <title>Go to Action Impact Simulator</title>
+            <g class="node">
+              <rect x="558" y="110" width="95" height="48" rx="24" />
+              <text x="605" y="134">Simulator</text>
+            </g>
+          </a>
+
+          <a href="feedback.html" tabindex="0">
+            <title>Go to Feedback Page</title>
+            <g class="node">
+              <rect x="668" y="110" width="95" height="48" rx="24" />
+              <text x="715" y="134">Feedback</text>
+            </g>
+          </a>
+
+          <a href="team.html" tabindex="0">
+            <title>Go to Team Page</title>
+            <g class="node">
+              <rect x="778" y="110" width="95" height="48" rx="24" />
+              <text x="825" y="134">Team</text>
+            </g>
+          </a>
+
+          <a href="profile.html" tabindex="0">
+            <title>Go to User Profile</title>
+            <g class="node">
+              <rect x="888" y="110" width="95" height="48" rx="24" />
+              <text x="935" y="134">Profile</text>
+            </g>
+          </a>
+
+          <a href="sitemap.html" tabindex="0" aria-current="page">
+            <title>Sitemap — you are here</title>
+            <g class="node current">
+              <rect x="998" y="110" width="95" height="48" rx="24" />
+              <text x="1045" y="134">Sitemap</text>
+            </g>
+          </a>
+
+        </svg>
+      </div>
+    </section>
+    <!-- ==================== PAGE CONTENT END ==================== -->
+  </main>
+
+  <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
+  <div class="footer-cliff-wrap" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
+      preserveAspectRatio="xMinYMax slice">
+      <defs>
+        <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="5" result="b1" />
+          <feGaussianBlur stdDeviation="12" result="b2" />
+          <feMerge>
+            <feMergeNode in="b2" />
+            <feMergeNode in="b1" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <g transform="translate(0, 112)">
+        <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
+        <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
+        <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
+      </g>
+      <g transform="translate(0, 150) scale(1, 0.5)">
+        <path fill="#04192E" d="
+          M 0 300 L 0 264
+          C 10 258,22 252,38 256  C 52 259,60 246,74 238
+          C 86 231,96 226,110 220 C 118 216,124 228,132 234
+          C 140 240,148 226,162 214 C 176 202,188 190,205 178
+          C 222 166,240 152,258 138 C 276 124,294 110,312 94
+          C 320 87,326 81,331 77
+          C 332 76,333 76,334 76
+          C 336 77,341 86,348 96
+          C 358 108,372 122,390 136
+          C 408 150,426 161,446 170
+          C 464 178,482 184,500 189
+          C 518 193,534 195,550 197
+          C 566 198,582 194,598 191
+          C 614 188,630 192,648 189
+          C 666 186,685 182,706 185
+          C 726 188,748 183,770 180
+          C 790 177,814 182,838 180
+          C 860 178,880 174,904 177
+          C 926 180,946 185,968 182
+          C 988 179,1010 174,1032 177
+          C 1054 180,1076 184,1098 181
+          C 1118 178,1140 173,1162 176
+          C 1182 179,1204 183,1226 180
+          C 1246 177,1270 171,1292 174
+          C 1314 177,1336 181,1358 178
+          C 1378 175,1400 170,1424 173
+          L 1440 175 L 1440 300 Z
+        " />
+      </g>
+      <g transform="translate(0, 112)">
+        <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
+        <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
+        <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
+        <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
+        <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
+        <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
+        <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
+        <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
+        <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
+        <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
+        <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
+        <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
+        <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
+        <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
+        <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
+        <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
+        <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
+        <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
+          filter="url(#beacon-glow)" />
+        <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
+        <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
+        <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
+        <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
+      </g>
+    </svg>
+  </div>
+  <!-- ======= End SVG Divider ======= -->
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Col 1 — About (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>About</h4>
+          <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable
+            Development Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
+        </div>
+
+        <!-- Col 2 — Explore (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="ais.html">Simulator</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 — This Page (UPDATE with your real name/ID) -->
+        <div class="footer-col">
+          <h4>This Page</h4>
+          <ul>
+            <li class="text-muted">Editor: [Your Full Name]</li>
+            <li class="text-muted">ID: [W########]</li>
+            <li><a href="pageEditor_ST4.html">📝 Page Editor</a></li>
+            <li><a href="validation_ST4.html">✅ Validation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 — Compliance (DO NOT MODIFY) -->
+        <div class="footer-col">
+          <h4>Compliance</h4>
+          <ul>
+            <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
+                rel="noopener noreferrer">Accessibility Guidelines</a></li>
+            <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
+                rel="noopener noreferrer">JANET Acceptable Use</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
+        <div>HTML &middot; CSS &middot; JS</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
