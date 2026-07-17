@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Editor — Gimasha Rathnayake | Ocean Watch</title>
+
+    <!--
+      This page does not need to follow the main site's shared template
+      (spec 4.11, section 11: "The Page Editor does not need to follow the
+      main website's visual design... Clarity, readability, and structure
+      are more important than visual complexity"). It loosely reuses the
+      Ocean Watch colour tokens for brand continuity, but is otherwise a
+      standalone, document-style report.
+    -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ==================================================================
+           PAGE EDITOR — standalone report styling
+           Loosely reuses the global colour tokens (--bg-*, --teal, --coral,
+           --radius) for brand continuity, but overrides the dark
+           glassmorphism layout with a plain, high-contrast reading layout
+           since this page is a written report, not a marketing page.
+           ================================================================== */
+
+        body {
+            display: block;
+            background: #0B1E33;
+        }
+
+        .editor-shell {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 40px 24px 100px;
+        }
+
+        .editor-header {
+            /* The global stylesheet makes every <header> a sticky, floating
+               nav bar (position: sticky; z-index: 100) for the site's main
+               pages. This header is just a title block for a report, so it
+               needs to opt back out of that and sit in normal page flow —
+               otherwise it overlaps the content underneath it. */
+            position: static;
+            top: auto;
+            z-index: auto;
+            animation: none;
+            padding: 0 0 24px;
+            border-bottom: 2px solid var(--teal);
+            margin-bottom: 32px;
+        }
+
+        .editor-header p.eyebrow {
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .editor-header h1 {
+            /* Global h1 is sized for a hero page title (up to 4rem); a
+               name in a report header only needs to be modestly larger
+               than body text. */
+            font-size: clamp(1.7rem, 4vw, 2.3rem);
+            margin-bottom: 6px;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .meta-row strong {
+            color: #fff;
+        }
+
+        /* In-page navigation */
+        .editor-toc {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+
+        .editor-toc h2 {
+            /* Keep the TOC heading visually distinct from section h2s —
+               smaller, body font, not the large serif display face */
+            font-size: 0.75rem;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--teal);
+            margin-bottom: 16px;
+        }
+
+        .editor-toc ol {
+            /* CSS Grid gives a proper two-column layout without the
+               heading getting caught inside the column flow */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+            padding-left: 0;
+            list-style: none;
+            font-size: 0.92rem;
+            counter-reset: toc-counter;
+        }
+
+        .editor-toc li {
+            counter-increment: toc-counter;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .editor-toc li::before {
+            content: counter(toc-counter) ".";
+            color: var(--teal);
+            font-size: 0.8rem;
+            min-width: 18px;
+            font-family: var(--font-body);
+        }
+
+        .editor-toc li a {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.88rem;
+            transition: color 0.2s;
+        }
+
+        .editor-toc li a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 560px) {
+            .editor-toc ol {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section styling */
+        .editor-section {
+            /* The global stylesheet gives every <section> 80px of padding
+               top and bottom (for the main site's spacious hero-style
+               sections). Stacked with this report's own margin-bottom
+               below, that leaves a huge gap between subsections here, so
+               this page overrides padding back to 0 and relies on
+               margin-bottom alone for spacing — same pattern as the
+               .editor-header override above opting out of the sticky nav
+               styling. */
+            padding: 0;
+            margin-bottom: 48px;
+            scroll-margin-top: 20px;
+        }
+
+        .editor-section h2 {
+            font-size: 1.6rem;
+            border-left: 4px solid var(--coral);
+            padding-left: 14px;
+            margin-bottom: 18px;
+        }
+
+        .page-block {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+        }
+
+        .page-block h3 {
+            font-size: 1.3rem;
+            color: var(--teal);
+        }
+
+        .page-block h4 {
+            font-size: 1rem;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: var(--font-body);
+        }
+
+        .page-block ul,
+        .page-block ol {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .page-block li {
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .page-block p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--teal);
+        }
+
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .link-row a {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid var(--teal);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .link-row a:hover {
+            background: var(--teal);
+            color: var(--bg-deep);
+        }
+
+        /* Placeholder styling — mirrors the grey-italic convention used to
+           flag content that still needs to be filled in with real,
+           personal detail (as opposed to finished draft text). */
+        .placeholder {
+            color: rgba(255, 255, 255, 0.45);
+            font-style: italic;
+        }
+
+        .fill-note {
+            display: inline-block;
+            background: rgba(255, 107, 83, 0.15);
+            color: var(--coral);
+            font-size: 0.75rem;
+            font-style: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.88rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--teal);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--teal);
+            color: var(--bg-deep);
+            padding: 10px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-to-top:hover {
+            background: #fff;
+            color: var(--bg-deep);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="editor-shell">
+
+        <header class="editor-header">
+            <p class="eyebrow">Ocean Watch · SDG 14: Life Below Water · Page Editor</p>
+            <h1>Gimasha Rathnayake</h1>
+            <div class="meta-row">
+                <span><strong>Student ID:</strong> W2212823</span>
+                <span><strong>Role:</strong> Student 2 — Splash Screen &amp; SDG Action Impact Simulator</span>
+                <span><strong>Team:</strong> SOS</span>
+            </div>
+        </header>
+
+        <nav class="editor-toc" aria-label="Page editor contents">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#overview">Overview &amp; Completed Pages</a></li>
+                <li><a href="#splash">Splash Screen</a></li>
+                <li><a href="#ais">Action Impact Simulator</a></li>
+                <li><a href="#content-page">Content Page</a></li>
+                <li><a href="#challenges">Challenges &amp; Lessons Learned</a></li>
+                <li><a href="#accessibility">Accessibility Considerations</a></li>
+                <li><a href="#compliance">JANET Compliance</a></li>
+                <li><a href="#meetings">Group Meetings &amp; Contribution Log</a></li>
+                <li><a href="#references">References</a></li>
+            </ol>
+        </nav>
+
+        <!-- ===================== OVERVIEW ===================== -->
+        <section class="editor-section" id="overview">
+            <h2>1. Overview &amp; Completed Pages</h2>
+            <div class="page-block">
+                <p>As Student 2 on the Ocean Watch project (SDG 14 — Life Below Water), I was responsible
+                    for the site's first-impression scene and its main interactive feature:</p>
+                <ul>
+                    <li><strong>Splash Screen</strong> — <code>index.html</code></li>
+                    <li><strong>SDG Action Impact Simulator (AIS)</strong> — <code>ais.html</code></li>
+                    <li><strong>Content Page</strong> — <code>content_ST2.html</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== SPLASH SCREEN ===================== -->
+        <section class="editor-section" id="splash">
+            <h2>2. Splash Screen</h2>
+            <div class="page-block">
+                <h3>index.html</h3>
+                <p>The Splash Screen is the site's entry scene. Per spec 4.4 it is exempt from the shared
+                    header/nav/footer template, so it has its own single, full-screen layout rather than
+                    reusing the site's flex-column body structure.</p>
+
+                <h4>HTML Structure</h4>
+                <ul>
+                    <li><code>&lt;meta http-equiv="refresh" content="4;url=home.html"&gt;</code> implements
+                        the required automatic redirect to the Home Page after four seconds.</li>
+                    <li><code>&lt;main class="splash-screen"&gt;</code> holds the whole scene as a single
+                        semantic landmark.</li>
+                    <li>Decorative sonar rings (<code>.splash-sonar</code>) and the tide-gauge loader are
+                        marked <code>aria-hidden="true"</code>, since they carry no information of their
+                        own.</li>
+                    <li>Content is grouped in <code>.splash-content</code>: an eyebrow label, an
+                        <code>&lt;h1&gt;</code> title, a tagline, a short mission statement, an
+                        unordered list of the four team members, a live countdown paragraph, and a Skip
+                        Intro button.</li>
+                    <li>The countdown paragraph uses <code>aria-live="polite"</code> so its updates are
+                        announced to assistive technology as they change.</li>
+                </ul>
+
+                <h4>CSS Techniques</h4>
+                <ul>
+                    <li>Links the shared <code>style.css</code> for colour and typography tokens (so the
+                        splash screen still feels visually continuous with the rest of the site), then adds
+                        a page-specific <code>&lt;style&gt;</code> block scoped only to splash-screen
+                        classes.</li>
+                    <li>The background is a <code>radial-gradient</code> built from
+                        <code>--bg-ocean</code>/<code>--bg-deep</code> rather than an external photo, so no
+                        licensed image is required and the palette stays perfectly in sync with the rest of
+                        the site.</li>
+                    <li>Three concentric "sonar ping" rings are animated with a single
+                        <code>@keyframes sonarPing</code> rule, staggered using
+                        <code>animation-delay</code> on each ring for a continuous pulse effect.</li>
+                    <li><code>clamp()</code> is used on the title (<code>.splash-title</code>) for fluid,
+                        responsive sizing without extra media queries.</li>
+                    <li>The waterline loader (<code>.splash-waterline-fill</code>) is a CSS-only animation
+                        (<code>@keyframes tideRise</code>, 3.8s) that fills left-to-right, timed to finish
+                        just as the 4-second meta-refresh fires — satisfying the "CSS loader animation" and
+                        "not a GIF/video" requirements at once.</li>
+                    <li>Content elements fade/slide in on a staggered sequence via a shared
+                        <code>.fade-in</code> class combined with inline <code>animation-delay</code>
+                        values, so the eyebrow, title, tagline, mission text, team list and countdown appear
+                        in order rather than all at once.</li>
+                    <li>A <code>@media (prefers-reduced-motion: reduce)</code> block disables the ping,
+                        waterline and fade-in animations and jumps straight to their end states, for users
+                        who have that OS-level preference set.</li>
+                </ul>
+
+                <h4>Design &amp; Implementation Rationale</h4>
+                <ul>
+                    <li>The splash screen is exempt from the shared template, but still imports
+                        <code>style.css</code> purely for its colour/typography variables — this keeps the
+                        transition into the Home Page seamless without duplicating design decisions in two
+                        places.</li>
+                    <li>The sonar-ping motif was chosen deliberately to echo the diving/depth theme used
+                        later on the AIS page (the dive gauge), so the two pages I built feel like part of
+                        one coherent idea rather than two unrelated pieces.</li>
+                    <li>The waterline bar doubles as both the required loading indicator and a thematic
+                        device — a rising tide — reinforcing the SDG 14 message instead of using a generic
+                        spinner.</li>
+                    <li>A JavaScript-driven countdown and Skip button (in <code>splash.js</code>) were added
+                        alongside the meta-refresh so users have control over the transition rather than
+                        being forced to wait, satisfying the functionality requirement while keeping the
+                        HTML meta-refresh as the guaranteed fallback redirect.</li>
+                </ul>
+
+                <div class="link-row">
+                    <a href="index.html" target="_blank" rel="noopener noreferrer">View live page</a>
+                    <a href="#splash-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== AIS ===================== -->
+        <section class="editor-section" id="ais">
+            <h2>3. SDG Action Impact Simulator (AIS)</h2>
+            <div class="page-block">
+                <h3>ais.html</h3>
+                <p>The AIS is the site's main interactive feature: users flip switches for six ocean-friendly
+                    actions and watch a "dive gauge" descend through three depth zones as their impact score
+                    rises. Concept: a diver's control console, deliberately different from the example given
+                    in the brief (Figure 5) while still meeting every functional requirement.</p>
+
+                <h4>HTML Structure</h4>
+                <ul>
+                    <li>Uses the shared template unmodified — <code>&lt;header&gt;</code> with nav bar,
+                        <code>&lt;main id="main-content"&gt;</code>, and the standard
+                        <code>&lt;footer&gt;</code> — with only the active-page nav class changed for this
+                        page.</li>
+                    <li>A skip link (<code>.skip-link</code>) is the first focusable element, letting
+                        keyboard users bypass the header.</li>
+                    <li><code>.console-layout</code> is a two-part grid: <code>&lt;section
+                        class="control-panel"&gt;</code> containing six <code>&lt;article
+                        class="action-row" role="switch" aria-checked&gt;</code> action cards (each with an
+                        inline SVG icon carrying a <code>&lt;title&gt;</code>, a heading, description,
+                        points tag and toggle lever), and <code>&lt;aside class="gauge-panel"
+                        aria-live="polite"&gt;</code> containing the SVG dive-gauge instrument and feedback
+                        text.</li>
+                    <li>Three hand-coded inline background SVGs (<code>#bg-low</code>,
+                        <code>#bg-medium</code>, <code>#bg-high</code>) sit in a fixed
+                        <code>#depth-bg</code> layer behind everything; JavaScript toggles which one is
+                        visible.</li>
+                </ul>
+
+                <h4>CSS Techniques</h4>
+                <ul>
+                    <li>Embedded <code>&lt;style&gt;</code> block scoped to this page only, reusing the
+                        global design tokens (<code>--bg-*</code>, <code>--primary</code>,
+                        <code>--teal</code>, <code>--coral</code>, <code>--radius</code>,
+                        <code>--ease</code>) rather than introducing new colours — satisfies the "must not
+                        override or conflict with the Global CSS" requirement.</li>
+                    <li>CSS Grid (<code>.console-layout</code>) creates the two-column control/gauge layout,
+                        collapsing to a single column under 820px with the gauge panel reordered above the
+                        switches (<code>order: -1</code>) for mobile.</li>
+                    <li>Control and gauge panels reuse the site's glassmorphism language
+                        (<code>backdrop-filter: blur() saturate()</code>) already established in the nav
+                        bar, for visual consistency.</li>
+                    <li>Each action's toggle is a custom "lever" built from a pseudo-element thumb, animated
+                        with <code>transform: translateX()</code> on the <code>.selected</code> state,
+                        giving full visual control instead of relying on a native checkbox appearance.</li>
+                    <li>Background depth-zone SVGs cross-fade via an <code>opacity</code> transition and a
+                        <code>.zone-visible</code> class, layered at <code>z-index: -1</code> behind all
+                        content.</li>
+                </ul>
+
+                <h4>JavaScript</h4>
+                <ul>
+                    <li>A single vanilla-JS IIFE, no external dependencies.</li>
+                    <li>Each action row carries a <code>data-points</code> attribute; the total score is the
+                        sum of points on all <code>.selected</code> rows.</li>
+                    <li><code>getLevel()</code> maps the total against two documented thresholds
+                        (medium ≥ 7, high ≥ 14, out of a possible 20) into three named impact levels — low
+                        (Sunlit Zone), medium (Twilight Zone), high (Reef Depths).</li>
+                    <li><code>updateGauge()</code> recalculates the SVG gauge fill height and marker
+                        position proportionally to the score, swaps the visible background SVG, updates the
+                        feedback message and zone legend, and updates an <code>.sr-only</code> live region
+                        so screen-reader users get the same "current depth zone" information as sighted
+                        users.</li>
+                    <li>Click and <code>keydown</code> (Enter/Space) listeners are both attached to every
+                        action row, so the custom switch is fully operable by mouse, touch and keyboard —
+                        not just CSS <code>:hover</code>/<code>:checked</code> tricks, per the coursework's
+                        explicit warning against CSS-only interactivity.</li>
+                </ul>
+
+                <h4>Design &amp; Implementation Rationale</h4>
+                <ul>
+                    <li>The "diver's control console" concept was chosen specifically to avoid replicating
+                        the card-grid example in Figure 5 of the brief, while still covering every listed
+                        requirement (6+ action cards, JS-driven selection, score calculation, three impact
+                        levels, JS-controlled background changes).</li>
+                    <li>Toggle levers and a depth-gauge instrument reinforce the ocean/diving theme rather
+                        than generic checkboxes and a plain progress bar, tying this page visually to the
+                        splash screen's sonar motif.</li>
+                    <li>Background scenes are hand-coded inline SVG rather than photographs, so they load
+                        instantly, need no external licensing or referencing, and can be recoloured using
+                        the same design tokens as the rest of the site.</li>
+                    <li>Impact-point thresholds are defined as named constants and explained in a code
+                        comment block, per the coursework's requirement that thresholds be "clearly stated
+                        in the code/comments."</li>
+                </ul>
+
+                <div class="link-row">
+                    <a href="ais.html" target="_blank" rel="noopener noreferrer">View live page</a>
+                    <a href="#ais-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CONTENT PAGE ===================== -->
+        <section class="editor-section" id="content-page">
+            <h2>4. Content Page</h2>
+            <div class="page-block">
+                <h3>content_ST2.html</h3>
+                <p>The Content Page is the site's in-depth explainer on marine plastic pollution, moving
+                    from where ocean plastic actually comes from through to concrete actions a student or
+                    local community can take. Concept: an illustrated, jump-navigable "long read" that
+                    hands off directly into the Action Impact Simulator, rather than a static wall of text
+                    with nowhere to go next.</p>
+
+                <h4>HTML Structure</h4>
+                <ul>
+                    <li>Uses the shared template unmodified — <code>&lt;header&gt;</code> with nav bar,
+                        <code>&lt;main id="main-content"&gt;</code>, and the standard
+                        <code>&lt;footer&gt;</code> — with only the active-page nav class changed for this
+                        page.</li>
+                    <li>A skip link (<code>.skip-link</code>) is the first focusable element, letting
+                        keyboard users bypass the header.</li>
+                    <li><code>.content-hero</code> opens the page with the <code>&lt;h1&gt;</code>, an
+                        intro paragraph linking through to <code>ais.html</code>, and a
+                        <code>.content-jumpnav</code> that lets readers jump straight to any of the five
+                        sections below instead of scrolling past all of them.</li>
+                    <li>Five <code>.content-section</code> landmarks (<code>#sources</code>,
+                        <code>#impact</code>, <code>#microplastics</code>, <code>#action</code>,
+                        <code>#local-action</code>) carry <code>scroll-margin-top</code> so jump-nav and
+                        back-to-top links land cleanly below the sticky header rather than underneath it.</li>
+                    <li><code>.content-flex</code> pairs a <code>.content-text</code> block with a
+                        <code>.content-figure</code> hand-coded inline SVG, alternating which side the
+                        figure sits on across sections for visual variety.</li>
+                    <li>A <code>.content-callout</code> mid-page links directly to <code>ais.html</code>,
+                        and <code>#local-action</code> closes with a <code>.cards-grid</code> of three
+                        <code>.card</code> elements (On Campus / Local Area / Looking Ahead).</li>
+                    <li>Every illustrative SVG is <code>role="img"</code> with paired
+                        <code>&lt;title&gt;</code>/<code>&lt;desc&gt;</code> elements so it has a proper
+                        accessible name and description, rather than being announced as blank content.</li>
+                </ul>
+
+                <h4>CSS Techniques</h4>
+                <ul>
+                    <li>Embedded <code>&lt;style&gt;</code> block scoped entirely to
+                        <code>.content-*</code> classes, reusing the global design tokens
+                        (<code>--teal</code>, <code>--coral</code>, <code>--radius</code>,
+                        <code>--bg-deep</code>) rather than touching shared selectors like
+                        <code>.container</code> or <code>nav</code> — satisfies the "must not override or
+                        conflict with the Global CSS" requirement.</li>
+                    <li><code>.content-flex</code> is a wrapping flexbox (<code>flex-wrap: wrap</code>,
+                        <code>gap</code>) so each text/figure pair collapses to a single column on narrow
+                        screens without a dedicated media query.</li>
+                    <li><code>.content-jumpnav</code> pill links reuse the teal/coral token palette and
+                        invert colour on <code>:hover</code>, giving a clear, low-effort affordance for the
+                        in-page navigation.</li>
+                    <li><code>scroll-margin-top</code> on <code>.content-section</code> stops the sticky
+                        header from covering the top of a section whenever a jump-nav or back-to-top link
+                        is followed.</li>
+                    <li><code>.back-to-top</code> is a fixed-position circular button with a hover lift
+                        (<code>transform: translateY()</code>), matching the interaction language already
+                        used for buttons elsewhere on the site.</li>
+                </ul>
+
+                <h4>Design &amp; Implementation Rationale</h4>
+                <ul>
+                    <li>Five inline SVG illustrations (land-based outfall into a river, a turtle near
+                        floating plastic, microplastic fragments, a hand recycling a bottle) were
+                        hand-coded rather than sourced as photographs, so nothing needed external licensing
+                        and every illustration could be recoloured with the same tokens used on the Splash
+                        Screen and AIS.</li>
+                    <li>The jump-nav and section anchors were added specifically so this longer,
+                        text-heavier page doesn't read as an unrelated wall of text — a visitor can skip
+                        straight to the part they care about, or read start to finish into the callout that
+                        hands off to the Simulator.</li>
+                    <li>The mid-page callout and closing cards-grid exist to turn a purely informational
+                        page into an actionable one, tying <code>content_ST2.html</code> directly into
+                        <code>ais.html</code> instead of leaving it as a dead end.</li>
+                </ul>
+
+                <div class="link-row">
+                    <a href="content_ST2.html" target="_blank" rel="noopener noreferrer">View live page</a>
+                    <a href="#content-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CHALLENGES ===================== -->
+        <section class="editor-section" id="challenges">
+            <h2>5. Challenges &amp; Lessons Learned</h2>
+            <div class="page-block">
+                <p class="placeholder"><span class="fill-note">Draft — personalise</span>These are drafted
+                    from what the code shows was genuinely non-trivial. Edit them into your own words and
+                    add anything else you actually struggled with.</p>
+                <ul>
+                    <li>Converting the impact score into an SVG coordinate space for the dive gauge (using
+                        fixed <code>GAUGE_TOP</code>/<code>GAUGE_BOTTOM</code> values rather than a simple
+                        percentage) took some trial and error to get the fill and marker to move smoothly
+                        and proportionally.</li>
+                    <li>Making the custom action switches fully keyboard-accessible meant remembering to add
+                        explicit <code>keydown</code> handling for Enter/Space — a native
+                        <code>&lt;input type="checkbox"&gt;</code> would have gotten this for free, but a
+                        custom <code>role="switch"</code> element does not.</li>
+                    <li>Coordinating the splash screen's automatic meta-refresh with the JS-driven Skip
+                        button required checking that clicking Skip actually gets the user to
+                        <code>home.html</code> without a stray redirect still pending underneath.</li>
+                    <li>Keeping page-specific embedded CSS from clashing with the Global CSS meant scoping
+                        every new rule tightly to page-specific classes/IDs (e.g. <code>#depth-bg</code>,
+                        <code>.console-layout</code>) instead of touching shared selectors like
+                        <code>.container</code> or <code>nav</code> directly.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== ACCESSIBILITY ===================== -->
+        <section class="editor-section" id="accessibility">
+            <h2>6. Accessibility Considerations</h2>
+            <div class="page-block">
+                <ul>
+                    <li>A skip link on the AIS page ("Skip to main content") lets keyboard and
+                        screen-reader users bypass the repeated header/nav on every visit.</li>
+                    <li>Purely decorative graphics — sonar rings, the depth-zone background scenes — are
+                        marked <code>aria-hidden="true"</code> so they are not announced; meaningful icons
+                        (e.g. the action-card SVGs) instead carry a descriptive <code>&lt;title&gt;</code>
+                        element as their accessible name.</li>
+                    <li>The AIS action switches use <code>role="switch"</code> with
+                        <code>aria-checked</code>, are keyboard-focusable (<code>tabindex="0"</code>), and
+                        show a visible <code>:focus-visible</code> outline, in addition to working with
+                        mouse and touch.</li>
+                    <li>Both the gauge feedback panel (<code>aria-live="polite"</code>) and the splash
+                        screen countdown use ARIA live regions so their dynamic updates reach
+                        screen-reader users; the AIS additionally has a dedicated <code>.sr-only</code> text
+                        node that states the current depth zone in words.</li>
+                    <li>A <code>prefers-reduced-motion</code> media query on the splash screen removes or
+                        shortens the ping, waterline and fade-in animations for users who have that
+                        OS-level preference enabled.</li>
+                    <li>All meaningful images and icons carry descriptive alt text or an SVG
+                        <code>&lt;title&gt;</code>, per the coursework's alt-text requirement.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== COMPLIANCE ===================== -->
+        <section class="editor-section" id="compliance">
+            <h2>7. Compliance with JANET Regulations</h2>
+            <div class="page-block">
+                <ul>
+                    <li>All page content, copy and code on the Splash Screen and AIS pages is original work
+                        written for this coursework; no text is copied from the UN SDG website or elsewhere.</li>
+                    <li>No unlicensed copyrighted material is published — background scenes and icons are
+                        hand-coded SVG rather than sourced images, so no external licensing was needed for
+                        these two pages.</li>
+                    <li>The site contains no illegal, defamatory, offensive or misleading material and is
+                        used strictly for the educational purpose of this coursework, in line with JANET's
+                        acceptable-use policy.</li>
+                    <li>The footer on every page links directly to the W3C accessibility guidelines and the
+                        JISC/JANET Acceptable Use Policy, making the site's compliance posture visible to
+                        any visitor.</li>
+                    <li>Neither the Splash Screen nor the AIS collects, stores or transmits any personal
+                        data about real third parties — the AIS state exists only in the browser session and
+                        is never sent to a server.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== MEETINGS ===================== -->
+        <section class="editor-section" id="meetings">
+            <h2>8. Group Meetings &amp; Individual Contribution Log</h2>
+            <div class="page-block">
+                <p class="placeholder"><span class="fill-note">Fill in</span>A minimum of six meetings must
+                    be recorded. Meetings 1–4 are filled in below; add meetings 5 and 6 once they've
+                    happened, in your own words, focused on your individual contribution — not just what
+                    the group did.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date &amp; Time</th>
+                            <th>Format</th>
+                            <th>Objective</th>
+                            <th>Attended</th>
+                            <th>Your Individual Contribution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>6 Jun 2026 (Sat), 9:40 – 11:42 PM</td>
+                            <td>Online</td>
+                            <td>Agree team roles, review the coursework brief, and select our SDG</td>
+                            <td>Yes</td>
+                            <td>Took part in discussing the coursework brief and helped the team agree on
+                                SDG 14 as our topic.</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>1 Feb 2026, 10:00 PM – 12:45 AM</td>
+                            <td>Online</td>
+                            <td>Set up GitHub accounts, shared repository and VS Code integration</td>
+                            <td>Yes</td>
+                            <td>Created my GitHub account, linked it to the shared repository and connected
+                                VS Code for collaboration; took on setting up and managing the GitHub
+                                repository together with Thisara.</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>2 Feb 2026, 8:30 – 11:00 PM</td>
+                            <td>Online</td>
+                            <td>Review the specification, sketch the website, and set up a shared dev
+                                workspace</td>
+                            <td>Yes</td>
+                            <td>Worked with Thisara to link VS Code to each member's GitHub account,
+                                setting up our shared development workspace; took on developing the splash
+                                screen as my task for the next meeting.</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>10 Jul 2026 (Fri), 10:00 PM – 12:00 AM</td>
+                            <td>Online</td>
+                            <td>Progress core pages: home structure, splash screen, team page and login
+                                page</td>
+                            <td>Yes</td>
+                            <td>Continued building the splash screen; took on finalising the splash screen
+                                as my task before the next meeting on 12 Jul 2026.</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                            <td class="placeholder">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================== REFERENCES ===================== -->
+        <section class="editor-section" id="references">
+            <h2>9. References</h2>
+            <div class="page-block">
+                <ul>
+                    <li>Google Fonts — <em>Cormorant Garamond</em> and <em>Jost</em> typefaces, imported via
+                        CDN in <code>style.css</code>. <a href="https://fonts.google.com/" target="_blank"
+                            rel="noopener noreferrer">fonts.google.com</a></li>
+                    <li>W3C Web Accessibility Initiative — accessibility guidelines linked in the site
+                        footer. <a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/"
+                            target="_blank" rel="noopener noreferrer">w3.org/WAI</a></li>
+                    <li>JISC — JANET Acceptable Use Policy, linked in the site footer.
+                        <a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
+                            rel="noopener noreferrer">community.jisc.ac.uk</a></li>
+                    <li class="placeholder"><span class="fill-note">Fill in</span>Add any lecture notes,
+                        tutorials or other sources you actually consulted while building the Splash Screen
+                        and AIS (e.g. the "Automatic Redirect in Links" lecture referenced in the brief for
+                        the meta-refresh technique).</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <a href="#overview" class="back-to-top">↑ Back to top</a>
+
+</body>
+
+</html>
