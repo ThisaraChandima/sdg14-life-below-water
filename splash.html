@@ -158,10 +158,20 @@
         color: rgba(255, 255, 255, 0.6);
       }
 
+      .splash-team li {
+        display: flex;
+        align-items: center;
+      }
+
       .splash-team li::before {
-        content: "🌊";
-        margin-right: 6px;
-        font-size: 0.75em;
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: var(--teal);
+        flex-shrink: 0;
       }
 
       .splash-countdown {
