@@ -1,404 +1,494 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marine Plastic Pollution | Ocean Watch — SDG 14</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
     <style>
-        .content-hero {
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 40px;
-        }
+      .content-hero {
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 40px;
+      }
 
-        .content-jumpnav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 24px 0 0;
-            padding: 14px 18px;
-            background: rgba(4, 25, 46, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius);
-        }
+      .content-jumpnav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 24px 0 0;
+        padding: 14px 18px;
+        background: rgba(4, 25, 46, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius);
+      }
 
-        .content-jumpnav a {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 6px 12px;
-            border-radius: 100px;
-            background: rgba(78, 205, 196, 0.08);
-            color: var(--teal);
-        }
+      .content-jumpnav a {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 6px 12px;
+        border-radius: 100px;
+        background: rgba(78, 205, 196, 0.08);
+        color: var(--teal);
+      }
 
-        .content-jumpnav a:hover {
-            background: var(--teal);
-            color: var(--bg-deep);
-        }
+      .content-jumpnav a:hover {
+        background: var(--teal);
+        color: var(--bg-deep);
+      }
 
-        .content-section {
-            padding-top: 50px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            scroll-margin-top: 100px;
-        }
+      .content-section {
+        padding-top: 50px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        scroll-margin-top: 100px;
+      }
 
-        .content-section:first-of-type {
-            border-top: none;
-        }
+      .content-section:first-of-type {
+        border-top: none;
+      }
 
-        .content-figure {
-            background: rgba(4, 25, 46, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: var(--radius);
-            padding: 14px;
-            margin: 24px 0;
-        }
+      .content-figure {
+        background: rgba(4, 25, 46, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius);
+        padding: 14px;
+        margin: 24px 0;
+      }
 
-        .content-figure figcaption {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 10px;
-            text-align: center;
-        }
+      .content-figure figcaption {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 10px;
+        text-align: center;
+      }
 
-        .content-flex {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 34px;
-            align-items: flex-start;
-        }
+      .content-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 34px;
+        align-items: flex-start;
+      }
 
-        .content-flex>.content-text {
-            flex: 1 1 320px;
-        }
+      .content-flex > .content-text {
+        flex: 1 1 320px;
+      }
 
-        .content-flex>.content-figure {
-            flex: 1 1 280px;
-            max-width: 340px;
-            margin: 0 auto;
-        }
+      .content-flex > .content-figure {
+        flex: 1 1 280px;
+        max-width: 340px;
+        margin: 0 auto;
+      }
 
-        .back-to-top {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 200;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--teal);
-            color: var(--bg-deep);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-            transition: transform var(--ease), background var(--ease);
-        }
+      .back-to-top {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 200;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--teal);
+        color: var(--bg-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: 700;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        transition:
+          transform var(--ease),
+          background var(--ease);
+      }
 
-        .back-to-top:hover {
-            transform: translateY(-4px);
-            background: #FFFFFF;
-            color: var(--bg-deep);
-        }
+      .back-to-top:hover {
+        transform: translateY(-4px);
+        background: #ffffff;
+        color: var(--bg-deep);
+      }
 
-        .content-callout {
-            background: rgba(255, 107, 83, 0.08);
-            border: 1px solid rgba(255, 107, 83, 0.3);
-            border-radius: var(--radius);
-            padding: 26px;
-            margin: 40px 0;
-        }
+      .content-callout {
+        background: rgba(255, 107, 83, 0.08);
+        border: 1px solid rgba(255, 107, 83, 0.3);
+        border-radius: var(--radius);
+        padding: 26px;
+        margin: 40px 0;
+      }
 
-        .content-figure img {
-            display: block;
-            width: 100%;
-            height: auto;
-            aspect-ratio: 500 / 320;
-            object-fit: cover;
-        }
+      .content-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 500 / 320;
+        object-fit: cover;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Header: sticky, DO NOT MODIFY -->
     <header>
-        <div class="container">
-            <div class="header-inner">
-                <!-- Logo linking to home -->
-                <a href="home.html" class="site-logo" aria-label="Ocean Watch Home">
-                    <div class="logo-mark" aria-hidden="true">🌊</div>
-                    <span class="logo-name">Ocean Watch</span>
-                    <span class="logo-sub">SDG 14 · Life Below Water</span>
-                </a>
+      <div class="container">
+        <div class="header-inner">
+          <!-- Logo linking to home -->
+          <a href="home.html" class="site-logo" aria-label="Ocean Watch Home">
+            <div class="logo-mark" aria-hidden="true">🌊</div>
+            <span class="logo-name">Ocean Watch</span>
+            <span class="logo-sub">SDG 14 · Life Below Water</span>
+          </a>
 
-                <!-- Main site navigation -->
-                <nav aria-label="Main site navigation">
-                    <a href="home.html">Home</a>
-                    <a href="gallery.html">Gallery</a>
-                    <a href="ais.html">Simulator</a>
-                    <a href="profile.html">Profile</a>
-                    <a href="feedback.html">Feedback</a>
-                    <a href="team.html">Team</a>
-                    <a href="sitemap.html">Sitemap</a>
-                </nav>
-            </div>
+          <!-- Main site navigation -->
+          <nav aria-label="Main site navigation">
+            <a href="home.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="ais.html">Simulator</a>
+            <a href="profile.html">Profile</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="team.html">Team</a>
+            <a href="sitemap.html">Sitemap</a>
+          </nav>
         </div>
+      </div>
     </header>
 
     <main id="main-content">
+      <section class="container content-hero">
+        <span class="section-label">Content Page · Student 2</span>
+        <h1 id="top">
+          Marine Plastic Pollution: From Awareness to Everyday Action
+        </h1>
+        <p class="text-muted">
+          Every year, huge amounts of plastic waste reach the ocean from cities,
+          rivers and coastlines. This page unpacks where that plastic actually
+          comes from, what it does to marine life once it's there, and — most
+          importantly — what realistic actions individuals, students and
+          communities can take to be part of the solution. It builds directly on
+          the choices you can explore in our
+          <a href="ais.html">Action Impact Simulator</a>.
+        </p>
 
-        <section class="container content-hero">
-            <span class="section-label">Content Page · Student 2</span>
-            <h1 id="top">Marine Plastic Pollution: From Awareness to Everyday Action</h1>
-            <p class="text-muted">
-                Every year, huge amounts of plastic waste reach the ocean from cities, rivers and
-                coastlines. This page unpacks where that plastic actually comes from, what it does
-                to marine life once it's there, and — most importantly — what realistic actions
-                individuals, students and communities can take to be part of the solution. It builds
-                directly on the choices you can explore in our
-                <a href="ais.html">Action Impact Simulator</a>.
+        <nav class="content-jumpnav" aria-label="Page sections">
+          <a href="#sources">Where It Comes From</a>
+          <a href="#impact">Impact on Ocean Life</a>
+          <a href="#microplastics">The Invisible Threat</a>
+          <a href="#action">What You Can Do</a>
+          <a href="#local-action">Student &amp; Local Action</a>
+        </nav>
+      </section>
+
+      <section id="sources" class="container content-section">
+        <div class="content-flex">
+          <div class="content-text">
+            <h2>Where Does Ocean Plastic Actually Come From?</h2>
+            <p class="mb-2">
+              It's tempting to picture ocean plastic as something that starts at
+              sea, but most of it begins its journey on land. Everyday
+              packaging, drink bottles, food wrappers and shopping bags that
+              aren't collected or recycled properly get blown, washed or dumped
+              into drains, streams and rivers. From there, it's carried
+              downstream until it reaches the coast and, eventually, the open
+              ocean.
             </p>
-
-            <nav class="content-jumpnav" aria-label="Page sections">
-                <a href="#sources">Where It Comes From</a>
-                <a href="#impact">Impact on Ocean Life</a>
-                <a href="#microplastics">The Invisible Threat</a>
-                <a href="#action">What You Can Do</a>
-                <a href="#local-action">Student &amp; Local Action</a>
-            </nav>
-        </section>
-
-        <section id="sources" class="container content-section">
-            <div class="content-flex">
-                <div class="content-text">
-                    <h2>Where Does Ocean Plastic Actually Come From?</h2>
-                    <p class="mb-2">
-                        It's tempting to picture ocean plastic as something that starts at sea, but most
-                        of it begins its journey on land. Everyday packaging, drink bottles, food wrappers
-                        and shopping bags that aren't collected or recycled properly get blown, washed or
-                        dumped into drains, streams and rivers. From there, it's carried downstream until
-                        it reaches the coast and, eventually, the open ocean.
-                    </p>
-                    <p class="mb-2">A smaller but significant share comes directly from activity at sea itself:</p>
-                    <ul class="mb-2" style="list-style: disc; padding-left: 20px;">
-                        <li>Abandoned or lost fishing nets and lines, often called "ghost gear"</li>
-                        <li>Waste discarded from cargo ships, ferries and fishing vessels</li>
-                        <li>Debris from coastal industry and poorly managed landfill sites near the shore
-                        </li>
-                    </ul>
-                    <p>
-                        The common thread across almost all of these sources is management, not the
-                        material itself — plastic that is properly collected, sorted and recycled rarely
-                        ends up in the sea. It's the gaps in that system, at home and at sea, that this
-                        page focuses on.
-                    </p>
-                </div>
-                <figure class="content-figure">
-                    <img class="content-img img-rounded" src="asset/ocean-plastic-source.jpg" alt="Plastic waste and debris flowing from a river outlet into the ocean, representing land-based sources of ocean plastic pollution.">
-                    <figcaption>Land-based waste is the largest single source of ocean plastic.</figcaption>
-                </figure>
-            </div>
-        </section>
-
-        <section id="impact" class="container content-section">
-            <div class="content-flex">
-                <figure class="content-figure">
-                    <img class="content-img img-rounded img-shadow" src="asset/turtle-plastic.jpg" alt="A sea turtle swimming through open water close to floating plastic debris, representing the risk plastic waste poses to marine animals.">
-                    <figcaption>Floating debris is easily mistaken for food by turtles, fish and seabirds.
-                    </figcaption>
-                </figure>
-                <div class="content-text">
-                    <h2>The Ripple Effect: Impact on Marine Life and People</h2>
-                    <p class="mb-2">
-                        Once plastic enters the water, it doesn't just sit still — it drifts with
-                        currents, gets tangled in reefs, washes back onto beaches, and is mistaken for
-                        food by a huge range of marine animals. Turtles can confuse floating plastic bags
-                        for jellyfish, while seabirds and fish often ingest small fragments that fill
-                        their stomachs without providing any nutrition.
-                    </p>
-                    <p class="mb-2">
-                        Larger items like discarded nets and packaging bands can physically entangle
-                        animals, restricting movement or causing injury. Beyond individual animals, this
-                        damages entire ecosystems: coral reefs get smothered, seagrass meadows are
-                        disrupted, and the balance of species that coastal communities depend on for food
-                        and income starts to shift.
-                    </p>
-                    <p>
-                        This isn't just an "ocean problem" — coastal fishing and tourism industries, which
-                        millions of people rely on for their livelihoods, are directly affected when
-                        marine environments degrade.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="microplastics" class="container content-section">
-            <div class="content-flex">
-                <div class="content-text">
-                    <h2>Microplastics: The Threat You Can't See</h2>
-                    <p class="mb-2">
-                        Over time, sunlight, waves and friction break larger plastic items down into tiny
-                        fragments known as microplastics — generally smaller than 5mm. Unlike a floating
-                        bottle, these fragments are almost invisible once they're in open water, which
-                        makes them far harder to clean up or even track.
-                    </p>
-                    <p class="mb-2">
-                        Microplastics are now found throughout the marine food chain, from plankton at the
-                        very bottom up through the fish and shellfish that end up on our plates. Because
-                        they're so small and widespread, they're also extremely difficult to remove once
-                        they're in the water column — prevention at the source matters far more here than
-                        cleanup after the fact.
-                    </p>
-                    <p>
-                        This is part of why the choices covered in the next section — reducing single-use
-                        plastic before it ever becomes waste — have a bigger long-term effect than beach
-                        cleanups alone.
-                    </p>
-                </div>
-                <figure class="content-figure">
-                    <img class="content-img img-rounded" src="asset/microplastics.jpg" alt="A magnifying glass held over sand and water reveals tiny coloured microplastic fragments that are otherwise invisible to the naked eye.">
-                    <figcaption>Microplastic fragments are often too small to see with the naked eye.
-                    </figcaption>
-                </figure>
-            </div>
-        </section>
-
-        <section id="action" class="container content-section">
-            <h2>What You Can Actually Do About It</h2>
-            <div class="content-flex">
-                <div class="content-text">
-                    <p class="mb-2">
-                        None of this means individual choices don't matter — they add up, especially when
-                        made consistently. Some of the most realistic, everyday actions include:
-                    </p>
-                    <ul class="mb-2" style="list-style: disc; padding-left: 20px;">
-                        <li>Switching to a reusable water bottle and shopping bag instead of single-use
-                            plastic</li>
-                        <li>Sorting recycling correctly so packaging actually gets processed rather than
-                            landfilled</li>
-                        <li>Choosing products with minimal or plastic-free packaging where possible</li>
-                        <li>Joining or organising a local beach or riverbank cleanup</li>
-                        <li>Choosing sustainably sourced seafood to support responsible fishing practices
-                        </li>
-                    </ul>
-                    <p>
-                        None of these require major lifestyle changes — they're small, repeatable habits
-                        that compound over time, which is exactly the idea behind the simulator below.
-                    </p>
-                </div>
-                <figure class="content-figure">
-                    <img class="content-img img-rounded img-shadow" src="asset/beach-recycling.jpg" alt="A hand placing a plastic bottle into a recycling bin on the beach, with the ocean in the background, representing everyday individual action.">
-                    <figcaption>Small, repeated actions — not one big gesture — make the biggest
-                        difference.</figcaption>
-                </figure>
-            </div>
-
-            <div class="content-callout">
-                <h3 class="mb-2" style="font-size: 1.4rem;">See Your Own Impact</h3>
-                <p class="mb-2">
-                    Curious how much these everyday actions actually add up to? Try the Action Impact
-                    Simulator to pick your own set of actions and see your personal impact score.
-                </p>
-                <a href="ais.html" class="btn btn-cta">Open the Simulator</a>
-            </div>
-        </section>
-
-        <section id="local-action" class="container content-section">
-            <h2>Turning This Into Local &amp; Student Action</h2>
-            <p class="mb-2" style="max-width: 760px;">
-                Beyond personal habits, students and local communities are in a strong position to push
-                for bigger changes nearby:
+            <p class="mb-2">
+              A smaller but significant share comes directly from activity at
+              sea itself:
             </p>
-            <div class="cards-grid mb-2">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>On Campus</h3>
-                        <ul>
-                            <li>Push for reusable cups and reduced plastic packaging in canteens</li>
-                            <li>Set up a termly student-led beach or riverbank cleanup</li>
-                            <li>Run a short awareness stand during Freshers' or an open day</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>In Your Local Area</h3>
-                        <ul>
-                            <li>Join an existing local cleanup or conservation group</li>
-                            <li>Support local shops that offer plastic-free or refill options</li>
-                            <li>Report visible pollution hotspots to your local council</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Looking Ahead</h3>
-                        <ul>
-                            <li>Consider modules, placements or careers in environmental science or
-                                policy</li>
-                            <li>Share what you learn here with friends and family — awareness spreads
-                                fastest person to person</li>
-                            <li>Keep track of the small actions you already take using the Simulator</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <p class="text-muted">
-                None of this requires waiting for a perfect, large-scale fix — the combination of small
-                personal habits and local pressure for better systems is exactly how meaningful change
-                around SDG 14 actually happens.
+            <ul class="mb-2" style="list-style: disc; padding-left: 20px">
+              <li>
+                Abandoned or lost fishing nets and lines, often called "ghost
+                gear"
+              </li>
+              <li>
+                Waste discarded from cargo ships, ferries and fishing vessels
+              </li>
+              <li>
+                Debris from coastal industry and poorly managed landfill sites
+                near the shore
+              </li>
+            </ul>
+            <p>
+              The common thread across almost all of these sources is
+              management, not the material itself — plastic that is properly
+              collected, sorted and recycled rarely ends up in the sea. It's the
+              gaps in that system, at home and at sea, that this page focuses
+              on.
             </p>
-        </section>
+          </div>
+          <figure class="content-figure">
+            <img
+              class="content-img img-rounded"
+              src="asset/ocean-plastic-source.jpg"
+              alt="Plastic waste and debris flowing from a river outlet into the ocean, representing land-based sources of ocean plastic pollution."
+            />
+            <figcaption>
+              Land-based waste is the largest single source of ocean plastic.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
-        <a href="#top" class="back-to-top" aria-label="Back to top of page">↑</a>
+      <section id="impact" class="container content-section">
+        <div class="content-flex">
+          <figure class="content-figure">
+            <img
+              class="content-img img-rounded img-shadow"
+              src="asset/turtle-plastic.jpg"
+              alt="A sea turtle swimming through open water close to floating plastic debris, representing the risk plastic waste poses to marine animals."
+            />
+            <figcaption>
+              Floating debris is easily mistaken for food by turtles, fish and
+              seabirds.
+            </figcaption>
+          </figure>
+          <div class="content-text">
+            <h2>The Ripple Effect: Impact on Marine Life and People</h2>
+            <p class="mb-2">
+              Once plastic enters the water, it doesn't just sit still — it
+              drifts with currents, gets tangled in reefs, washes back onto
+              beaches, and is mistaken for food by a huge range of marine
+              animals. Turtles can confuse floating plastic bags for jellyfish,
+              while seabirds and fish often ingest small fragments that fill
+              their stomachs without providing any nutrition.
+            </p>
+            <p class="mb-2">
+              Larger items like discarded nets and packaging bands can
+              physically entangle animals, restricting movement or causing
+              injury. Beyond individual animals, this damages entire ecosystems:
+              coral reefs get smothered, seagrass meadows are disrupted, and the
+              balance of species that coastal communities depend on for food and
+              income starts to shift.
+            </p>
+            <p>
+              This isn't just an "ocean problem" — coastal fishing and tourism
+              industries, which millions of people rely on for their
+              livelihoods, are directly affected when marine environments
+              degrade.
+            </p>
+          </div>
+        </div>
+      </section>
 
+      <section id="microplastics" class="container content-section">
+        <div class="content-flex">
+          <div class="content-text">
+            <h2>Microplastics: The Threat You Can't See</h2>
+            <p class="mb-2">
+              Over time, sunlight, waves and friction break larger plastic items
+              down into tiny fragments known as microplastics — generally
+              smaller than 5mm. Unlike a floating bottle, these fragments are
+              almost invisible once they're in open water, which makes them far
+              harder to clean up or even track.
+            </p>
+            <p class="mb-2">
+              Microplastics are now found throughout the marine food chain, from
+              plankton at the very bottom up through the fish and shellfish that
+              end up on our plates. Because they're so small and widespread,
+              they're also extremely difficult to remove once they're in the
+              water column — prevention at the source matters far more here than
+              cleanup after the fact.
+            </p>
+            <p>
+              This is part of why the choices covered in the next section —
+              reducing single-use plastic before it ever becomes waste — have a
+              bigger long-term effect than beach cleanups alone.
+            </p>
+          </div>
+          <figure class="content-figure">
+            <img
+              class="content-img img-rounded"
+              src="asset/microplastics.jpg"
+              alt="A magnifying glass held over sand and water reveals tiny coloured microplastic fragments that are otherwise invisible to the naked eye."
+            />
+            <figcaption>
+              Microplastic fragments are often too small to see with the naked
+              eye.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="action" class="container content-section">
+        <h2>What You Can Actually Do About It</h2>
+        <div class="content-flex">
+          <div class="content-text">
+            <p class="mb-2">
+              None of this means individual choices don't matter — they add up,
+              especially when made consistently. Some of the most realistic,
+              everyday actions include:
+            </p>
+            <ul class="mb-2" style="list-style: disc; padding-left: 20px">
+              <li>
+                Switching to a reusable water bottle and shopping bag instead of
+                single-use plastic
+              </li>
+              <li>
+                Sorting recycling correctly so packaging actually gets processed
+                rather than landfilled
+              </li>
+              <li>
+                Choosing products with minimal or plastic-free packaging where
+                possible
+              </li>
+              <li>Joining or organising a local beach or riverbank cleanup</li>
+              <li>
+                Choosing sustainably sourced seafood to support responsible
+                fishing practices
+              </li>
+            </ul>
+            <p>
+              None of these require major lifestyle changes — they're small,
+              repeatable habits that compound over time, which is exactly the
+              idea behind the simulator below.
+            </p>
+          </div>
+          <figure class="content-figure">
+            <img
+              class="content-img img-rounded img-shadow"
+              src="asset/beach-recycling.jpg"
+              alt="A hand placing a plastic bottle into a recycling bin on the beach, with the ocean in the background, representing everyday individual action."
+            />
+            <figcaption>
+              Small, repeated actions — not one big gesture — make the biggest
+              difference.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="content-callout">
+          <h3 class="mb-2" style="font-size: 1.4rem">See Your Own Impact</h3>
+          <p class="mb-2">
+            Curious how much these everyday actions actually add up to? Try the
+            Action Impact Simulator to pick your own set of actions and see your
+            personal impact score.
+          </p>
+          <a href="ais.html" class="btn btn-cta">Open the Simulator</a>
+        </div>
+      </section>
+
+      <section id="local-action" class="container content-section">
+        <h2>Turning This Into Local &amp; Student Action</h2>
+        <p class="mb-2" style="max-width: 760px">
+          Beyond personal habits, students and local communities are in a strong
+          position to push for bigger changes nearby:
+        </p>
+        <div class="cards-grid mb-2">
+          <div class="card">
+            <div class="card-body">
+              <h3>On Campus</h3>
+              <ul>
+                <li>
+                  Push for reusable cups and reduced plastic packaging in
+                  canteens
+                </li>
+                <li>Set up a termly student-led beach or riverbank cleanup</li>
+                <li>
+                  Run a short awareness stand during Freshers' or an open day
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h3>In Your Local Area</h3>
+              <ul>
+                <li>Join an existing local cleanup or conservation group</li>
+                <li>
+                  Support local shops that offer plastic-free or refill options
+                </li>
+                <li>Report visible pollution hotspots to your local council</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h3>Looking Ahead</h3>
+              <ul>
+                <li>
+                  Consider modules, placements or careers in environmental
+                  science or policy
+                </li>
+                <li>
+                  Share what you learn here with friends and family — awareness
+                  spreads fastest person to person
+                </li>
+                <li>
+                  Keep track of the small actions you already take using the
+                  Simulator
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="text-muted">
+          None of this requires waiting for a perfect, large-scale fix — the
+          combination of small personal habits and local pressure for better
+          systems is exactly how meaningful change around SDG 14 actually
+          happens.
+        </p>
+      </section>
+
+      <a href="#top" class="back-to-top" aria-label="Back to top of page">↑</a>
     </main>
 
     <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
     <div class="footer-cliff-wrap" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" class="footer-cliff-svg"
-            preserveAspectRatio="xMinYMax slice">
-            <defs>
-                <filter id="beacon-glow" x="-120%" y="-120%" width="340%" height="340%">
-                    <feGaussianBlur stdDeviation="5" result="b1" />
-                    <feGaussianBlur stdDeviation="12" result="b2" />
-                    <feMerge>
-                        <feMergeNode in="b2" />
-                        <feMergeNode in="b1" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-                <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
-                    <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
-                    <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
-                </radialGradient>
-                <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
-                    <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
-                </linearGradient>
-                <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
-                    <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
-                </linearGradient>
-            </defs>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 300"
+        class="footer-cliff-svg"
+        preserveAspectRatio="xMinYMax slice"
+      >
+        <defs>
+          <filter
+            id="beacon-glow"
+            x="-120%"
+            y="-120%"
+            width="340%"
+            height="340%"
+          >
+            <feGaussianBlur stdDeviation="5" result="b1" />
+            <feGaussianBlur stdDeviation="12" result="b2" />
+            <feMerge>
+              <feMergeNode in="b2" />
+              <feMergeNode in="b1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <radialGradient id="sky-glow" cx="50%" cy="80%" r="60%">
+            <stop offset="0%" stop-color="#FFE57F" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#FFE57F" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="beam-l" x1="100%" y1="50%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="beam-r" x1="0%" y1="50%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#FFF9C4" stop-opacity="0" />
+          </linearGradient>
+        </defs>
 
-            <g transform="translate(0, 112)">
-                <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
-                <polygon class="lh-beam-l" points="334,24 168,8 140,72" fill="url(#beam-l)" />
-                <polygon class="lh-beam-r" points="334,24 510,8 555,78" fill="url(#beam-r)" />
-            </g>
+        <g transform="translate(0, 112)">
+          <ellipse cx="334" cy="22" rx="160" ry="90" fill="url(#sky-glow)" />
+          <polygon
+            class="lh-beam-l"
+            points="334,24 168,8 140,72"
+            fill="url(#beam-l)"
+          />
+          <polygon
+            class="lh-beam-r"
+            points="334,24 510,8 555,78"
+            fill="url(#beam-r)"
+          />
+        </g>
 
-            <g transform="translate(0, 150) scale(1, 0.5)">
-                <path fill="#04192E" d="
+        <g transform="translate(0, 150) scale(1, 0.5)">
+          <path
+            fill="#04192E"
+            d="
           M 0 300 L 0 264
           C 10 258,22 252,38 256  C 52 259,60 246,74 238
           C 86 231,96 226,110 220 C 118 216,124 228,132 234
@@ -426,111 +516,285 @@
           C 1314 177,1336 181,1358 178
           C 1378 175,1400 170,1424 173
           L 1440 175 L 1440 300 Z
-        " />
-            </g>
+        "
+          />
+        </g>
 
-            <g transform="translate(0, 112)">
-                <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
-                <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
-                <rect x="328" y="42" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
-                <rect x="328" y="49" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
-                <rect x="328" y="56" width="12" height="3.5" rx="0.3" fill="#0F3560" opacity="0.9" />
-                <rect x="328" y="63" width="12" height="3.5" rx="0.3" fill="#0A2545" opacity="0.9" />
-                <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
-                <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
-                <line x1="321" y1="37" x2="325" y2="34" stroke="#0A2545" stroke-width="1.5" />
-                <line x1="348" y1="37" x2="344" y2="34" stroke="#0A2545" stroke-width="1.5" />
-                <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
-                <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
-                <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
-                <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
-                <line x1="327" y1="17" x2="327" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="334.5" y1="17" x2="334.5" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="342" y1="17" x2="342" y2="32" stroke="#0A2545" stroke-width="1.2" />
-                <line x1="319" y1="24.5" x2="350" y2="24.5" stroke="#0A2545" stroke-width="0.9" />
-                <rect class="lh-glass" x="320" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
-                <rect class="lh-glass" x="328" y="18" width="5.5" height="6" fill="#FFF9C4" opacity="0.90" />
-                <rect class="lh-glass" x="335" y="18" width="6.5" height="6" fill="#FFCA28" opacity="0.75" />
-                <rect class="lh-glass" x="320" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
-                <rect class="lh-glass" x="328" y="25.5" width="5.5" height="5.5" fill="#FFF9C4" opacity="0.85" />
-                <rect class="lh-glass" x="335" y="25.5" width="6.5" height="5.5" fill="#FFCA28" opacity="0.70" />
-                <rect class="lh-glow" x="319" y="17" width="31" height="15" rx="1.5" fill="#FFE57F" opacity="0.6"
-                    filter="url(#beacon-glow)" />
-                <rect x="317" y="15.5" width="35" height="2.5" rx="0.5" fill="#0A2545" />
-                <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
-                <line x1="334.5" y1="2" x2="326" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
-                <line x1="334.5" y1="2" x2="343" y2="15.5" stroke="#0C2D52" stroke-width="0.8" opacity="0.5" />
-                <line x1="334.5" y1="2" x2="334.5" y2="-4" stroke="#0A2545" stroke-width="2.2" stroke-linecap="round" />
-                <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
-            </g>
+        <g transform="translate(0, 112)">
+          <rect x="324" y="70" width="21" height="7" rx="1" fill="#0A2545" />
+          <polygon points="326,76 343,76 341,36 328,36" fill="#0C2D52" />
+          <rect
+            x="328"
+            y="42"
+            width="12"
+            height="3.5"
+            rx="0.3"
+            fill="#0F3560"
+            opacity="0.9"
+          />
+          <rect
+            x="328"
+            y="49"
+            width="12"
+            height="3.5"
+            rx="0.3"
+            fill="#0A2545"
+            opacity="0.9"
+          />
+          <rect
+            x="328"
+            y="56"
+            width="12"
+            height="3.5"
+            rx="0.3"
+            fill="#0F3560"
+            opacity="0.9"
+          />
+          <rect
+            x="328"
+            y="63"
+            width="12"
+            height="3.5"
+            rx="0.3"
+            fill="#0A2545"
+            opacity="0.9"
+          />
+          <rect x="332.5" y="67" width="4" height="6" rx="2" fill="#061830" />
+          <circle cx="334.5" cy="53" r="2.2" fill="#061830" />
+          <line
+            x1="321"
+            y1="37"
+            x2="325"
+            y2="34"
+            stroke="#0A2545"
+            stroke-width="1.5"
+          />
+          <line
+            x1="348"
+            y1="37"
+            x2="344"
+            y2="34"
+            stroke="#0A2545"
+            stroke-width="1.5"
+          />
+          <rect x="320" y="34" width="29" height="3" rx="0.5" fill="#0A2545" />
+          <rect x="322" y="28" width="1.8" height="7" fill="#0C2D52" />
+          <rect x="327" y="28" width="1.8" height="7" fill="#0C2D52" />
+          <rect x="332" y="28" width="1.8" height="7" fill="#0C2D52" />
+          <rect x="337" y="28" width="1.8" height="7" fill="#0C2D52" />
+          <rect x="342" y="28" width="1.8" height="7" fill="#0C2D52" />
+          <rect x="321" y="28" width="23" height="1.8" fill="#0A2545" />
+          <rect x="319" y="17" width="31" height="15" rx="1.5" fill="#0C2D52" />
+          <line
+            x1="327"
+            y1="17"
+            x2="327"
+            y2="32"
+            stroke="#0A2545"
+            stroke-width="1.2"
+          />
+          <line
+            x1="334.5"
+            y1="17"
+            x2="334.5"
+            y2="32"
+            stroke="#0A2545"
+            stroke-width="1.2"
+          />
+          <line
+            x1="342"
+            y1="17"
+            x2="342"
+            y2="32"
+            stroke="#0A2545"
+            stroke-width="1.2"
+          />
+          <line
+            x1="319"
+            y1="24.5"
+            x2="350"
+            y2="24.5"
+            stroke="#0A2545"
+            stroke-width="0.9"
+          />
+          <rect
+            class="lh-glass"
+            x="320"
+            y="18"
+            width="6.5"
+            height="6"
+            fill="#FFCA28"
+            opacity="0.75"
+          />
+          <rect
+            class="lh-glass"
+            x="328"
+            y="18"
+            width="5.5"
+            height="6"
+            fill="#FFF9C4"
+            opacity="0.90"
+          />
+          <rect
+            class="lh-glass"
+            x="335"
+            y="18"
+            width="6.5"
+            height="6"
+            fill="#FFCA28"
+            opacity="0.75"
+          />
+          <rect
+            class="lh-glass"
+            x="320"
+            y="25.5"
+            width="6.5"
+            height="5.5"
+            fill="#FFCA28"
+            opacity="0.70"
+          />
+          <rect
+            class="lh-glass"
+            x="328"
+            y="25.5"
+            width="5.5"
+            height="5.5"
+            fill="#FFF9C4"
+            opacity="0.85"
+          />
+          <rect
+            class="lh-glass"
+            x="335"
+            y="25.5"
+            width="6.5"
+            height="5.5"
+            fill="#FFCA28"
+            opacity="0.70"
+          />
+          <rect
+            class="lh-glow"
+            x="319"
+            y="17"
+            width="31"
+            height="15"
+            rx="1.5"
+            fill="#FFE57F"
+            opacity="0.6"
+            filter="url(#beacon-glow)"
+          />
+          <rect
+            x="317"
+            y="15.5"
+            width="35"
+            height="2.5"
+            rx="0.5"
+            fill="#0A2545"
+          />
+          <polygon points="316,15.5 353,15.5 334.5,2" fill="#0A2545" />
+          <line
+            x1="334.5"
+            y1="2"
+            x2="326"
+            y2="15.5"
+            stroke="#0C2D52"
+            stroke-width="0.8"
+            opacity="0.5"
+          />
+          <line
+            x1="334.5"
+            y1="2"
+            x2="343"
+            y2="15.5"
+            stroke="#0C2D52"
+            stroke-width="0.8"
+            opacity="0.5"
+          />
+          <line
+            x1="334.5"
+            y1="2"
+            x2="334.5"
+            y2="-4"
+            stroke="#0A2545"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          />
+          <circle cx="334.5" cy="-5" r="2.5" fill="#0A2545" />
+        </g>
 
-            <circle cx="3" cy="-0.4" r="1" fill="#061830" opacity="0.7" />
-        </svg>
+        <circle cx="3" cy="-0.4" r="1" fill="#061830" opacity="0.7" />
+      </svg>
     </div>
     <!-- ======= End SVG Divider ======= -->
 
     <footer>
-        <div class="container">
-            <div class="footer-grid">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Col 1 — About (DO NOT MODIFY) -->
+          <div class="footer-col">
+            <h4>About</h4>
+            <p class="text-muted">
+              Ocean Watch is a university project by Team SOS dedicated to UN
+              Sustainable Development Goal 14: Life Below Water, advocating for
+              the conservation of our oceans.
+            </p>
+          </div>
 
-                <!-- Col 1 — About (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>About</h4>
-                    <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable
-                        Development Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
-                </div>
+          <!-- Col 2 — Explore (DO NOT MODIFY) -->
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="home.html">Home</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="ais.html">Simulator</a></li>
+              <li><a href="profile.html">Profile</a></li>
+              <li><a href="feedback.html">Feedback</a></li>
+              <li><a href="team.html">Team</a></li>
+              <li><a href="sitemap.html">Sitemap</a></li>
+            </ul>
+          </div>
 
-                <!-- Col 2 — Explore (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="ais.html">Simulator</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="feedback.html">Feedback</a></li>
-                        <li><a href="team.html">Team</a></li>
-                        <li><a href="sitemap.html">Sitemap</a></li>
-                    </ul>
-                </div>
+          <!-- Col 3 — This Page (EACH STUDENT UPDATES THIS) -->
+          <div class="footer-col">
+            <h4>This Page</h4>
+            <ul>
+              <li class="text-muted">Gimasha Rathnayake</li>
+              <li class="text-muted">W2212823</li>
+              <li><a href="pageEditor_ST2.html">Page Editor</a></li>
+              <li><a href="validation_ST2.html">Validation</a></li>
+            </ul>
+          </div>
 
-                <!-- Col 3 — This Page (EACH STUDENT UPDATES THIS) -->
-                <div class="footer-col">
-                    <h4>This Page</h4>
-                    <ul>
-                        <li class="text-muted">Gimasha Rathnayake</li>
-                        <li class="text-muted">W2212823</li>
-                        <li><a href="pageEditor_ST2.html">Page Editor</a></li>
-                        <li><a href="validation_ST2.html">Validation</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 4 — Compliance (DO NOT MODIFY) -->
-                <div class="footer-col">
-                    <h4>Compliance</h4>
-                    <ul>
-                        <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
-                                rel="noopener noreferrer">Accessibility Guidelines</a></li>
-                        <li><a href="https://community.jisc.ac.uk/library/acceptable-use-policy" target="_blank"
-                                rel="noopener noreferrer">JANET Acceptable Use</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <hr class="footer-divider">
-
-            <div class="footer-bottom">
-                <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
-                <div>HTML &middot; CSS &middot; JS</div>
-            </div>
+          <!-- Col 4 — Compliance (DO NOT MODIFY) -->
+          <div class="footer-col">
+            <h4>Compliance</h4>
+            <ul>
+              <li>
+                <a
+                  href="https://www.w3.org/WAI/fundamentals/accessibility-intro/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Accessibility Guidelines</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://community.jisc.ac.uk/library/acceptable-use-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >JANET Acceptable Use</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <hr class="footer-divider" />
+
+        <div class="footer-bottom">
+          <div>&copy; 2026 Ocean Watch — SDG 14 Project.</div>
+          <div>HTML &middot; CSS &middot; JS</div>
+        </div>
+      </div>
     </footer>
-
-</body>
-
+  </body>
 </html>
