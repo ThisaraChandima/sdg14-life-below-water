@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation — Gimasha Rathnayake | Ocean Watch</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            display: block;
+            background: #0B1E33;
+        }
+
+        .editor-shell {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 40px 24px 100px;
+        }
+
+        .editor-header {
+            position: static;
+            top: auto;
+            z-index: auto;
+            animation: none;
+            padding: 0 0 24px;
+            border-bottom: 2px solid var(--teal);
+            margin-bottom: 32px;
+        }
+
+        .editor-header p.eyebrow {
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .editor-header h1 {
+            font-size: clamp(1.7rem, 4vw, 2.3rem);
+            margin-bottom: 6px;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .meta-row strong {
+            color: #fff;
+        }
+
+        .editor-toc {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+
+        .editor-toc h2 {
+            font-size: 0.75rem;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--teal);
+            margin-bottom: 16px;
+        }
+
+        .editor-toc ol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+            padding-left: 0;
+            list-style: none;
+            font-size: 0.92rem;
+            counter-reset: toc-counter;
+        }
+
+        .editor-toc li {
+            counter-increment: toc-counter;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .editor-toc li::before {
+            content: counter(toc-counter) ".";
+            color: var(--teal);
+            font-size: 0.8rem;
+            min-width: 18px;
+            font-family: var(--font-body);
+        }
+
+        .editor-toc li a {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.88rem;
+            transition: color 0.2s;
+        }
+
+        .editor-toc li a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 560px) {
+            .editor-toc ol {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-section {
+            padding: 0;
+            margin-bottom: 48px;
+            scroll-margin-top: 20px;
+        }
+
+        .editor-section h2 {
+            font-size: 1.6rem;
+            border-left: 4px solid var(--coral);
+            padding-left: 14px;
+            margin-bottom: 18px;
+        }
+
+        .page-block {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+        }
+
+        .page-block h3 {
+            font-size: 1.3rem;
+            color: var(--teal);
+        }
+
+        .page-block p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 10px;
+        }
+
+        .page-block ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .page-block li {
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--teal);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(78, 205, 196, 0.12);
+            border: 1px solid var(--teal);
+            color: var(--teal);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 14px;
+        }
+
+        .validation-shot {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 12px 0 16px;
+        }
+
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .link-row a {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid var(--teal);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .link-row a:hover {
+            background: var(--teal);
+            color: var(--bg-deep);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--teal);
+            color: var(--bg-deep);
+            padding: 10px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-to-top:hover {
+            background: #fff;
+            color: var(--bg-deep);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="editor-shell">
+
+        <header class="editor-header" id="top">
+            <p class="eyebrow">Ocean Watch · SDG 14: Life Below Water · Validation Page</p>
+            <h1>Gimasha Rathnayake</h1>
+            <div class="meta-row">
+                <span><strong>Student ID:</strong> W2212823</span>
+                <span><strong>Role:</strong> Student 2 — Splash Screen &amp; SDG Action Impact Simulator</span>
+                <span><strong>Team:</strong> OceanWatch</span>
+            </div>
+        </header>
+
+        <nav class="editor-toc" aria-label="Validation page contents">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#splashVal">Splash Screen Validation</a></li>
+                <li><a href="#aisVal">Action Impact Simulator Validation</a></li>
+                <li><a href="#contentVal">Content Page Validation</a></li>
+                <li><a href="#reflection">Reflection on Validation</a></li>
+            </ol>
+        </nav>
+
+        <section class="editor-section" id="overview">
+            <h2>1. Overview</h2>
+            <div class="page-block">
+                <p>This page provides evidence that the three pages I implemented pass HTML validation, using
+                    the <a href="https://validator.w3.org/nu/" target="_blank"
+                        rel="noopener noreferrer">W3C Nu Html Checker</a> (vnu). Each section below shows the
+                    page validated, a screenshot of the checker result, and a short reflection, with a link back
+                    to the matching section of my <a href="pageEditor_ST2.html">Page Editor</a>.</p>
+                <ul>
+                    <li><strong>Splash Screen</strong> — <code>index.html</code></li>
+                    <li><strong>SDG Action Impact Simulator (AIS)</strong> — <code>ais.html</code></li>
+                    <li><strong>Content Page</strong> — <code>content_ST2.html</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="editor-section" id="splashVal">
+            <h2>2. Splash Screen Validation Report</h2>
+            <div class="page-block">
+                <h3>index.html</h3>
+                <span class="status-badge">✓ No errors</span>
+                <img class="validation-shot"
+                    src="asset/IndexValidation.png"
+                    alt="Nu Html Checker report for index.html showing four informational notices about trailing slashes on void elements, and the message: Document checking completed, no errors or warnings to show.">
+                <p>The checker flags four <strong>Info</strong>-level notices about the trailing slash on void
+                    elements (<code>&lt;meta /&gt;</code>, <code>&lt;link /&gt;</code>) — these are informational
+                    only, not errors or warnings, and don't affect the result. Along the way I also had to fix a
+                    genuine error the checker first raised on the <code>&lt;meta http-equiv="refresh"&gt;</code>
+                    tag, which needed a space after the semicolon (<code>content="4; url=home.html"</code>) to
+                    parse correctly. With that fixed, the page validates cleanly.</p>
+
+                <div class="link-row">
+                    <a href="pageEditor_ST2.html#splash">Back to Page Editor</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="editor-section" id="aisVal">
+            <h2>3. Action Impact Simulator Validation Report</h2>
+            <div class="page-block">
+                <h3>ais.html</h3>
+                <span class="status-badge">✓ No errors</span>
+                <img class="validation-shot"
+                    src="asset/AISValidation.png"
+                    alt="Nu Html Checker report for ais.html showing the message: Document checking completed, no errors or warnings to show.">
+                <p>The first check of this page failed because the six action rows used
+                    <code>&lt;article role="switch" aria-checked&gt;</code>, and <code>&lt;article&gt;</code>
+                    doesn't support the <code>switch</code> role or <code>aria-checked</code> under the HTML
+                    ARIA rules. Switching those elements to <code>&lt;div&gt;</code> (which accepts any role)
+                    resolved it, and the page now validates with no errors or warnings.</p>
+
+                <div class="link-row">
+                    <a href="pageEditor_ST2.html#ais">Back to Page Editor</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="editor-section" id="contentVal">
+            <h2>4. Content Page Validation Report</h2>
+            <div class="page-block">
+                <h3>content_ST2.html</h3>
+                <span class="status-badge">✓ No errors</span>
+                <img class="validation-shot"
+                    src="asset/ContentST2Validation.png"
+                    alt="Nu Html Checker report for content_ST2.html showing the message: Document checking completed, no errors or warnings to show.">
+                <p>This page originally had two skipped heading levels — the action-card titles were
+                    <code>&lt;h3&gt;</code> straight after the page's only <code>&lt;h1&gt;</code>, and three
+                    footer/card headings were <code>&lt;h4&gt;</code> with no <code>&lt;h3&gt;</code> in between.
+                    Adjusting those headings to follow a continuous <code>h1 → h2 → h3 → h4</code> order cleared
+                    both errors, and the page now validates with no errors or warnings.</p>
+
+                <div class="link-row">
+                    <a href="pageEditor_ST2.html#content-page">Back to Page Editor</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="editor-section" id="reflection">
+            <h2>5. Reflection on Validation</h2>
+            <div class="page-block">
+                <p>Most of the errors I ran into came from small, easy-to-miss syntax details rather than
+                    structural problems: a missing space in a meta-refresh value, an ARIA role placed on an
+                    element that doesn't support it, and heading levels that skipped a step when I was moving
+                    content between sections. None of them affected how the pages looked or behaved in the
+                    browser, which is exactly why running them through the checker mattered — these are the
+                    kind of issues that are invisible until you actually validate the markup.</p>
+                <p>The main lesson was to re-check a page after any structural edit (adding a new heading,
+                    changing an element's role or tag) rather than only at the end, since a small change in one
+                    place can quietly break the heading order or ARIA semantics somewhere else on the page.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <a href="#overview" class="back-to-top">↑ Back to top</a>
+
+</body>
+
+</html>

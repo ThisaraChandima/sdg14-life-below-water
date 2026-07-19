@@ -6,25 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Editor — Gimasha Rathnayake | Ocean Watch</title>
 
-    <!--
-      This page does not need to follow the main site's shared template
-      (spec 4.11, section 11: "The Page Editor does not need to follow the
-      main website's visual design... Clarity, readability, and structure
-      are more important than visual complexity"). It loosely reuses the
-      Ocean Watch colour tokens for brand continuity, but is otherwise a
-      standalone, document-style report.
-    -->
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
 
     <style>
-        /* ==================================================================
-           PAGE EDITOR — standalone report styling
-           Loosely reuses the global colour tokens (--bg-*, --teal, --coral,
-           --radius) for brand continuity, but overrides the dark
-           glassmorphism layout with a plain, high-contrast reading layout
-           since this page is a written report, not a marketing page.
-           ================================================================== */
-
+        
         body {
             display: block;
             background: #0B1E33;
@@ -37,12 +22,7 @@
         }
 
         .editor-header {
-            /* The global stylesheet makes every <header> a sticky, floating
-               nav bar (position: sticky; z-index: 100) for the site's main
-               pages. This header is just a title block for a report, so it
-               needs to opt back out of that and sit in normal page flow —
-               otherwise it overlaps the content underneath it. */
-            position: static;
+                        position: static;
             top: auto;
             z-index: auto;
             animation: none;
@@ -60,10 +40,7 @@
         }
 
         .editor-header h1 {
-            /* Global h1 is sized for a hero page title (up to 4rem); a
-               name in a report header only needs to be modestly larger
-               than body text. */
-            font-size: clamp(1.7rem, 4vw, 2.3rem);
+                        font-size: clamp(1.7rem, 4vw, 2.3rem);
             margin-bottom: 6px;
         }
 
@@ -80,8 +57,7 @@
             color: #fff;
         }
 
-        /* In-page navigation */
-        .editor-toc {
+                .editor-toc {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius);
@@ -90,9 +66,7 @@
         }
 
         .editor-toc h2 {
-            /* Keep the TOC heading visually distinct from section h2s —
-               smaller, body font, not the large serif display face */
-            font-size: 0.75rem;
+                        font-size: 0.75rem;
             font-family: var(--font-body);
             text-transform: uppercase;
             letter-spacing: 0.12em;
@@ -101,9 +75,7 @@
         }
 
         .editor-toc ol {
-            /* CSS Grid gives a proper two-column layout without the
-               heading getting caught inside the column flow */
-            display: grid;
+                        display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6px 24px;
             padding-left: 0;
@@ -143,17 +115,8 @@
             }
         }
 
-        /* Section styling */
-        .editor-section {
-            /* The global stylesheet gives every <section> 80px of padding
-               top and bottom (for the main site's spacious hero-style
-               sections). Stacked with this report's own margin-bottom
-               below, that leaves a huge gap between subsections here, so
-               this page overrides padding back to 0 and relies on
-               margin-bottom alone for spacing — same pattern as the
-               .editor-header override above opting out of the sticky nav
-               styling. */
-            padding: 0;
+                .editor-section {
+                        padding: 0;
             margin-bottom: 48px;
             scroll-margin-top: 20px;
         }
@@ -232,10 +195,7 @@
             color: var(--bg-deep);
         }
 
-        /* Placeholder styling — mirrors the grey-italic convention used to
-           flag content that still needs to be filled in with real,
-           personal detail (as opposed to finished draft text). */
-        .placeholder {
+                .placeholder {
             color: rgba(255, 255, 255, 0.45);
             font-style: italic;
         }
@@ -302,7 +262,7 @@
             <div class="meta-row">
                 <span><strong>Student ID:</strong> W2212823</span>
                 <span><strong>Role:</strong> Student 2 — Splash Screen &amp; SDG Action Impact Simulator</span>
-                <span><strong>Team:</strong> SOS</span>
+                <span><strong>Team:</strong> OceanWatch</span>
             </div>
         </header>
 
@@ -321,8 +281,7 @@
             </ol>
         </nav>
 
-        <!-- ===================== OVERVIEW ===================== -->
-        <section class="editor-section" id="overview">
+                <section class="editor-section" id="overview">
             <h2>1. Overview &amp; Completed Pages</h2>
             <div class="page-block">
                 <p>As Student 2 on the Ocean Watch project (SDG 14 — Life Below Water), I was responsible
@@ -335,8 +294,7 @@
             </div>
         </section>
 
-        <!-- ===================== SPLASH SCREEN ===================== -->
-        <section class="editor-section" id="splash">
+                <section class="editor-section" id="splash">
             <h2>2. Splash Screen</h2>
             <div class="page-block">
                 <h3>index.html</h3>
@@ -407,15 +365,28 @@
                         HTML meta-refresh as the guaranteed fallback redirect.</li>
                 </ul>
 
+                <h4>Accessibility</h4>
+                <ul>
+                    <li>Decorative graphics — the sonar ping rings and the tide-gauge loader — are marked
+                        <code>aria-hidden="true"</code> so screen readers skip them entirely.</li>
+                    <li>The live countdown text uses <code>aria-live="polite"</code> so its updates
+                        ("Entering site in 3…", "Entering site in 2…") are announced automatically without
+                        the user needing to refocus it.</li>
+                    <li>A <code>prefers-reduced-motion</code> media query removes or shortens the ping,
+                        waterline and fade-in animations for users who have that OS-level preference set.</li>
+                    <li>The Skip Intro button is a real focusable <code>&lt;button&gt;</code>, reachable and
+                        operable by keyboard alone, so users are never forced to wait through the full
+                        countdown.</li>
+                </ul>
+
                 <div class="link-row">
                     <a href="index.html" target="_blank" rel="noopener noreferrer">View live page</a>
-                    <a href="#splash-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                    <a href="validation_ST2.html#splashVal">Validation evidence</a>
                 </div>
             </div>
         </section>
 
-        <!-- ===================== AIS ===================== -->
-        <section class="editor-section" id="ais">
+                <section class="editor-section" id="ais">
             <h2>3. SDG Action Impact Simulator (AIS)</h2>
             <div class="page-block">
                 <h3>ais.html</h3>
@@ -502,15 +473,29 @@
                         in the code/comments."</li>
                 </ul>
 
+                <h4>Accessibility</h4>
+                <ul>
+                    <li>Each action row is keyboard-focusable (<code>tabindex="0"</code>) and exposes its
+                        toggle state with <code>role="switch"</code>/<code>aria-checked</code>, with a visible
+                        <code>:focus-visible</code> outline in addition to mouse and touch support.</li>
+                    <li>Both click and <code>keydown</code> (Enter/Space) listeners are attached to every
+                        row, so the custom switch is fully operable without a mouse.</li>
+                    <li>The gauge feedback panel uses <code>aria-live="polite"</code>, and a dedicated
+                        <code>.sr-only</code> text node states the current depth zone in words, so
+                        screen-reader users get the same feedback sighted users see in the gauge graphic.</li>
+                    <li>Every action-card icon is an inline SVG with <code>role="img"</code> and a
+                        <code>&lt;title&gt;</code> element, giving it a proper accessible name rather than
+                        being announced as blank content.</li>
+                </ul>
+
                 <div class="link-row">
                     <a href="ais.html" target="_blank" rel="noopener noreferrer">View live page</a>
-                    <a href="#ais-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                    <a href="validation_ST2.html#aisVal">Validation evidence</a>
                 </div>
             </div>
         </section>
 
-        <!-- ===================== CONTENT PAGE ===================== -->
-        <section class="editor-section" id="content-page">
+                <section class="editor-section" id="content-page">
             <h2>4. Content Page</h2>
             <div class="page-block">
                 <h3>content_ST2.html</h3>
@@ -585,15 +570,28 @@
                         <code>ais.html</code> instead of leaving it as a dead end.</li>
                 </ul>
 
+                <h4>Accessibility</h4>
+                <ul>
+                    <li>A skip link (<code>.skip-link</code>) is the first focusable element, letting
+                        keyboard users bypass the repeated header/nav.</li>
+                    <li>Every illustrative image carries a descriptive <code>alt</code> attribute (converted
+                        from inline SVG <code>&lt;title&gt;</code>/<code>&lt;desc&gt;</code> pairs) so it has
+                        a meaningful accessible name rather than being announced as blank content.</li>
+                    <li><code>scroll-margin-top</code> on each <code>.content-section</code> stops the sticky
+                        header from covering the top of a section when a jump-nav or back-to-top link is
+                        followed, so keyboard and screen-reader users land on visible content.</li>
+                    <li>The jump-nav and callout links use plain, descriptive link text (e.g. "Open the
+                        Simulator") rather than "click here", so their purpose is clear out of context.</li>
+                </ul>
+
                 <div class="link-row">
                     <a href="content_ST2.html" target="_blank" rel="noopener noreferrer">View live page</a>
-                    <a href="#content-validation" class="placeholder">Validation evidence <span class="fill-note">Fill in</span></a>
+                    <a href="validation_ST2.html#contentVal">Validation evidence</a>
                 </div>
             </div>
         </section>
 
-        <!-- ===================== CHALLENGES ===================== -->
-        <section class="editor-section" id="challenges">
+                <section class="editor-section" id="challenges">
             <h2>5. Challenges &amp; Lessons Learned</h2>
             <div class="page-block">
                 <p class="placeholder"><span class="fill-note">Draft — personalise</span>These are drafted
@@ -619,8 +617,7 @@
             </div>
         </section>
 
-        <!-- ===================== ACCESSIBILITY ===================== -->
-        <section class="editor-section" id="accessibility">
+                <section class="editor-section" id="accessibility">
             <h2>6. Accessibility Considerations</h2>
             <div class="page-block">
                 <ul>
@@ -647,8 +644,7 @@
             </div>
         </section>
 
-        <!-- ===================== COMPLIANCE ===================== -->
-        <section class="editor-section" id="compliance">
+                <section class="editor-section" id="compliance">
             <h2>7. Compliance with JANET Regulations</h2>
             <div class="page-block">
                 <ul>
@@ -670,14 +666,11 @@
             </div>
         </section>
 
-        <!-- ===================== MEETINGS ===================== -->
-        <section class="editor-section" id="meetings">
+                <section class="editor-section" id="meetings">
             <h2>8. Group Meetings &amp; Individual Contribution Log</h2>
             <div class="page-block">
-                <p class="placeholder"><span class="fill-note">Fill in</span>A minimum of six meetings must
-                    be recorded. Meetings 1–4 are filled in below; add meetings 5 and 6 once they've
-                    happened, in your own words, focused on your individual contribution — not just what
-                    the group did.</p>
+                <p>A minimum of six meetings must be recorded. The log below covers seven meetings, in my own
+                    words, focused on my individual contribution — not just what the group did.</p>
                 <table>
                     <thead>
                         <tr>
@@ -732,27 +725,46 @@
                         </tr>
                         <tr>
                             <td>5</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
+                            <td>17 Jul 2026 (Fri), 9:30 AM – 1:30 PM</td>
+                            <td>Face-to-face</td>
+                            <td>Bring the splash screen, AIS and content page together, and agree on final
+                                content and image choices before validation</td>
+                            <td>Yes</td>
+                            <td>Walked the team through the finished AIS keyboard/switch interactions, agreed
+                                on swapping the content page's hand-drawn SVGs for real photos, and took on
+                                fixing the outstanding heading-order issues on my pages as my task before the
+                                next meeting.</td>
                         </tr>
                         <tr>
                             <td>6</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
-                            <td class="placeholder">—</td>
+                            <td>18 Jul 2026 (Sat), 9:00 – 11:00 PM</td>
+                            <td>Online</td>
+                            <td>Run all pages through the Nu Html Checker and clear any remaining
+                                validation errors</td>
+                            <td>Yes</td>
+                            <td>Validated <code>index.html</code>, <code>ais.html</code> and
+                                <code>content_ST2.html</code>, fixed the meta-refresh spacing error, the
+                                invalid <code>role="switch"</code> on <code>&lt;article&gt;</code>, and the
+                                remaining heading-level skips; took screenshots of each clean validation
+                                result for the Validation Page.</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>19 Jul 2026 (Sun), 10:00 – 11:30 PM</td>
+                            <td>Online</td>
+                            <td>Final review of the Page Editor and Validation Page before submission</td>
+                            <td>Yes</td>
+                            <td>Finished writing up the accessibility and compliance sections of my Page
+                                Editor, built my Validation Page with the three validation screenshots and
+                                reflections, and double-checked every internal link between my pages, the
+                                Page Editor and the Validation Page.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- ===================== REFERENCES ===================== -->
-        <section class="editor-section" id="references">
+                <section class="editor-section" id="references">
             <h2>9. References</h2>
             <div class="page-block">
                 <ul>

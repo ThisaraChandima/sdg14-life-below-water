@@ -3,31 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--
-      Automatic Redirect: sends the user to the Home Page after 4 seconds,
-      as required by the coursework spec (4.4, Functionality Requirements).
-      The redirect target file name (home.html) follows the agreed folder
-      structure in section 4.14 — update this if your team's home page
-      uses a different file name.
-    -->
-    <meta http-equiv="refresh" content="4;url=home.html" />
+    <!-- redirects to home page after 4 seconds, spec 4.4 -->
+    <meta http-equiv="refresh" content="4; url=home.html" />
     <title>Ocean Watch | Splash Screen</title>
 
-    <!-- Reuses the site's global colour/type variables for a seamless
-         transition into the Home Page, but the splash does not use the
-         shared header/nav/footer template (per spec 4.4, this page is
-         exempt from the shared template). -->
+    <!-- uses global.css for colours/fonts, but no header/nav here since this page is exempt from the shared template -->
     <link rel="stylesheet" href="style.css" />
 
     <style>
-      /* ====================================================================
-           Splash Screen — page-specific embedded CSS
-           Scope: only used on splash.html, does not touch/override Global CSS.
-           Signature element: a sonar ping pulsing behind the "Ocean Watch"
-           wordmark (echoing the AIS Simulator theme), with a waterline bar
-           at the base acting as the CSS loader — it rises like a tide
-           gauge, timed to finish right as the redirect fires.
-           ==================================================================== */
+      /* just the CSS for this page, doesn't touch style.css */
 
       html,
       body {
@@ -37,8 +21,7 @@
 
       body {
         display: block;
-        /* overrides the flex-column default set for the rest of the site,
-               since this page has its own single full-screen layout */
+        /* style.css sets flex-column on body, overriding it here */
       }
 
       .splash-screen {
@@ -51,10 +34,7 @@
         justify-content: center;
         text-align: center;
         color: #ffffff;
-        /* Full-screen background scene, built from the site palette so no
-               external asset is required. To use a real licensed photo instead:
-               background-image: url('images/your-photo.jpg');
-               background-size: cover; background-position: center; */
+        /* gradient background instead of an image file */
         background: radial-gradient(
           ellipse at 50% 45%,
           var(--bg-ocean) 0%,
@@ -125,9 +105,15 @@
         margin: 0;
         font-family: var(--font-display);
         font-weight: 600;
-        font-size: clamp(2.8rem, 10vw, 5.5rem);
+        font-size: 5rem;
         letter-spacing: 0.08em;
         line-height: 1;
+      }
+
+      @media (max-width: 600px) {
+        .splash-title {
+          font-size: 3rem;
+        }
       }
 
       .splash-title span {
@@ -208,8 +194,7 @@
         border-color: var(--teal);
       }
 
-      /* Waterline CSS loader — rises across the base of the screen like a
-           tide gauge, timed to finish filling right as the redirect fires. */
+      /* loading bar that fills up over the 4 second countdown */
       .splash-waterline {
         position: absolute;
         left: 0;
@@ -225,7 +210,7 @@
         height: 100%;
         width: 0%;
         background: linear-gradient(90deg, var(--primary), var(--teal));
-        animation: tideRise 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation: tideRise 3.8s ease-in-out forwards;
       }
 
       @keyframes tideRise {
@@ -249,22 +234,6 @@
       .fade-in {
         opacity: 0;
         animation: fadeIn 0.7s ease-out forwards;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .splash-sonar .ring {
-          animation: none;
-          opacity: 0;
-        }
-
-        .splash-waterline-fill {
-          animation: none;
-          width: 100%;
-        }
-
-        .fade-in {
-          animation: fadeIn 0.4s ease-out forwards;
-        }
       }
     </style>
   </head>
@@ -321,12 +290,7 @@
     </main>
 
     <script>
-      /* ============================================================================
-   Splash Screen — splash.js
-   Handles: the visible JavaScript countdown ("Entering site in 4…3…2…1")
-   and the Skip Intro button, which sends the user to the Home Page
-   immediately instead of waiting for the <meta http-equiv="refresh"> tag.
-   ============================================================================ */
+      // countdown text ("Entering site in 4...") and the skip button
 
       document.addEventListener("DOMContentLoaded", () => {
         const HOME_PAGE = "home.html"; // keep in sync with the <meta refresh> target
@@ -347,8 +311,7 @@
           }
         }, 1000);
 
-        // Skip Intro: go straight to the Home Page and stop the countdown text
-        // from continuing to update in the background.
+        // skip button goes straight to home page, stops the countdown
         skipBtn.addEventListener("click", () => {
           clearInterval(timer);
           window.location.href = HOME_PAGE;

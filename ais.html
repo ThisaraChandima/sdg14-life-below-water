@@ -8,17 +8,10 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* ==========================================================================
-           PAGE-SPECIFIC EMBEDDED CSS — Action Impact Simulator (ais.html)
-           Concept: a diver's control console. Flipping switches for actions
-           lowers a dive gauge through three ocean depth zones. Uses the site's
-           existing design tokens (--bg-*, --primary, --teal, --coral, --radius,
-           --ease) from style.css rather than redefining the colour system.
-           ========================================================================== */
+        /* CSS just for the simulator page — uses the colours/fonts
+           from style.css instead of redefining them */
 
-        /* RULE 1: fixed background layer behind all content. Holds three
-           hand-coded inline SVG depth scenes stacked on top of each other;
-           JavaScript switches which one is visible as the score changes. */
+        /* switches between the 3 background SVGs as the score changes */
         #depth-bg {
             position: fixed;
             inset: 0;
@@ -43,35 +36,37 @@
             max-width: 60ch;
         }
 
-        /* RULE 2: two-column console layout — switches on the left, a sticky
-           depth-gauge instrument on the right. Stacks on narrow viewports. */
+        /* two column layout, switches left and gauge right, stacks on mobile */
         .console-layout {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
+            display: flex;
+            flex-wrap: wrap;
             gap: 40px;
-            align-items: start;
             margin-top: 40px;
         }
 
-        @media (max-width: 820px) {
-            .console-layout { grid-template-columns: 1fr; }
-            .gauge-panel { position: static !important; order: -1; }
+        .console-layout .control-panel {
+            flex: 2 1 420px;
         }
 
-        /* RULE 3: control panel housing the six action switches, styled with
-           the same glassmorphism language as the site nav (blur + translucency). */
+        .console-layout .gauge-panel {
+            flex: 1 1 260px;
+        }
+
+        @media (max-width: 820px) {
+            .console-layout { flex-direction: column; }
+            .gauge-panel { order: -1; }
+        }
+
+        /* panel that holds the 6 action switches */
         .control-panel {
-            background: rgba(4, 25, 46, 0.6);
+            background: rgba(4, 25, 46, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius);
-            backdrop-filter: blur(16px) saturate(1.3);
-            -webkit-backdrop-filter: blur(16px) saturate(1.3);
             padding: 8px;
         }
 
         .action-row {
-            display: grid;
-            grid-template-columns: auto auto 1fr auto auto;
+            display: flex;
             align-items: center;
             gap: 16px;
             padding: 18px 16px;
@@ -79,6 +74,11 @@
             cursor: pointer;
             border-radius: var(--radius);
             transition: background var(--ease);
+        }
+
+        .action-row > div {
+            flex: 1 1 auto;
+            min-width: 140px;
         }
 
         .action-row:last-child { border-bottom: none; }
@@ -95,7 +95,7 @@
 
         .action-row.selected .action-icon { border-color: var(--coral); }
 
-        .action-row h3 {
+        .action-row h2 {
             font-size: 1.2rem;
             margin-bottom: 4px;
         }
@@ -111,9 +111,10 @@
             font-size: 0.8rem;
             color: var(--teal);
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        /* RULE 4: toggle lever showing selected vs unselected state */
+        /* on/off toggle switch style */
         .lever {
             width: 46px;
             height: 24px;
@@ -121,6 +122,7 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
+            flex-shrink: 0;
             transition: background var(--ease);
         }
 
@@ -150,16 +152,11 @@
             outline-offset: 3px;
         }
 
-        /* RULE 5: sticky depth-gauge instrument — signature visual element,
-           plus the feedback panel reporting score, level, and message. */
+        /* dive gauge + score/message panel */
         .gauge-panel {
-            position: sticky;
-            top: 100px;
-            background: rgba(4, 25, 46, 0.6);
+            background: rgba(4, 25, 46, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius);
-            backdrop-filter: blur(16px) saturate(1.3);
-            -webkit-backdrop-filter: blur(16px) saturate(1.3);
             padding: 30px;
             text-align: center;
         }
@@ -257,7 +254,7 @@
     </header>
 
     <main id="main-content">
-        <!-- ==================== PAGE CONTENT START ==================== -->
+        <!-- page content start -->
 
         <section class="container simulator-intro">
             <span class="section-label">SDG 14 · Take Action</span>
@@ -271,7 +268,7 @@
                 <!-- Six action cards, presented as toggle rows on a control panel -->
                 <section class="control-panel" aria-label="Ocean conservation actions">
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="3">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="3">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-plastic-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-plastic-title">A reusable water bottle beside a cloth bag</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -281,15 +278,15 @@
                             <path d="M78 150 q22 14 44 0" stroke="#FF6B53" stroke-width="4" fill="none" />
                         </svg>
                         <div>
-                            <h3>Skip Single-Use Plastics</h3>
+                            <h2>Skip Single-Use Plastics</h2>
                             <p>Swap disposable bottles, straws and bags for reusable alternatives for
                                 one week, cutting plastic waste before it reaches the ocean.</p>
                         </div>
                         <span class="points-tag">3 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="5">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="5">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-cleanup-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-cleanup-title">Two volunteers collecting litter on a beach</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -300,15 +297,15 @@
                             <rect x="123" y="114" width="10" height="30" fill="#2196C9" />
                         </svg>
                         <div>
-                            <h3>Join a Beach Clean-Up</h3>
+                            <h2>Join a Beach Clean-Up</h2>
                             <p>Spend a few hours removing debris from a shoreline or riverbank before
                                 it washes out to sea.</p>
                         </div>
                         <span class="points-tag">5 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="4">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="4">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-seafood-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-seafood-title">A fish and a shrimp representing sustainable seafood</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -318,15 +315,15 @@
                             <path d="M62 100 q-18 -18 -18 0 q0 18 18 0" fill="#2196C9" />
                         </svg>
                         <div>
-                            <h3>Choose Sustainable Seafood</h3>
+                            <h2>Choose Sustainable Seafood</h2>
                             <p>Check labels or apps for certified sustainable seafood to ease pressure
                                 on overfished populations.</p>
                         </div>
                         <span class="points-tag">4 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="2">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="2">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-water-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-water-title">A single water droplet</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -334,15 +331,15 @@
                             <path d="M100 62 C120 96 135 112 135 137 a35 35 0 0 1 -70 0 C65 112 80 96 100 62 Z" fill="#4ECDC4" opacity="0.65" />
                         </svg>
                         <div>
-                            <h3>Reduce Water Usage</h3>
+                            <h2>Reduce Water Usage</h2>
                             <p>Shorter showers and fixing household leaks lower runoff that affects
                                 coastal ecosystems.</p>
                         </div>
                         <span class="points-tag">2 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="2">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="2">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-sunscreen-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-sunscreen-title">A bottle of reef-safe sunscreen</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -352,15 +349,15 @@
                             <rect x="82" y="135" width="36" height="14" rx="3" fill="#083D63" />
                         </svg>
                         <div>
-                            <h3>Use Reef-Safe Sunscreen</h3>
+                            <h2>Use Reef-Safe Sunscreen</h2>
                             <p>Choose sunscreens free of chemicals linked to coral bleaching before
                                 swimming or diving.</p>
                         </div>
                         <span class="points-tag">2 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
-                    <article class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="4">
+                    <div class="action-row" tabindex="0" role="switch" aria-checked="false" data-points="4">
                         <svg class="action-icon" viewBox="0 0 200 200" role="img" aria-labelledby="icon-donate-title" xmlns="http://www.w3.org/2000/svg">
                             <title id="icon-donate-title">A heart icon representing marine conservation support</title>
                             <circle cx="100" cy="100" r="98" fill="#083D63" />
@@ -368,13 +365,13 @@
                             <path d="M100 70 v-20 M90 60 h20" stroke="#04192E" stroke-width="6" stroke-linecap="round" />
                         </svg>
                         <div>
-                            <h3>Support Marine Restoration</h3>
+                            <h2>Support Marine Restoration</h2>
                             <p>Contribute time or funds to organisations restoring mangroves, seagrass
                                 or coral reefs.</p>
                         </div>
                         <span class="points-tag">4 pts</span>
                         <span class="lever" aria-hidden="true"></span>
-                    </article>
+                    </div>
 
                 </section>
 
@@ -402,7 +399,7 @@
             </div>
         </section>
 
-        <!-- ==================== PAGE CONTENT END ==================== -->
+        <!-- page content end -->
     </main>
 
     <!-- ======= Rocky Cliff + Lighthouse SVG Divider (DO NOT MODIFY) ======= -->
@@ -520,13 +517,13 @@
             <div class="footer-grid">
 
                 <div class="footer-col">
-                    <h4>About</h4>
+                    <h3>About</h3>
                     <p class="text-muted">Ocean Watch is a university project by Team SOS dedicated to UN Sustainable
                         Development Goal 14: Life Below Water, advocating for the conservation of our oceans.</p>
                 </div>
 
                 <div class="footer-col">
-                    <h4>Explore</h4>
+                    <h3>Explore</h3>
                     <ul>
                         <li><a href="home.html">Home</a></li>
                         <li><a href="gallery.html">Gallery</a></li>
@@ -539,7 +536,7 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4>This Page</h4>
+                    <h3>This Page</h3>
                     <ul>
                         <li class="text-muted">Editor: Gimasha Rathnayake</li>
                         <li class="text-muted">ID: W2212823</li>
@@ -549,7 +546,7 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4>Compliance</h4>
+                    <h3>Compliance</h3>
                     <ul>
                         <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/" target="_blank"
                                 rel="noopener noreferrer">Accessibility Guidelines</a></li>
@@ -570,17 +567,9 @@
     </footer>
 
     <script>
-        /* ==========================================================================
-           ACTION IMPACT SIMULATOR — page-specific JavaScript
-           ==========================================================================
-           Impact level thresholds (out of a possible 20 points if all six
-           actions are selected):
-             LOW    (Sunlit Zone)   : 0  - 6  points
-             MEDIUM (Twilight Zone) : 7  - 13 points
-             HIGH   (Reef Depths)   : 14 - 20 points
-           ========================================================================== */
+        // score out of 20: 0-6 low, 7-13 medium, 14-20 high
 
-        (function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const rows = document.querySelectorAll('.action-row');
             const scoreEl = document.getElementById('gauge-score');
             const messageEl = document.getElementById('depth-message');
@@ -599,9 +588,7 @@
             const GAUGE_TOP = 20;
             const GAUGE_BOTTOM = 248;
 
-            /* The three hand-coded inline background SVGs (see #depth-bg
-               in the HTML). JavaScript toggles the 'zone-visible' class
-               to control which one is shown — no external image files. */
+            // 3 background SVGs, JS shows/hides them with the zone-visible class
             const BACKGROUNDS = {
                 low: document.getElementById('bg-low'),
                 medium: document.getElementById('bg-medium'),
@@ -670,7 +657,7 @@
             });
 
             updateGauge();
-        })();
+        });
     </script>
 
 </body>
