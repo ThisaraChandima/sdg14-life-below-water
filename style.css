@@ -1,22 +1,15 @@
 /* ==========================================================================
    Ocean Watch — SDG 14: Life Below Water | Global Stylesheet
    Team: SOS
+   This file holds styles shared by every page (header, footer, buttons,
+   cards, etc). Page-specific styles are kept separately.
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Google Fonts Import
-   What it does: Imports 'Cormorant Garamond' and 'Jost' from Google Fonts.
-   Why chosen: Using a CDN for fonts ensures quick loading and consistent
-   typography across all browsers without requiring local font files.
-   -------------------------------------------------------------------------- */
+/* Import project fonts from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Jost:wght@300;400;500;600&display=swap');
 
-/* --------------------------------------------------------------------------
-   2. CSS Custom Properties (:root variables)
-   What it does: Defines design tokens like colours, typography, and spacing.
-   Why chosen: CSS variables allow for consistent design, easy theming, and
-   maintainability across the entire site by storing values in one place.
-   -------------------------------------------------------------------------- */
+/* Colour palette and reusable values, defined once as variables so they
+   can be changed from a single place instead of every rule */
 :root {
   --bg-deep: #02070F;
   --bg-ocean: #04192E;
@@ -28,29 +21,25 @@
   --font-body: 'Jost', sans-serif;
   --max-width: 1200px;
   --radius: 10px;
-  --ease: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --------------------------------------------------------------------------
-   3. Reset
-   What it does: Removes default browser margins/padding and sets box-sizing.
-   Why chosen: A universal reset creates a consistent baseline across all
-   browsers, preventing layout inconsistencies.
-   -------------------------------------------------------------------------- */
-*, *::before, *::after {
+/* CSS reset: removes the default margin/padding set by browsers and makes
+   width/height calculations include border and padding (border-box) */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* --------------------------------------------------------------------------
-   4. Body
-   What it does: Sets the base background colour, font, text colour, and line height.
-   Why chosen: Establishes the dark theme foundation and ensures readable,
-   accessible text with appropriate line spacing globally.
-   -------------------------------------------------------------------------- */
+/* Base page styles: background, default font and text colour.
+   Flexbox column layout is used here so the footer sticks to the
+   bottom of the page even on short pages (see footer margin-top: auto) */
 body {
-  background-color: var(--bg-deep);
+  background-image: url('asset/bg.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  background-attachment: fixed;
   font-family: var(--font-body);
   color: #FFFFFF;
   line-height: 1.6;
@@ -59,12 +48,7 @@ body {
   flex-direction: column;
 }
 
-/* --------------------------------------------------------------------------
-   5. Headings h1–h4
-   What it does: Applies the display font and responsive clamp sizes to headings.
-   Why chosen: clamp() ensures headings scale fluidly across screen sizes
-   without needing complex media queries, while the serif font adds elegance.
-   -------------------------------------------------------------------------- */
+/* Headings use the display font for a different look from body text */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 600;
@@ -72,50 +56,44 @@ h1, h2, h3, h4 {
   margin-bottom: 0.5em;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
-h4 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+h1 { font-size: 3rem; }
+h2 { font-size: 2.25rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.4rem; }
 
-/* --------------------------------------------------------------------------
-   6. Links
-   What it does: Styles inline links with our teal colour and interactive states.
-   Why chosen: Teal contrasts well against the dark background. Removing the
-   underline on hover and adding a focus ring improves accessibility and UX.
-   -------------------------------------------------------------------------- */
+/* Smaller heading sizes on mobile screens */
+@media (max-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.4rem; }
+  h4 { font-size: 1.2rem; }
+}
+
 a {
   color: var(--teal);
   text-decoration: none;
-  transition: color var(--ease);
+  transition: color 0.3s;
 }
 
 a:hover {
   color: #FFFFFF;
 }
 
+/* Visible outline for keyboard users tabbing through links */
 a:focus-visible {
   outline: 2px solid var(--teal);
   outline-offset: 4px;
 }
 
-/* --------------------------------------------------------------------------
-   7. Images
-   What it does: Ensures images are responsive and behave as block elements.
-   Why chosen: max-width: 100% prevents large images from breaking layouts,
-   and display: block removes the default bottom space under inline images.
-   -------------------------------------------------------------------------- */
+/* Keep images from overflowing their container */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* --------------------------------------------------------------------------
-   8. Layout
-   What it does: Provides structural classes like .container for max-width and centering.
-   Why chosen: Centralises content with a consistent maximum width, ensuring
-   readability on very wide screens. flex: 1 on main pushes the footer down.
-   -------------------------------------------------------------------------- */
+/* .container centres page content and stops it stretching too wide
+   on large screens */
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -123,6 +101,7 @@ img {
   padding: 0 20px;
 }
 
+/* flex: 1 lets main grow and push the footer to the bottom of the page */
 main {
   flex: 1;
 }
@@ -131,12 +110,8 @@ section {
   padding: 80px 0;
 }
 
-/* --------------------------------------------------------------------------
-   9. Accessibility
-   What it does: Hides the skip-to-content link until it receives keyboard focus.
-   Why chosen: Essential for keyboard users to bypass repetitive navigation,
-   while keeping the visual interface clean for mouse users.
-   -------------------------------------------------------------------------- */
+/* Skip-to-content link: hidden off-screen by default, moves into view
+   only when a keyboard user tabs to it (accessibility requirement) */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -147,60 +122,20 @@ section {
   z-index: 1000;
   font-weight: 600;
   border-radius: var(--radius);
-  transition: top var(--ease);
+  transition: top 0.3s;
 }
 
 .skip-link:focus {
   top: 20px;
 }
 
-/* --------------------------------------------------------------------------
-   10. Header
-   What it does: Creates a floating pill-shaped glassmorphism navigation bar.
-   Why chosen: A sticky header ensures navigation is always accessible. The
-   pill shape and backdrop-blur provide a modern, premium 'glassmorphism'
-   effect inspired by contemporary web design trends.
-   -------------------------------------------------------------------------- */
-@keyframes navbar-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Header stays fixed at the top of the viewport while scrolling */
 header {
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 18px 20px;
-  background: transparent;
-  animation: navbar-slide-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Responsive: stack logo & nav on small screens */
-@media (max-width: 768px) {
-  header { padding: 12px 10px; }
-
-  .header-inner {
-    flex-direction: column;
-    padding: 0 10px;
-    gap: 10px;
-  }
-
-  nav {
-    justify-content: center;
-    border-radius: 24px;
-    padding: 8px 10px;
-  }
-
-  nav a {
-    font-size: 0.7rem;
-    padding: 6px 12px;
-  }
+  background-color: var(--bg-ocean);
 }
 
 .header-inner {
@@ -214,12 +149,26 @@ header {
   padding: 0 20px;
 }
 
-/* --------------------------------------------------------------------------
-   11. Logo
-   What it does: Styles the brand logo area, including icon and text typography.
-   Why chosen: Ensures the logo is prominent, combining text and icon flexibly
-   while maintaining alignment and visual hierarchy.
-   -------------------------------------------------------------------------- */
+/* Stack the logo above the nav links on small screens */
+@media (max-width: 768px) {
+  header { padding: 12px 10px; }
+
+  .header-inner {
+    flex-direction: column;
+    padding: 0 10px;
+    gap: 10px;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+}
+
 .site-logo {
   display: flex;
   align-items: center;
@@ -231,9 +180,19 @@ header {
   color: var(--teal);
 }
 
+/* The HTML still has the wave emoji as text inside .logo-mark, but we
+   hide that text (font-size: 0) and show the logo image as a CSS
+   background instead. Because every page reuses this same class, this
+   one change updates the logo everywhere without editing each page. */
 .logo-mark {
-  font-size: 2rem;
-  line-height: 1;
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  font-size: 0;
+  background-image: url('asset/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .logo-name {
@@ -243,6 +202,7 @@ header {
   letter-spacing: 1px;
 }
 
+/* Tagline under the logo, hidden on small screens to save space */
 .logo-sub {
   font-size: 0.8rem;
   color: var(--teal);
@@ -255,14 +215,6 @@ header {
   .logo-sub { display: block; }
 }
 
-/* --------------------------------------------------------------------------
-   12. Navigation bar
-   What it does: Styles the main navigation links with pill-shaped
-   active/hover states inside the glassmorphic navbar.
-   Why chosen: Pill-shaped link backgrounds create a cohesive look inside
-   the rounded navbar. Smooth transitions and subtle colour shifts provide
-   clear visual feedback while maintaining the premium glass aesthetic.
-   -------------------------------------------------------------------------- */
 nav {
   display: flex;
   gap: 4px;
@@ -270,23 +222,7 @@ nav {
   align-items: center;
   padding: 6px 8px;
   border-radius: 100px;
-  background: rgba(4, 25, 46, 0.55);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.25),
-    0 0 0 1px rgba(78, 205, 196, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  transition: box-shadow var(--ease), background var(--ease);
-}
-
-nav:hover {
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(78, 205, 196, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  background: rgba(4, 25, 46, 0.65);
+  background-color: var(--bg-surface);
 }
 
 nav a {
@@ -298,37 +234,20 @@ nav a {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.65);
   letter-spacing: 1px;
-  transition:
-    color var(--ease),
-    background-color var(--ease),
-    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow var(--ease);
-  position: relative;
+  transition: color 0.3s, background-color 0.3s;
 }
 
 nav a:hover {
   background-color: rgba(255, 255, 255, 0.08);
   color: #FFFFFF;
-  transform: translateY(-1px);
 }
 
-nav a:active {
-  transform: scale(0.97);
-}
-
-/* each student adds active to THEIR OWN link only */
+/* Each page adds the "active" class to its own nav link to highlight it */
 nav a.active {
   color: #FFFFFF;
-  background: rgba(78, 205, 196, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(78, 205, 196, 0.25);
+  background-color: rgba(78, 205, 196, 0.18);
 }
 
-/* --------------------------------------------------------------------------
-   13. Section titles
-   What it does: Provides reusable classes for section headings and labels.
-   Why chosen: Creates consistent typographic hierarchy across all pages,
-   helping to break up content clearly.
-   -------------------------------------------------------------------------- */
 .section-label {
   color: var(--teal);
   text-transform: uppercase;
@@ -343,12 +262,8 @@ nav a.active {
   margin-bottom: 40px;
 }
 
-/* --------------------------------------------------------------------------
-   14. Cards
-   What it does: Styles a responsive grid of cards with glassmorphism and hover effects.
-   Why chosen: Auto-fit grid handles responsiveness automatically. Dark glass
-   and hover lift provide a premium, modern interaction feel.
-   -------------------------------------------------------------------------- */
+/* auto-fit + minmax makes the card grid responsive without media queries:
+   columns wrap automatically as the screen gets smaller */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -356,18 +271,12 @@ nav a.active {
 }
 
 .card {
-  background: rgba(4, 25, 46, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-ocean);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: transform var(--ease), box-shadow var(--ease);
   display: flex;
   flex-direction: column;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card-body {
@@ -385,6 +294,7 @@ nav a.active {
   margin-bottom: 8px;
 }
 
+/* Custom dash bullet instead of the default list dot */
 .card-body li::before {
   content: '-';
   color: var(--teal);
@@ -392,12 +302,7 @@ nav a.active {
   left: 0;
 }
 
-/* --------------------------------------------------------------------------
-   15. Buttons
-   What it does: Defines base button styles and multiple colour/style variants.
-   Why chosen: A design system approach to buttons ensures consistency while
-   offering flexibility for different visual hierarchies and actions.
-   -------------------------------------------------------------------------- */
+/* Base button style, shared by all button colour variants below */
 .btn {
   display: inline-block;
   padding: 12px 28px;
@@ -409,12 +314,7 @@ nav a.active {
   font-size: 0.9rem;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: all var(--ease);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
 }
 
 .btn-primary {
@@ -422,14 +322,14 @@ nav a.active {
   color: #FFFFFF;
 }
 
-.btn-primary:hover { color: #FFFFFF; background-color: #1a7ca8; }
+.btn-primary:hover { background-color: #1a7ca8; }
 
 .btn-cta {
   background-color: var(--coral);
   color: #FFFFFF;
 }
 
-.btn-cta:hover { color: #FFFFFF; background-color: #e55a44; }
+.btn-cta:hover { background-color: #e55a44; }
 
 .btn-outline {
   background-color: transparent;
@@ -454,12 +354,7 @@ nav a.active {
   color: var(--bg-deep);
 }
 
-/* --------------------------------------------------------------------------
-   16. Wave divider
-   What it does: Wraps SVG wave graphics used to divide page sections.
-   Why chosen: Enhances the ocean theme visually, breaking up straight lines
-   and adding organic shapes to the design.
-   -------------------------------------------------------------------------- */
+/* Wraps the SVG wave graphic used between sections */
 .wave-divider {
   width: 100%;
   overflow: hidden;
@@ -468,18 +363,11 @@ nav a.active {
 }
 
 .wave-divider svg {
-  position: relative;
   display: block;
-  width: calc(100% + 1.3px);
+  width: 100%;
   height: 60px;
 }
 
-/* --------------------------------------------------------------------------
-   17. Image helpers
-   What it does: Utility classes for styling content images cleanly.
-   Why chosen: Makes it easy for authors to add consistent borders, shadows,
-   and rounding to images without writing custom CSS every time.
-   -------------------------------------------------------------------------- */
 .content-img {
   width: 100%;
   height: auto;
@@ -491,102 +379,37 @@ nav a.active {
 }
 
 .img-shadow {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .img-border {
   border: 4px solid var(--bg-surface);
 }
 
-/* --------------------------------------------------------------------------
-   18. Footer cliff SVG divider
-   What it does: Styles the rocky cliff + lighthouse SVG that sits above the
-   footer, blending the page content into the footer background seamlessly.
-   Why chosen: The SVG fill (#04192E) matches the footer background exactly,
-   so the cliff silhouette appears to "grow" out of the footer. display:block
-   and margin-bottom:-4px removes any pixel gap between the SVG and footer.
-   -------------------------------------------------------------------------- */
+/* Cliff/lighthouse SVG shown above the footer, styled to blend into it */
 .footer-cliff-wrap {
   display: block;
-  line-height: 0;          /* removes inline whitespace gap */
+  line-height: 0;
   background: transparent;
 }
 
 .footer-cliff-svg {
   display: block;
   width: 100%;
-  height: max(140px, 20vw); /* proportional height prevents top cropping */
-  margin-bottom: -4px;      /* close any sub-pixel rendering gap */
+  height: 20vw;
+  min-height: 140px;
 }
 
-/* ── Lighthouse beacon glow pulse ── */
-@keyframes beacon-pulse {
-  0%, 100% { opacity: 0.55; }
-  50%       { opacity: 0.90; }
-}
-.lh-glow  { animation: beacon-pulse 2.4s ease-in-out infinite; }
-.lh-glass { animation: beacon-pulse 2.4s ease-in-out infinite; }
+/* Lighthouse glow and beams: no CSS needed here, each shape already
+   has its own opacity set directly in the SVG markup */
 
-/* ── Light beam sweep (rotate around lighthouse pivot) ── */
-@keyframes beam-sweep-l {
-  0%   { opacity: 0.05; transform: rotate(0deg);  }
-  40%  { opacity: 0.18; transform: rotate(-6deg); }
-  100% { opacity: 0.05; transform: rotate(0deg);  }
-}
-@keyframes beam-sweep-r {
-  0%   { opacity: 0.04; transform: rotate(0deg); }
-  40%  { opacity: 0.14; transform: rotate(6deg); }
-  100% { opacity: 0.04; transform: rotate(0deg); }
-}
-.lh-beam-l {
-  transform-origin: 334px 24px;
-  animation: beam-sweep-l 4s ease-in-out infinite;
-}
-.lh-beam-r {
-  transform-origin: 334px 24px;
-  animation: beam-sweep-r 4s ease-in-out infinite;
-  animation-delay: 2s;           /* offset so beams alternate */
-}
-
-/* ── Fish swim animations ── */
-@keyframes swim-right {
-  0%, 100% { transform: translateX(0px);   }
-  50%       { transform: translateX(22px);  }
-}
-@keyframes swim-left {
-  /* fish-2 & fish-4 already have scale(-1,1) in SVG transform;
-     CSS translateX here moves them in screen space (positive = rightward) */
-  0%, 100% { transform: translateX(0px);   }
-  50%       { transform: translateX(-20px); }
-}
-
-.fish-1 { animation: swim-right 7s ease-in-out infinite; }
-.fish-2 { animation: swim-left  9s ease-in-out infinite; animation-delay: 1.5s; }
-.fish-3 { animation: swim-right 6s ease-in-out infinite; animation-delay: 3s;   }
-.fish-4 { animation: swim-left  8s ease-in-out infinite; animation-delay: 0.8s; }
-
-/* ── Boat gentle rock ── */
-@keyframes boat-rock {
-  0%, 100% { transform: rotate(-1.2deg) translateY(0px);   }
-  50%       { transform: rotate( 1.2deg) translateY(-3px);  }
-}
-.boat {
-  transform-origin: 1100px 232px;
-  animation: boat-rock 5s ease-in-out infinite;
-}
-
-/* --------------------------------------------------------------------------
-   19. Footer
-   What it does: Styles the 4-column auto-fit footer layout and inner elements.
-   Why chosen: A robust, responsive footer that reorganises elegantly on mobile
-   devices while cleanly separating legal/copyright details at the bottom.
-   -------------------------------------------------------------------------- */
 footer {
   background-color: var(--bg-ocean);
   padding: 60px 0 20px;
   margin-top: auto;
 }
 
+/* auto-fit makes footer columns wrap on small screens automatically */
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -635,33 +458,8 @@ footer {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* --------------------------------------------------------------------------
-   19. Scroll reveal
-   What it does: Classes for JS-driven scroll animation (fade and slide up).
-   Why chosen: Adds polish and a dynamic, engaging feel as users scroll down,
-   using performance-friendly CSS transitions triggered by an 'in-view' class.
-   -------------------------------------------------------------------------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(36px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-
-/* --------------------------------------------------------------------------
-   20. Utilities
-   What it does: Helper classes for text alignment, colour overrides, and spacing.
-   Why chosen: Adheres to DRY (Don't Repeat Yourself) principles, allowing
-   quick layout tweaks directly in the HTML without bloating the CSS file.
-   -------------------------------------------------------------------------- */
+/* Small helper classes reused across pages instead of repeating the
+   same rule everywhere */
 .text-center { text-align: center; }
 .text-teal { color: var(--teal); }
 .text-white { color: #FFFFFF; }
@@ -672,6 +470,7 @@ footer {
 .pt-2 { padding-top: 20px; }
 .pb-2 { padding-bottom: 20px; }
 
+/* Hides an element visually but keeps it readable by screen readers */
 .sr-only {
   position: absolute;
   width: 1px;
